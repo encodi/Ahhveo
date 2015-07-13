@@ -362,7 +362,7 @@ Sub EventLoop3()
                         m.sleepmenuindex = m.sleepmenuindex + 1
                     endif
                     m.paintSleepMenu(m.sleepmenuindex)
-                  else if (index=5 AND m.isMenuUp=true AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' OK
+                  else if (index=6 AND m.isMenuUp=true AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' OK
                       if (m.sleepmenuindex=0) ' menu to exit
                           m.app.hideScreenSaver()
                           m.app.audio.stop()
