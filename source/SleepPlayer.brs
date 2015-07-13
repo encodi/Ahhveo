@@ -63,15 +63,15 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
         inafteralarm:false
     }
 
-    
+
     'Setup image canvas2:
     this.canvas.SetMessageport(this.port)
     this.canvas.SetLayer(911, { Color: "#000000" })
-    
+
     this.darkscreentimer = this.darkscreentimer
-    
-    this.app.remoteListener=this  
-    
+
+    this.app.remoteListener=this
+
 'this.app.remoteListener=this
     'Resolution-specific settings:
     mode = CreateObject("roDeviceInfo").GetDisplayMode()
@@ -83,7 +83,7 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
             right:  { x: 700, y: 177, w: 350, h: 291 }
             bottom: { x: 249, y: 500, w: 780, h: 300 }
         }
-    
+
     else
         this.layout = {
             full:   this.canvas.GetcanvasRect()
@@ -92,11 +92,11 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
             right:  { x: 400, y: 100, w: 220, h: 210 }
             bottom: { x: 100, y: 340, w: 520, h: 140 }
         }
-    
+
     end if
-    
+
     this.canvas.Show()
-    
+
     this.player.SetMessageport(this.port)
     this.player.SetLoop(false)
     this.player.SetPositionNotificationPeriod(1)
@@ -106,13 +106,13 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
         Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+v }
         StreamFormat: "hls"
     }])
-    
+
     this.app.audio.player.stop()
     'this.canvas.AllowUpdates(true)
-    
-    
+
+
     this.player.Play()'this start to play the video tutorial
-                 
+
     return this
 End Function
 
@@ -162,7 +162,7 @@ Sub EventLoop3()
                         DownloadFile(m.wakeupalarmsound.url,"alarm.mp3")
                         m.app.audio.play(m.wakeupalarmsound.url,"alarm.mp3")
                     endif
-                else if (m.alarmchimewhen=1 OR m.alarmchimewhen=2)                    
+                else if (m.alarmchimewhen=1 OR m.alarmchimewhen=2)
                     print "video to play"
                     print m.wakeupvideo.video_url
                     m.inafteralarm=true
@@ -177,12 +177,12 @@ Sub EventLoop3()
                 print msg
             endif
         endif
-        
+
         if msg <> invalid
-            
+
             'If this is a startup progress status message, record progress
             'and update the UI accordingly:
-            
+
             if msg.isStatusMessage() and msg.GetMessage() = "startup progress"
                 m.paused = false
                 progress% = msg.GetIndex() / 10
@@ -193,7 +193,7 @@ Sub EventLoop3()
 
             'Playback progress (in seconds):
             else if msg.isPlaybackPosition()
-                'm.player2.GetPlaybackDuration() 'duration of video 
+                'm.player2.GetPlaybackDuration() 'duration of video
                 m.position = msg.GetIndex()
                 if (m.inAfterAlarm OR m.inAlarmSound)
                     if (m.position>((m.wakeupvideoduration-1)*60))
@@ -224,11 +224,11 @@ Sub EventLoop3()
                     m.isMenuDown=false
                 endif
                 print m.position
-                                
+
                 if (m.position>=(m.player.GetPlaybackDuration()-1) AND m.issleeping=false) ' end of video
-                    print "video is over" 
+                    print "video is over"
                 endif
-                
+
                 if (m.position>m.wakeupvideoduration*60 AND m.inAlarmVideo=true)
                    m.app.hideScreenSaver()
                    m.app.audio.stop()
@@ -243,7 +243,7 @@ Sub EventLoop3()
                    m.app.remoteListener=m.h
                    return
                 endif
-                
+
                 if (m.position>m.darkscreentimer AND m.issleeping=false AND m.inAlarmVideo=false)
                     print "go to screensaver"
                     m.player.Stop()
@@ -268,35 +268,35 @@ Sub EventLoop3()
                     ' here we mark the time to start countind down for alarm
                     m.alarmtimer = CreateObject("roTimespan")
                     m.alarmtimer.Mark()
-                    
+
                     currentdate = CreateObject("roDateTime")
                     currentdate.ToLocalTime()
-                    
+
                     actualyear = currentdate.GetYear().toStr()
                     actualmonth = currentdate.GetMonth().toStr()
                     actualday = currentdate.GetDayOfMonth().toStr()
                     actualhours = currentdate.GetHours().toStr()
                     actualminutes = currentdate.GetMinutes().toStr()
-                    
+
                     wyear = actualyear
                     wmonth = actualmonth
                     wday = actualday
                     whour = m.wakeuptime[0]
                     wminute = m.wakeuptime[1]
-                  
+
                     whour = whour.toInt()
                     actualhours = actualhours.toInt()
-                    
+
                     wminute = wminute.toInt()
                     actualminutes = actualminutes.toInt()
-                    
+
                     diffhours = whour - actualhours
                     diffminutes = wminute - actualminutes
-                    
+
                     if (diffhours<0)
-                        diffhours = 24 + diffhours 
+                        diffhours = 24 + diffhours
                     endif
-                     
+
                     if (diffminutes<0)
                         diffminutes = 60 + diffminutes
                         if (diffhours=0)
@@ -304,22 +304,22 @@ Sub EventLoop3()
                         endif
                         if (diffhours>0) diffhours = diffhours - 1
                     endif
-                    
+
                     print "difference in hours for alarm"
                     print diffhours
                     print "difference in minutes for alarm"
                     print diffminutes
-                    
+
                     'convert hours to minutes to seconds
                     diffhourstoseconds = diffhours * 60 * 60
                     diffminutestoseconds = diffminutes * 60
                     m.difftotaltimeleft = diffhourstoseconds + diffminutestoseconds
-                    
+
                     print "total seconds left to start the alarm"
                     print m.difftotaltimeleft
-                    
+
                 endif
-                
+
            else if msg.isRemoteKeyPressed()
                 if(m.app.deviceinfo.getLinkStatus()=false) m.app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
                 index = msg.GetIndex()
@@ -347,13 +347,13 @@ Sub EventLoop3()
                         m.inAlarmSound = false
                    endif
                    if ((index=7 or index=10) AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' back
-                    'm.alarmanswer1="Yes" AND 
+                    'm.alarmanswer1="Yes" AND
                        'if (m.insleepdialog = false)
                             print "show dialog"
                             m.insleepdialog = true
                             m.showsleepinterruption(" A Wake Up Video alarm has been set, continue the sequence or exit to cancel it.")
                        'endif
-                       
+
                   else if (index=2 AND m.isMenuUp=false AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' up
                     m.paintSleepMenu(m.sleepmenuindex)
                   else if (index=3 AND m.isMenuUp=true AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' down
@@ -369,29 +369,29 @@ Sub EventLoop3()
                     endif
                     m.paintSleepMenu(m.sleepmenuindex)
                   endif
-                
+
                 else if (index<>32 AND m.insleepdialog=true)
                     'Move Left or right
                     if(index=4 or index=5)
-                                            
+
                         if(m.response)
                             m.response=false
-                            ringposition=1                       
+                            ringposition=1
                          else
                             m.response=true
                             ringposition=0
                         endif
-                            
+
                         if (IsHD())
                             m.iring.targetRect={x:m.ipositions[ringposition].x,y:m.ipositions[ringposition].y+28,w:m.ipositions[ringposition].w,h:2}
                         else
                             m.iring.targetRect={x:m.ipositions[ringposition].x,y:m.ipositions[ringposition].y+19,w:m.ipositions[ringposition].w,h:2}
                         endif
-                       
+
                        m.canvas.setLayer(995,m.iring)
-                    
-                    else if(index=0 or index=7 or index=10 OR index=6) 
-                        
+
+                    else if(index=0 or index=7 or index=10 OR index=6)
+
                         if (m.response)
                             m.canvas.clearLayer(991)
                             m.canvas.clearLayer(992)
@@ -399,7 +399,7 @@ Sub EventLoop3()
                             m.canvas.clearLayer(994)
                             m.canvas.clearLayer(995)
                             m.insleepdialog=false
-                        else 
+                        else
                             'exit
                             m.app.hideScreenSaver()
                             m.app.audio.stop()
@@ -415,10 +415,10 @@ Sub EventLoop3()
                             m.app.remoteListener=m.h
                             return
                         endif
-                                    
+
                     endif
                 endif
-                
+
 
             else if msg.isPaused()
                 m.paused = true
@@ -430,25 +430,25 @@ Sub EventLoop3()
                 'm.drawMenu()
             end if
             'Output events for debug
-            
+
             'if msg.GetInfo() <> invalid print msg.GetInfo();
-            
+
         end if
-        
+
     end while
-   
+
 End Sub
 
 function paint_dark_screensaver(ss_image_url="/pkg:images/screensaver_logo_ocean.png") as void
     'paint icon of sound or not sound
-    
-    
+
+
     'paint dark screensaver
     info=CreateObject("roDeviceInfo")
-    size=info.GetDisplaySize()    
+    size=info.GetDisplaySize()
     w_=size.w
     h_=size.h
-    
+
     if IsHD()
         x_=Rnd(w_-263)
         y_=Rnd(h_-24)
@@ -462,7 +462,7 @@ function paint_dark_screensaver(ss_image_url="/pkg:images/screensaver_logo_ocean
     else
         m.canvas.SetLayer(933,{url:ss_image_url,targetRect:{x:x_,y:y_,w:148,h:16}})
     endif
-    
+
     m.canvas.show()
 
 end function
@@ -474,7 +474,7 @@ Sub SetupFullscreencanvas3()
 End Sub
 
 Sub PaintFullscreencanvas3()
-    
+
 End Sub
 
 Sub SetupFramedcanvas3()
@@ -482,12 +482,12 @@ Sub SetupFramedcanvas3()
     m.canvas.Clear()
     m.paint()
     m.canvas.AllowUpdates(true)
-    
+
 End Sub
 
 function paint_sleep_details() as void
-    
-    m.canvas.SetLayer(951, { Color: "#000000", targetRect: {x:220,y:685,w:850,h:30} })    
+
+    m.canvas.SetLayer(951, { Color: "#000000", targetRect: {x:220,y:685,w:850,h:30} })
     dstominutes = Cint((m.darkscreentimer - m.position)/60)
     if (dstominutes>0)
         dstominutes = Str(dstominutes)
@@ -499,26 +499,35 @@ function paint_sleep_details() as void
     else
         x_ = 500
     endif
+    if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24) 
+      daytime = "pm"
+      hr = m.wakeuptime[0].toInt() - 12
+      if (hr=0) hr = 12
+    else 
+      daytime = "am"
+      hr = m.wakeuptime[0].toInt()
+    endif
+    if (hr=24) hr=0
     timetodarkscreentext = {text: "Time to dark screen: "+dstominutes+" min.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:683,w:300,h:30}}
-    videowakeuptext = {text: "Video Wake Up: "+m.wakeuptime[0]+":"+m.wakeuptime[1], textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:670,y:683,w:300,h:30}}
+    videowakeuptext = {text: "Video Wake Up: "+hr.toStr()+":"+m.wakeuptime[1]+" "+daytime, textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:670,y:683,w:300,h:30}}
     m.canvas.setLayer(952, timetodarkscreentext)
-    if (m.alarmAnswer1="Yes") m.canvas.setLayer(953, videowakeuptext) 
+    if (m.alarmAnswer1="Yes") m.canvas.setLayer(953, videowakeuptext)
 end function
 
 function paint_sleep_menu(selected=2) as void
-    
+
     m.isMenuUp = true
     print "painting menu"
 
-    items = []    
+    items = []
     positions = []
-    
-    if (IsHD()) 
+
+    if (IsHD())
         x_ = 220
     else
         x_ = 150
     endif
-    
+
     for i=0 to 5
         if (IsHD())
            positions[i]={x:x_,y:580,w:100,h:100}
@@ -528,7 +537,7 @@ function paint_sleep_menu(selected=2) as void
            x_=x_+100
         endif
     end for
-     
+
     positions.push({})
      if (IsHD())
         items.push({url:"pkg:/images/hide.png"
@@ -539,7 +548,7 @@ function paint_sleep_menu(selected=2) as void
                 })
         items.push({url:"pkg:/images/repeat.png"
                 targetRect:{x:370,y:580,w:100,h:100}
-                })                
+                })
         items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })
@@ -552,12 +561,12 @@ function paint_sleep_menu(selected=2) as void
         if (m.alarmAnswer1 = "Yes")
             items.push({url:"pkg:/images/videowakeup_active.png"
                 targetRect:{x:970,y:580,w:100,h:100}
-                })                 
+                })
         else
             items.push({url:"pkg:/images/videowakeup.png"
                 targetRect:{x:970,y:580,w:100,h:100}
                 })
-        endif       
+        endif
      else
         items.push({url:"pkg:/images/hide.png"
                  targetRect:{x:630,y:530,w:36,h:35}
@@ -567,7 +576,7 @@ function paint_sleep_menu(selected=2) as void
                 })
         items.push({url:"pkg:/images/repeat.png"
                 targetRect:{x:370,y:580,w:100,h:100}
-                })                
+                })
         items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })
@@ -580,20 +589,20 @@ function paint_sleep_menu(selected=2) as void
         if (m.alarmAnswer1 = "Yes")
             items.push({url:"pkg:/images/videowakeup_active.png"
                 targetRect:{x:970,y:580,w:100,h:100}
-                })                 
+                })
         else
             items.push({url:"pkg:/images/videowakeup.png"
                 targetRect:{x:970,y:580,w:100,h:100}
                 })
-        endif          
+        endif
      endif
-     
+
      items.push({url:"pkg:/images/ringplayer.png", targetRect: positions[selected]})
-     
+
     m.canvas.setLayer(940, items)
     m.paintsleepdetails()
     m.canvas.show()
-    
+
 end function
 
 function show_sleep_alarm_interruption(msg,options=["Continue","Exit"]) as void
@@ -610,18 +619,18 @@ function show_sleep_alarm_interruption(msg,options=["Continue","Exit"]) as void
          x_=Fix(m.app.size.w/2)-124
          y_=Fix(m.app.size.h/2)-89
     endif
-    
-     
+
+
      dialog={url:"pkg:/images/dialog.png",targetRect:{x:x_,y:y_,w:w_,h:h_}}
-    
+
     if (IsHD())
         txt={text:msg,textAttrs:{font:m.app.carouseldescriptionfont},targetRect:{w:w_-20,h:h_-Fix(h_/2),x:x_+10,y:y_+10}}
     else
         txt={text:msg,textAttrs:{font:m.app.carouseldescriptionfont},targetRect:{w:w_-11,h:h_-Fix(h_/2),x:x_+6,y:y_+7}}
     endif
-    
+
     m.ipositions=[]
-    
+
     if (IsHD())
         m.ipositions[0]={w:200,h:25,x:(x_+10),y:(y_+h_)-50}
         m.ipositions[1]={w:200,h:25,x:x_+230,y:(y_+h_)-50}
@@ -629,22 +638,22 @@ function show_sleep_alarm_interruption(msg,options=["Continue","Exit"]) as void
         m.ipositions[0]={w:113,h:17,x:(x_+6),y:(y_+h_)-33}
         m.ipositions[1]={w:113,h:17,x:x_+129,y:(y_+h_)-33}
     endif
-    
+
     yes={text:options[0],textAttrs:{HAlign:"center",font:m.app.menufont},targetRect:m.ipositions[0]}
     no={text:options[1],textAttrs:{HAlign:"center",font:m.app.menufont},targetRect:m.ipositions[1]}
-    
+
     if (IsHD())
         m.iring={url:"pkg:/images/ringdialog2.png",targetRect:{w:200,h:2,x:m.ipositions[1].x,y:m.ipositions[1].y+28}}
     else
         m.iring={url:"pkg:/images/ringdialog2.png",targetRect:{w:113,h:2,x:m.ipositions[1].x,y:m.ipositions[1].y+19}}
     endif
-    
+
     m.canvas.setLayer(991,dialog)
     m.canvas.setLayer(992,txt)
     m.canvas.setLayer(993,yes)
     m.canvas.setLayer(994,no)
     m.canvas.setLayer(995,m.iring)
-    
+
 
 end function
 
@@ -660,7 +669,7 @@ Function hide_sleep_menu() as void
                  targetRect:{x:630,y:670,w:36,h:35}
                 })
     m.canvas.setLayer(940, items)
-    m.canvas.show()                
+    m.canvas.show()
 End Function
 
 
@@ -695,7 +704,7 @@ Sub PaintFramedcanvas3()
         end if
     end if
     m.canvas.SetLayer(199, list)
-    
-    
-    
+
+
+
 End Sub

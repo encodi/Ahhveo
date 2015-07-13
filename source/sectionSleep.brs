@@ -183,9 +183,9 @@ Function sleep_paint() as void
     m.canvas.clearLayer(35)
     m.canvas.clearLayer(70)
     m.canvas.clearLayer(131)
-    
+
     m.paintSleepMarketing()
-    
+
     m.sleepSettingsData=m.app.http.getWs("getSleepSettings.php?user_id="+m.app.userid)
     '''
     m.tbs = m.sleepSettingsData.bedtime_before_sleep.toInt()
@@ -203,36 +203,36 @@ Function sleep_paint() as void
     m.bedtime_video_id = m.sleepSettingsData.bedtime_video_id.toInt()
     m.wakeup_video_id = m.sleepSettingsData.wakeup_video_id.toInt()
     m.audiotimerindex = m.sleepSettingsData.audiotimerindex.toInt()
-    
+
     if (m.sleepSettingsData.updated="1")
         m.updatedflag = true
         'painting
         m.sleepyData=m.app.http.getWs("getSleepy.php")
         m.selectedBedVideoIndex = m.sleepyData[m.app.bIndex]
         m.paintBedTimeThumb()
-        
+
         m.darkScreenSoundData=m.app.http.getWs("getSleepSound.php?user_id="+m.app.userid)
         m.selectedAlarmSoundIndex = m.darkScreenSoundData[m.app.sIndex]
         m.paintBedTimeSoundThumb()
-        
+
         ''' list of alarms
         m.alarmchime = []
-        
+
         wakeupalarms = m.app.http.getWs("getWakeUpAlarms.php")
         for each alarm in wakeupalarms
             m.alarmchime[alarm.array_index.toInt()] = alarm.name
         end for
-        
+
         ''' alarm sound for wake up
         m.wakeupalarmsound = m.app.http.getWs("getWakeUpAlarmSound.php?user_id="+m.app.userid)
-        
-        
+
+
         'm.naturaltimesdata = m.app.http.getWs("getVideosLength.php")
         'for each natural in m.naturaltimesdata
         '    print natural
         'endfor
-        
-        
+
+
         m.wakeupData=m.app.http.getWs("getWakeUp.php")
         m.selectedWakeUpVideoIndex = m.wakeupData[m.app.wIndex]
         m.alarmAnswer1 = m.responseToAnswer1
@@ -260,19 +260,19 @@ Function sleep_paint() as void
     '''
     'newShadow = {url:"pkg:/images/ringdialog.png",targetRect:{w:1400,h:3,x:0,y:110}}
     'm.canvas.setLayer(10, newShadow)
-    
+
     'newShadow = {url:"pkg:/images/newshadow.png",targetRect:{w:1400,h:50,x:0,y:90}}
     'm.canvas.setLayer(10, newShadow)
-    
-    
+
+
     if (m.updatedFlag)
         m.startYourSleepButton()
         m.resetButton()
     else
-       ' starts at first main selector on click 
+       ' starts at first main selector on click
     endif
     '#m.sleepStartMessage()
-    
+
     if (m.updatedFlag=false)
         m.paintBedTimeText()
         'm.paintBedTimeThumby()
@@ -290,7 +290,7 @@ End Function
 
 
 Function start_your_sleep_button(active = false) as void
-    
+
     if (active)
         sleepTextTitle = {url:"pkg:/images/rect_active.png",targetRect:{w:255,h:38,x:100,y:125}}
         sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFF55",font: m.app.h3}, targetRect:{x:100,y:130,w:255,h:38}}
@@ -298,11 +298,11 @@ Function start_your_sleep_button(active = false) as void
         sleepTextTitle = {url:"pkg:/images/rect.png",targetRect:{w:255,h:38,x:100,y:125}}
         sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFFFF",font: m.app.h3}, targetRect:{x:100,y:130,w:255,h:38}}
     endif
-    
-    
+
+
     m.canvas.setLayer(50, sleepText)
     m.canvas.setLayer(51, sleepTextTitle)
-    
+
 End Function
 
 Function main_selector(index=0, thumbselector=false) as void
@@ -314,8 +314,8 @@ Function main_selector(index=0, thumbselector=false) as void
         else if (index=2)
             selector = {url:"pkg:/images/ring_level_1_active.png",targetRect:{w:265,h:140,x:915,y:180}}
         end if
-    
-    else   
+
+    else
        if (index=0)
             selector = {url:"pkg:/images/ring_level_1_active.png",targetRect:{w:265,h:140,x:95,y:180}}
         else if (index=1)
@@ -324,25 +324,25 @@ Function main_selector(index=0, thumbselector=false) as void
             selector = {url:"pkg:/images/ring_level_1_active.png",targetRect:{w:265,h:140,x:915,y:180}}
         end if
     endif
-    
+
     m.canvas.setLayer(102, selector)
-    
+
 End Function
 
 
 Function paint_sleep_arrow_down(index=0) as void
-    
+
     arrows = []
     arrows.push({url:"pkg:/images/sleeparrowdown.png", targetRect:{w:16,h:16,x:200,y:320}})
     arrows.push({url:"pkg:/images/sleeparrowdown.png", targetRect:{w:16,h:16,x:630,y:270}})
     arrows.push({url:"pkg:/images/sleeparrowdown.png", targetRect:{w:16,h:16,x:960,y:270}})
-    
+
     'm.canvas.setLayer(555, arrows[index])
-    
+
 End Function
 
 Function reset_button(active = false) as void
-    
+
     if (active)
         sleepTextTitle = {url:"pkg:/images/ring_play_100.png",targetRect:{w:220,h:2,x:370,y:160}}
         resetText = {text:"Reset Sleep Preferences", textAttrs: {Color: "#FFFF55", font: m.app.h4}, targetRect: {x:355,y:130,w:250,h:40}}
@@ -352,27 +352,27 @@ Function reset_button(active = false) as void
         'sleepTextTitle = {url:"pkg:/images/ring_play_100.png",targetRect:{w:250,h:2,x:450,y:160}}
         resetText = {text:"Reset Sleep Preferences", textAttrs: {Color: "#FFFFFF", font: m.app.h4}, targetRect: {x:355,y:130,w:250,h:40}}
     endif
-    
+
     'm.canvas.setLayer(41, sleepTextTitle)
     m.canvas.setLayer(40, resetText)
-    
-    
+
+
 End function
 
 
 Function sleep_start_message(mkt=false) as void
 
     tutorialImage = {url:"pkg:/images/tutorial_image2.png", targetRect:{w:1148,h:210,x:85,y:410}}
-    
+
     startMessage = {text:"Go to sleep with a sunset, sleep with the sound of the ocean waves and awakened by the sunrise.", textAttrs:{HAlign:"Center",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:60,y:610,w:1150,h:50}}
-    
-    copyright = {text:"Patent Pending, Copyright 2015 Ahhveo Inc.", textAttrs:{HAlign:"Center",Color:"#CCCCCC",font: m.app.h4}, targetRect:{x:480,y:670,w:1150,h:50}} 
+
+    copyright = {text:"Patent Pending, Copyright 2015 Ahhveo Inc.", textAttrs:{HAlign:"Center",Color:"#CCCCCC",font: m.app.h4}, targetRect:{x:480,y:670,w:1150,h:50}}
     'm.canvas.setLayer(101, startMessage)
-    
+
     if (mkt) m.canvas.setLayer(69, tutorialimage)
     m.canvas.setLayer(777, copyright)
 
-End Function    
+End Function
 
 
 
@@ -397,13 +397,13 @@ Function paint_now_date() as void
         endif
         dt = "am"
     endif
-    if (m.currentdate.GetMinutes()<10)          
+    if (m.currentdate.GetMinutes()<10)
         nowdatetext = {text: "Current time: "+hr.toStr()+":0"+m.currentdate.GetMinutes().toStr()+" "+dt, textAttrs: {Color:"#FFFFFF",HAlign:"Left",font: m.app.h4}, targetRect:{x:60,y:670,w:300,h:50}}
     else
         nowdatetext = {text: "Current time: "+hr.toStr()+":"+m.currentdate.GetMinutes().toStr()+" "+dt, textAttrs: {Color:"#FFFFFF",HAlign:"Left",font: m.app.h4}, targetRect:{x:60,y:670,w:300,h:50}}
     endif
-    m.canvas.setLayer(300, nowdatetext) 
-      
+    m.canvas.setLayer(300, nowdatetext)
+
 End Function
 
 
@@ -435,7 +435,7 @@ Function paint_sleeptime_duration(active="No", inmovement=false, innumbermovemen
     sleepTextPositions.push({x:880,y:425,w:400,h:50})
     sleepTextPositions.push({x:880,y:470,w:400,h:50})
     sleepTextPositions.push({x:880,y:515,w:400,h:50})
-    
+
     if (m.selectedBedVideoIndex.length.toInt()>0 AND inmovement=false AND innumbermovement=false)
         secs = m.selectedBedVideoIndex.length.toInt()
         m.tbs = secs
@@ -446,7 +446,7 @@ Function paint_sleeptime_duration(active="No", inmovement=false, innumbermovemen
         m.isnatural=true
     else if (m.selectedBedVideoIndex.length.toInt()>0 AND inmovement=true AND innumbermovement=true)
         secs = m.tbs
-        print m.selectedBedVideoIndex.length.toInt() 
+        print m.selectedBedVideoIndex.length.toInt()
         if (m.selectedBedVideoIndex.length.toInt()=secs)
             m.isnatural=true
         else
@@ -456,19 +456,19 @@ Function paint_sleeptime_duration(active="No", inmovement=false, innumbermovemen
         secs = m.tbs
         m.isnatural=false
     endif
-    
+
     secs = CINT(secs/60)
-    
+
     if (m.isnatural)
         naturalsecs = "("+secs.toStr()+" minutes)"
     else
         naturalsecs = "( - )"
     endif
-    
+
     if (active="No")
         sleepText.push({text: "Go to dark screen after: ", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[0]})
         if (m.isnatural) sleepText.push({text: "Natural", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[1]})
-        sleepText.push({text: "<   "+secs.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[2]})            
+        sleepText.push({text: "<   "+secs.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[2]})
     else if (active="Yes")
         sleepText.push({text: "Go to dark screen after: ", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:sleepTextPositions[0]})
         if (m.isnatural) sleepText.push({text: "Natural", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[1]})
@@ -523,7 +523,7 @@ End Function
 
 Function paint_wakeupduration_text(active="No") as void
     wakeupdurationTextTitle = {url:"pkg:/images/rect.png",targetRect:{w:560,h:30,x:40,y:300}}
-    if (active="No") 
+    if (active="No")
         wakeupdurationText = {text: "Choose duration of time you want the wake up video to play", textAttrs: {Color:"#666666",HAlign:"Left",font: m.app.h4}, targetRect:{x:60,y:295,w:650,h:50}}
     else if (active="Yes")
         wakeupdurationText = {text: "Choose duration of time you want the wake up video to play", textAttrs: {Color:"#FFFFFF",HAlign:"Left",font: m.app.h4}, targetRect:{x:60,y:295,w:650,h:50}}
@@ -533,7 +533,7 @@ Function paint_wakeupduration_text(active="No") as void
 End Function
 
 Function preview_sound_text(loading=false, specialcase=false) as void
-    
+
     if (m.inPreviewSound AND loading=false)
         textabove = {text: "Push again to choose", textAttrs: {Color:"#FFFFFF",HAlign:"Left",font: m.app.h5}, targetRect:{x:110,y:490,w:140,h:50}}
     else if (loading=false)
@@ -541,15 +541,15 @@ Function preview_sound_text(loading=false, specialcase=false) as void
     else if (loading=true)
         textabove = {text: "Loading Sample...", textAttrs: {Color:"#FFFFFF",HAlign:"Left",font: m.app.h5}, targetRect:{x:110,y:480,w:140,h:50}}
     endif
-    
+
     m.canvas.setLayer(281, textabove)
-    
+
 End Function
 
 Function paint_wakeup_duration(active="No") as void
     if (active="No")
         wakeupText = {text: "Wake Up Video Duration: ", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:45,y:350,w:300,h:50}}
-        wakeupTextSelector = {text: "<   "+m.wakeupvideoduration.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:45,y:370,w:300,h:50}}    
+        wakeupTextSelector = {text: "<   "+m.wakeupvideoduration.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:45,y:370,w:300,h:50}}
     else if (active="Yes")
         wakeupText = {text: "Wake Up Video Duration: ", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:45,y:350,w:300,h:50}}
         wakeupTextSelector = {text: "<   "+m.wakeupvideoduration.toStr()+"   > minutes", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:45,y:370,w:300,h:50}}
@@ -562,14 +562,14 @@ Function paint_wakeup_duration(active="No") as void
 End Function
 
 Function paint_bedtime_text(active=true) as void
-    
+
     if (active)
         sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {HAlign:"Center",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:105,y:230,w:245,h:50}}
     else
         sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {HAlign:"Center",Color: "#666666",font: m.app.hnova}, targetRect:{x:105,y:230,w:245,h:50}}
     endif
     m.canvas.setLayer(52, sleepText)
-    
+
 end function
 
 Function paint_bedtime_thumb() as void
@@ -585,7 +585,7 @@ Function paint_bedtime_thumby(movement=false, active=false) as void
     if (NOT movement)
         m.sleepyData=m.app.http.getWs("getSleepy.php")
         m.selectedBedVideoIndex = m.sleepyData[0]
-    endif    
+    endif
     m.sleepyThumbnails=[]
     xSleepy = 0
     i = 0
@@ -596,7 +596,7 @@ Function paint_bedtime_thumby(movement=false, active=false) as void
     endif
     for each thumb in m.sleepyData
         if (i<m.sleepyLimit)
-            m.sleepyThumbnails.push({url: thumb.thumbnail, targetRect: {x:100 + xSleepy, y: 490, w:176, h: 98}}) '176x98           
+            m.sleepyThumbnails.push({url: thumb.thumbnail, targetRect: {x:100 + xSleepy, y: 490, w:176, h: 98}}) '176x98
             xSleepy = xSleepy + 191
         end if
         i = i + 1
@@ -604,16 +604,16 @@ Function paint_bedtime_thumby(movement=false, active=false) as void
     m.paintBedTimeArrows("No")
     m.canvas.setlayer(71, bedtimeText)
     m.canvas.setlayer(72, m.sleepyThumbnails)
-    
+
 End Function
 
 
 Function paint_dark_screen_sounds_thumby(movement=false,active=false) as void
-    
+
     if (NOT movement)
        m.darkScreenSoundData=m.app.http.getWs("getSleepSound.php?user_id="+m.app.userid)
        m.selectedAlarmSoundIndex = m.darkScreenSoundData[0]
-    endif   
+    endif
     m.darkScreenThumbnails=[]
     xDarkScreen = 0
     i = 0
@@ -638,7 +638,7 @@ End Function
 
 
 Function paint_audio_play_time(active="No") as void
-    
+
     audioplaytimetext=[]
     if (active="Yes")
         audioplaytimetext.Push({text: "How long do you want the sounds to play?", textAttrs: {Color:"#ffffff",font: m.app.h3}, targetRect:{x:940,y:415,w:260,h:40}})
@@ -670,7 +670,7 @@ Function paint_audio_play_time(active="No") as void
         audioplaytimetext.Push({text: "All Night", textAttrs: {Color:"#ffffff",font: m.app.h3}, targetRect:{x:910,y:480,w:300,h:40}})
         'audioplaytimetext.Push({text: "No Sound", textAttrs: {Color:"#ffffff",font: m.app.h4}, targetRect:{x:910,y:600,w:300,h:40}})
         audioplaytimetext.Push({text: "< Stop after "+m.sleepTimeDuration.toStr()+" min. >", textAttrs: {Color:"#ffffff",font: m.app.h3}, targetRect:{x:910,y:515,w:300,h:40}})
-    endif        
+    endif
     m.canvas.setlayer(190, audioplaytimetext)
 
 End Function
@@ -678,7 +678,7 @@ End Function
 
 Function paint_sleepy_bg(active=false) as void
     m.sleepyBG = []
-    xSleepyBG = 0 
+    xSleepyBG = 0
     i = 0
     for each thumb in m.sleepyData
         if (i<m.sleepyLimit)
@@ -690,7 +690,7 @@ Function paint_sleepy_bg(active=false) as void
     if (NOT active)
         m.canvas.setlayer(400,m.sleepyBG)
     else
-        m.canvas.clearLayer(400)        
+        m.canvas.clearLayer(400)
     endif
 End Function
 
@@ -706,7 +706,7 @@ Function paint_bedtime_arrows(active="No") as void
     else
         sleepyarrows.Push({text: "<", textAttrs: {Color:"#ffff55",font: m.app.h2}, targetRect:{x:45,y:520,w:40,h:40}})
         sleepyarrows.Push({text: ">", textAttrs: {Color:"#ffff55",font: m.app.h2}, targetRect:{x:860,y:520,w:40,h:40}})
-    endif        
+    endif
     m.canvas.setlayer(110, sleepyarrows)
 End Function
 
@@ -736,7 +736,7 @@ Function paint_wakeup_thumby(movement=false, active="Yes") as void
     m.paintWakeUpArrows("Yes")
     m.canvas.setlayer(60, m.wakeupThumbnails)
     m.canvas.setlayer(247, wakeuptitle)
-    
+
 End Function
 
 Function paint_wakeup_thumb(awakened="Yes") as void
@@ -744,14 +744,32 @@ Function paint_wakeup_thumb(awakened="Yes") as void
     if (awakened="Yes")
         wakeupthumb.push({url: m.selectedWakeUpVideoIndex.thumbnail, targetRect: {x:920, y: 185, w:256, h:130}}) '176x98
         wakeupthumb.push( {text: "Wake up video plays at ", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:905,y:305,w:300,h:50}})
-        wakeupthumb.push( {text: m.wakeuptime[0]+":"+m.wakeuptime[1]+" "+m.wakeuptime[2]+",", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:1110,y:305,w:250,h:50}})
+        if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24)
+          daytime = "pm"
+          hr = m.wakeuptime[0].toInt() - 12
+          if (hr=0) hr = 12
+        else
+          daytime = "am"
+          hr = m.wakeuptime[0].toInt()
+        endif
+        if (hr=24) hr=0
+        wakeupthumb.push( {text: hr.toStr()+":"+m.wakeuptime[1]+" "+m.wakeuptime[2]+",", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:1110,y:305,w:250,h:50}})
         wakeupthumb.push( {text: m.alarmchime[m.ac] + " for " +  m.wakeupvideoduration.toStr() + " minutes.", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:910,y:330,w:320,h:50}})
     else if (awakened="No")
         wakeupthumb.push({text: "You will not be awakened.", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:935,y:230,w:300,h:50}})
     else if (awakened="NoSound")
         wakeupthumb.push({url: m.selectedWakeUpVideoIndex.thumbnail, targetRect: {x:920, y: 185, w:256, h:130}}) '176x98
         wakeupthumb.push( {text: "Wake up video plays at ", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:905,y:305,w:300,h:50}})
-        wakeupthumb.push( {text: m.wakeuptime[0]+":"+m.wakeuptime[1]+" "+m.wakeuptime[2]+".", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:1110,y:305,w:250,h:50}})
+        if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24)
+          daytime = "pm"
+          hr = m.wakeuptime[0].toInt() - 12
+          if (hr=0) hr = 12
+        else
+          daytime = "am"
+          hr = m.wakeuptime[0].toInt()
+        endif
+        if (hr=24) hr=0
+        wakeupthumb.push( {text: hr.toStr()+":"+m.wakeuptime[1]+" "+m.wakeuptime[2]+".", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:1110,y:305,w:250,h:50}})
         wakeupthumb.push( {text: "without a separate Alarm Sound.", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:910,y:330,w:320,h:50}})
     endif
     m.canvas.setLayer(54, wakeupthumb)
@@ -761,7 +779,7 @@ Function paint_wakeup_bg(active=false) as void
     m.wakeupBG = []
     wakeupSoundIcon = []
     xWakeUpBG = 0
-    i = 0 
+    i = 0
     wakeupPlayButton = {url:"pkg:/images/playbutton.png", targetRect:{x:175 + xWakeUpBG, y: 525, w:32, h: 32}}
     for each thumb in m.wakeupData
         if (i=0)
@@ -785,14 +803,14 @@ Function paint_wakeup_bg(active=false) as void
     else
         m.canvas.clearLayer(401)
         m.canvas.clearLayer(443)
-        m.canvas.clearLayer(444)        
+        m.canvas.clearLayer(444)
     endif
 End Function
 
 Function paint_alarm_bg(active=false) as void
     m.wakeupBG = []
     xWakeUpBG = 0
-    i = 0 
+    i = 0
     for each thumb in m.wakeupData
         if (i<m.sleepyLimit)
             m.wakeupBG.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect:{x:100 + xWakeUpBG, y: 535, w:177, h: 98}})
@@ -803,7 +821,7 @@ Function paint_alarm_bg(active=false) as void
     if (NOT active)
         m.canvas.setlayer(401,m.WakeUpBG)
     else
-        m.canvas.clearLayer(401)        
+        m.canvas.clearLayer(401)
     endif
 End Function
 
@@ -818,12 +836,12 @@ Function paint_wakeup_arrows(active="No") as void
     else
         wakyarrows.Push({text: "<", textAttrs: {Color:"#ffff55",font: m.app.h2}, targetRect:{x:45,y:580,w:40,h:40}})
         wakyarrows.Push({text: ">", textAttrs: {Color:"#ffff55",font: m.app.h2}, targetRect:{x:860,y:580,w:40,h:40}})
-    endif        
+    endif
     m.canvas.setlayer(111, wakyarrows)
 End Function
 
 Function paint_bedtime_timer(active="Yes") as void
-    
+
     if (active="Active")
         sleepText = {text: "Time before sleep: ", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:910,y:220,w:300,h:50}}
         sleepTextSelector = {text: "<   "+m.tbs.toStr()+"   > minutes", textAttrs: {Color:"#FFFF55",font: m.app.h4}, targetRect:{x:900,y:250,w:300,h:50}}
@@ -832,20 +850,20 @@ Function paint_bedtime_timer(active="Yes") as void
         sleepTextSelector = {text: "<   "+m.tbs.toStr()+"   > minutes", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:900,y:250,w:300,h:50}}
     else if (active="No")
         sleepText = {text: "Time before sleep: ", textAttrs: {Color: "#666666",font: m.app.h4}, targetRect:{x:910,y:220,w:300,h:50}}
-        sleepTextSelector = {text: "<   "+m.tbs.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:900,y:250,w:300,h:50}}    
+        sleepTextSelector = {text: "<   "+m.tbs.toStr()+"   > minutes", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:900,y:250,w:300,h:50}}
     endif
     m.canvas.setlayer(53,sleepText)
     m.canvas.setlayer(54,sleepTextSelector)
-    
+
 End Function
 
 
 Function paint_bedtime_sound(active="Yes") as void
-    
+
     'sleepSoundTextTitle = {url:"pkg:/images/rect.png",targetRect:{w:350,h:30,x:40,y:330}}
     if (active="No")
         sleepSound = {text: "Choose sound for sleeping while the TV screen is dark.", textAttrs: {HAlign:"Center",Color: "#666666",font: m.app.hnova}, targetRect:{x:515,y:230,w:245,h:50}}
-        'sleepSoundSelector = {text: "< "+m.sleepsound[m.sss]+" >", textAttrs: {Color: "#666666",font: m.app.h4}, targetRect:{x:60,y:360,w:200,h:50}}    
+        'sleepSoundSelector = {text: "< "+m.sleepsound[m.sss]+" >", textAttrs: {Color: "#666666",font: m.app.h4}, targetRect:{x:60,y:360,w:200,h:50}}
     else if (active="Yes")
         sleepSound = {text: "Choose sound for sleeping while the TV screen is dark.", textAttrs: {HAlign:"Center",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:515,y:230,w:245,h:50}}
         'sleepSoundSelector = {text: "< "+m.sleepsound[m.sss]+" >", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:60,y:360,w:200,h:50}}
@@ -856,12 +874,12 @@ Function paint_bedtime_sound(active="Yes") as void
     m.canvas.setlayer(53,sleepSound)
     'm.canvas.setlayer(56,sleepSoundSelector)
     'm.canvas.setlayer(131, sleepSoundTextTitle)
-    
+
 End Function
 
 Function paint_bedtime_sound_thumb() as void
     sleepSoundT = []
-    
+
     sleepSoundT.push({url: m.selectedAlarmSoundIndex.thumbnail, targetRect: {x:510, y: 185, w:256, h:130}}) '176x98
     'sleepSoundT.push({text: m.selectedAlarmSoundIndex.name, textAttrs: {HAlign:"Center",Color: "#fe7902",font: m.app.h4}, targetRect:{x:510,y:320,w:300,h:50}})
     if (m.audioTimerIndex<>2)
@@ -871,11 +889,11 @@ Function paint_bedtime_sound_thumb() as void
         when = " All Night."
     else if (m.audioTimerIndex=2)
         when = "No Sound."
-    else if (m.audioTimerIndex=1)   
+    else if (m.audioTimerIndex=1)
         when = "for the first "+m.sleepTimeDuration.toStr()+" minutes."
     endif
     sleepSoundT.push({text: when, textAttrs: {HAlign:"Center",Color: "#fe7902",font: m.app.h4}, targetRect:{x:480,y:330,w:300,h:50}})
-    
+
     m.canvas.setlayer(53,sleepSoundT)
 End Function
 
@@ -888,7 +906,7 @@ Function paint_bedtime_selector(level, active=false, thumbselector = false) as v
     url_rings.push("pkg:/images/ring_level_2.png")
     url_rings.push("pkg:/images/ring_level_2.png")
     url_rings.push("pkg:/images/ring_level_2.png")
-    
+
     url_rings_active.push("pkg:/images/ring_level_1_active.png")
     url_rings_active.push("pkg:/images/ring_level_1_active.png")
     url_rings_active.push("pkg:/images/ring_level_1_active.png")
@@ -899,14 +917,14 @@ Function paint_bedtime_selector(level, active=false, thumbselector = false) as v
     pos_rings.push({x:95,y:456,w:186,h:105})
     pos_rings.push({x:95,y:456,w:186,h:105})
     pos_rings.push({x:95,y:531,w:186,h:105})
-    
+
     if (thumbselector=true)
         pos_rings=[]
         pos_rings.push({x:95,y:456,w:186,h:105})
         pos_rings.push({x:95,y:456,w:186,h:105})
         pos_rings.push({x:95,y:456,w:186,h:105})
     endif
-    
+
     if (active)
         ring={
             url:url_rings_active[level],
@@ -918,7 +936,7 @@ Function paint_bedtime_selector(level, active=false, thumbselector = false) as v
             targetRect:pos_rings[level]
         }
     endif
-    
+
     m.canvas.setLayer(57,ring)
 End Function
 
@@ -940,7 +958,7 @@ end function
 Function paint_wakeup_timer(active="No") as void
     if (active="No")
         wakeupText = {text: "Wake Up Time: ", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:890,y:480,w:300,h:50}}
-        wakeupTextSelector = {text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:890,y:510,w:300,h:50}}    
+        wakeupTextSelector = {text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#666666",font: m.app.h4}, targetRect:{x:890,y:510,w:300,h:50}}
     else if (active="Yes")
         wakeupText = {text: "Wake Up Time: ", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:890,y:480,w:300,h:50}}
         wakeupTextSelector = {text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:890,y:510,w:300,h:50}}
@@ -950,12 +968,12 @@ Function paint_wakeup_timer(active="No") as void
     endif
     m.canvas.setlayer(63, wakeupText)
     m.canvas.setlayer(64, wakeupTextSelector)
-    
+
 End Function
 
 
 Function paint_wakeup_alarm(active="Yes") as void
-    
+
     'wakeupTextTitle = {url:"pkg:/images/rect.png",targetRect:{w:280,h:30,x:40,y:580}}
     if (active="No")
         wakeupAlarm = {text: "Choose your wake-up video.", textAttrs: {HAlign:"Left",Color:"#666666",font: m.app.h3}, targetRect:{x:970,y:220,w:250,h:50}}
@@ -965,11 +983,11 @@ Function paint_wakeup_alarm(active="Yes") as void
         wakeupAlarm = {text: "Choose your wake-up video.", textAttrs: {HAlign:"Left",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:970,y:220,w:250,h:50}}
         'wakeupAlarmSelector = {text: "< "+m.alarmchime[m.ac]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:60,y:615,w:200,h:50}}
         'wakeupAlarmSelectorWhen = {text: "< "+m.alarmchimewhen[m.acw]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:200,y:615,w:300,h:50}}
-    else if (active="Active1")  
+    else if (active="Active1")
         wakeupAlarm = {text: "Choose your wake-up video.", textAttrs: {HAlign:"Left",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:970,y:220,w:250,h:50}}
         'wakeupAlarmSelector = {text: "< "+m.alarmchime[m.ac]+" >", textAttrs: {Color:"#FFFF55",font: m.app.h4}, targetRect:{x:60,y:615,w:200,h:50}}
         'wakeupAlarmSelectorWhen = {text: "< "+m.alarmchimewhen[m.acw]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:200,y:615,w:300,h:50}}
-    else if (active="Active2")  
+    else if (active="Active2")
         wakeupAlarm = {text: "Choose your wake-up video.", textAttrs: {HAlign:"Left",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:970,y:220,w:250,h:50}}
        ' wakeupAlarmSelector = {text: "< "+m.alarmchime[m.ac]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h4}, targetRect:{x:60,y:615,w:200,h:50}}
        ' wakeupAlarmSelectorWhen = {text: "< "+m.alarmchimewhen[m.acw]+" >", textAttrs: {Color:"#FFFF55",font: m.app.h4}, targetRect:{x:200,y:615,w:300,h:50}}
@@ -978,7 +996,7 @@ Function paint_wakeup_alarm(active="Yes") as void
     'm.canvas.setlayer(66,wakeupAlarmSelector)
     'm.canvas.setlayer(67,wakeupAlarmSelectorWhen)
     'm.canvas.setlayer(82,wakeupTextTitle)
-    
+
 End Function
 
 
@@ -1016,7 +1034,7 @@ Function paint_static2() as void
     '#9da2a6
     'm.canvas.clearlayer(201)
     m.canvas.setLayer(178, bgmenu)
-    
+
     'staticStuff.push(logo)
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
@@ -1043,8 +1061,8 @@ Function paint_top_menu_selector2(topindex=0) as void
     staticStuff=[]
     pos_rings.push({x:425,y:90,w:180,h:2})
     pos_rings.push({x:625,y:90,w:180,h:2})
-    pos_rings.push({x:825,y:90,w:180,h:2}) 
-    
+    pos_rings.push({x:825,y:90,w:180,h:2})
+
     if (m.inTopMenu)
         ring={
             url:"pkg:/images/ring_play_100.png",
@@ -1064,13 +1082,13 @@ Function paint_top_menu_selector2(topindex=0) as void
         setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
     endif
-    
+
     if (m.inTopMenu) m.canvas.setLayer(181,ring)
-    
+
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
     staticStuff.push(setupmenu)
-    
+
     m.canvas.setLayer(179, staticStuff)
 End Function
 
@@ -1082,12 +1100,12 @@ Function paint_below_items_selector(topindex=0, active=false) as void
     pos_rings.push({x:985,y:512,w:150,h:2})
     pos_rings.push({x:985,y:545,w:150,h:2})
     pos_rings.push({x:985,y:630,w:150,h:2})
-    pos_rings.push({x:445,y:410,w:80,h:2}) 
+    pos_rings.push({x:445,y:410,w:80,h:2})
     pos_rings.push({x:510,y:460,w:150,h:2})
     pos_rings.push({x:990,y:410,w:220,h:2})
     pos_rings.push({x:1005,y:460,w:220,h:2})
     pos_rings.push({x:990,y:560,w:160,h:2})
-    
+
     if (active)
         ring={
             url:"pkg:/images/ring_play_100.png",
@@ -1097,11 +1115,11 @@ Function paint_below_items_selector(topindex=0, active=false) as void
         ring={
             url:"pkg:/images/bgmenuitemhover.png",
             targetRect:pos_rings[topindex]
-        }    
+        }
     endif
-    
+
     m.canvas.setLayer(90,ring)
-    
+
 End Function
 
 
@@ -1111,12 +1129,12 @@ Function paint_subtop_menu_selector2(topindex=0) as void
     staticStuff=[]
     'pos_rings.push({x:45,y:160,w:130,h:2})
     'pos_rings.push({x:250,y:160,w:138,h:2})
-    pos_rings.push({x:455,y:140,w:130,h:2}) 
+    pos_rings.push({x:455,y:140,w:130,h:2})
     pos_rings.push({x:655,y:140,w:130,h:2})
     'pos_rings.push({x:700,y:160,w:170,h:2})
     'pos_rings.push({x:940,y:160,w:70,h:2})
     'pos_rings.push({x:1080,y:160,w:160,h:2})
-    
+
     if (m.inSubTopMenu)
         ring={
             url:"pkg:/images/ring_play_100.png",
@@ -1137,17 +1155,17 @@ Function paint_subtop_menu_selector2(topindex=0) as void
             url:"pkg:/images/bgmenuitemhover.png",
             targetRect:pos_rings[topindex]
         }
-     endif      
+     endif
         m.canvas.setLayer(42,ring)
-        
+
         staticStuff.push(exploremenu)
         staticStuff.push(sleepmenu)
         staticStuff.push(setupmenu)
         staticStuff.push(normalmenu)
         staticStuff.push(advancedmenu)
         m.canvas.setLayer(131, staticStuff)
-    
- 
+
+
 End Function
 
 Function paint_question_1(active = "No") as void
@@ -1162,34 +1180,41 @@ Function paint_question_1(active = "No") as void
         question1Text.push({text:"Do you want to be awakened?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:75,y:380,w:400,h:40}})
         question1Text.push({text:"< "+m.alarmAnswer1+" >", textAttrs: {Color: "#FFFF55", font: m.app.h3}, targetRect: {x:385,y:380,w:200,h:40}})
     endif
-    
+
     m.canvas.setLayer(231, question1Text)
-    
+
 End function
 
 Function paint_question_2(active="No") as void
-    
+
     question2Text = []
-    
+
+    if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24)
+      hr = m.wakeuptime[0].toInt() - 12
+      if (hr=0) hr = 12
+    else
+      hr = m.wakeuptime[0].toInt()
+    endif
+    if (hr=24) hr = 0
     if (active  = "Yes")
         question2Text.push({text:"What time do you want to wake up?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:105,y:430,w:400,h:40}})
-        question2Text.push({text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
+        question2Text.push({text: "< "+hr.toStr()+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
     else if (active="No")
         question2Text.push({text:"What time do you want to wake up?", textAttrs: {Color: "#666666", font: m.app.h3}, targetRect: {x:105,y:430,w:400,h:40}})
-        question2Text.push({text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#fe7902",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
+        question2Text.push({text: "< "+hr.toStr()+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#fe7902",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
     else if (active="Active")
         question2Text.push({text:"What time do you want to wake up?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:105,y:430,w:400,h:40}})
-        question2Text.push({text: "< "+m.wakeuptime[0]+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#FFFF55",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
+        question2Text.push({text: "< "+hr.toStr()+" : "+m.wakeuptime[1]+" "+m.wakeuptime[2]+" >", textAttrs: {Color:"#FFFF55",font: m.app.h3}, targetRect:{x:440,y:430,w:300,h:40}})
     endif
-    
+
     m.canvas.setLayer(232, question2Text)
-    
+
 End Function
 
 Function paint_question_3(active="No") as void
-    
+
     question3Text = []
-    
+
     if (active="Yes")
         question3Text.push({text:"Do you want an alarm sound?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:600,y:380,w:400,h:40}})
         question3Text.push({text:"< "+m.alarmchimewhen[m.acw]+" >", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:900,y:380,w:400,h:40}})
@@ -1200,12 +1225,12 @@ Function paint_question_3(active="No") as void
         question3Text.push({text:"Do you want an alarm sound?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:600,y:380,w:400,h:40}})
         question3Text.push({text:"< "+m.alarmchimewhen[m.acw]+" >", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:900,y:380,w:400,h:40}})
     endif
-    
+
     m.canvas.setLayer(233, question3Text)
 End Function
 
 Function paint_question_4(active="No") as void
-    
+
     question4Text = []
     if (active="Yes")
         question4Text.push({text:"What sound do you want?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:650,y:430,w:400,h:40}})
@@ -1217,14 +1242,14 @@ Function paint_question_4(active="No") as void
         question4Text.push({text:"What sound do you want?", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:650,y:430,w:400,h:40}})
         question4Text.push({text:"< "+m.alarmchime[m.ac]+" >", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect: {x:915,y:430,w:400,h:40}})
     endif
-    
+
     m.canvas.setLayer(234, question4Text)
 End Function
 
 Function paint_stop_video_after(active="No") as void
-    
+
     stoptext = []
-    
+
     if (active="No")
         stoptext.push({text: "Stop video after:", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:{x:870,y:490,w:400,h:40}})
         stoptext.push({text: "< "+m.wakeupvideoduration.toStr()+" min >", textAttrs: {Color:"#FE7902",font: m.app.h3}, targetRect:{x:870,y:530,w:400,h:40}})
@@ -1235,9 +1260,9 @@ Function paint_stop_video_after(active="No") as void
         stoptext.push({text: "Stop video after:", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:870,y:490,w:400,h:40}})
         stoptext.push({text: "< "+m.wakeupvideoduration.toStr()+" min >", textAttrs: {Color:"#FFFF55",font: m.app.h3}, targetRect:{x:870,y:530,w:400,h:40}})
     endif
-    
+
     m.canvas.setLayer(235, stoptext)
-    
+
 End Function
 
 
@@ -1280,7 +1305,7 @@ Function show_subsection_options() as void
             m.paintSaveButton3("No")
         endif
     endif
-    
+
     if (m.menuSelectorIndex=0)
         m.inBedTimeSelector=true
         m.paintBedTimeThumby(true, true)
@@ -1289,7 +1314,7 @@ Function show_subsection_options() as void
         m.paintBedTimeSelector(0, true)
     else if (m.menuSelectorIndex=1)
         m.paintBedTimeArrows("Active")
-        m.clearSleepyBG() 
+        m.clearSleepyBG()
         m.paintDarkScreenSoundsThumby(false,true)
         m.paintBedTimeSelector(0, true)
         m.inDarkScreenAudioSelect = true
@@ -1300,7 +1325,7 @@ Function show_subsection_options() as void
         m.paintBelowItemsSelector(3, true)
         m.inAlarmQuestion1 = true
     endif
-    
+
 end function
 
 function clear_subsection_options() as void
@@ -1338,9 +1363,9 @@ function clear_subsection_options() as void
         m.canvas.clearlayer(60)
         m.canvas.clearlayer(85)
         m.canvas.clearlayer(86)
-        m.canvas.clearlayer(90)        
+        m.canvas.clearlayer(90)
     endif
-        
+
 end function
 
 
@@ -1355,7 +1380,7 @@ Function b_move_left() as void
                 sleepyTemp[i] = m.sleepyData[j-1]
             else
                 sleepyTemp[i] = lastElement
-            end if   
+            end if
         end for
         m.sleepyData = sleepyTemp
         m.selectedBedVideoIndex = m.sleepyData[0]
@@ -1375,8 +1400,8 @@ Function b_move_right() as void
             if (m.sleepyData[j+1]<>invalid) then
                 sleepyTemp[i] = m.sleepyData[j+1]
             else
-                sleepyTemp[i] = firstElement 
-            end if  
+                sleepyTemp[i] = firstElement
+            end if
         end for
         m.sleepyData = sleepyTemp
         m.selectedBedVideoIndex = m.sleepyData[0]
@@ -1398,7 +1423,7 @@ Function w_move_left() as void
                 wakeupTemp[i] = m.wakeupData[j-1]
             else
                 wakeupTemp[i] = lastElement
-            end if   
+            end if
         end for
         m.wakeupData = wakeupTemp
         m.selectedWakeUpVideoIndex = m.wakeupData[0]
@@ -1418,8 +1443,8 @@ Function w_move_right() as void
             if (m.wakeupData[j+1]<>invalid) then
                 wakeupTemp[i] = m.wakeupData[j+1]
             else
-                wakeupTemp[i] = firstElement 
-            end if  
+                wakeupTemp[i] = firstElement
+            end if
         end for
         m.wakeupData = wakeupTemp
         m.selectedWakeUpVideoIndex = m.wakeupData[0]
@@ -1441,7 +1466,7 @@ Function d_move_left() as void
                 wakeupTemp[i] = m.darkScreenSoundData[j-1]
             else
                 wakeupTemp[i] = lastElement
-            end if   
+            end if
         end for
         m.darkScreenSoundData = wakeupTemp
         m.selectedAlarmSoundIndex = m.darkScreenSoundData[0]
@@ -1473,8 +1498,8 @@ Function d_move_right() as void
             if (m.darkScreenSoundData[j+1]<>invalid) then
                 wakeupTemp[i] = m.darkScreenSoundData[j+1]
             else
-                wakeupTemp[i] = firstElement 
-            end if  
+                wakeupTemp[i] = firstElement
+            end if
         end for
         m.darkScreenSoundData = wakeupTemp
         m.selectedAlarmSoundIndex = m.darkScreenSoundData[0]
@@ -1511,7 +1536,7 @@ function sleep_remote_callback(index) as void
         else if (m.inMainSelector)
             if (m.updatedFlag)
                 m.inStartYourSleepButton = true
-                m.startYourSleepButton(true)    
+                m.startYourSleepButton(true)
             else
                 m.inTopMenu = true
                 m.paintTopMenuSelector(1)
@@ -1521,7 +1546,7 @@ function sleep_remote_callback(index) as void
             endif
             m.clearMainSelector()
             m.inMainSelector=false
-            m.menuSelectorIndex = 0            
+            m.menuSelectorIndex = 0
         else if (m.inBedTimeSelector)
             'm.inMainSelector=true
             'm.inBedTimeSelector=false
@@ -1568,7 +1593,7 @@ function sleep_remote_callback(index) as void
                     m.mainSelector(0)
                 endif
                 m.inStartYourSleepButton = false
-                m.inResetSleepButton = false 
+                m.inResetSleepButton = false
                 'm.startYourSleepButton(false)
                 m.inMainSelector=true
                 'm.clearSleepStartMessage()
@@ -1582,7 +1607,7 @@ function sleep_remote_callback(index) as void
                 m.mainSelector(0)
             endif
             m.inStartYourSleepButton = false
-            m.inResetSleepButton = false 
+            m.inResetSleepButton = false
             m.startYourSleepButton(false)
             m.resetButton(false)
             m.inMainSelector=true
@@ -1595,7 +1620,7 @@ function sleep_remote_callback(index) as void
             '#m.clearSleepStartMessage()
         else if (m.inMainSelector)
             'm.inMainSelector=false
-            
+
             ' depends on main selector index
             'if (m.menuSelectorIndex=0)
             '    m.inBedTimeSelector=true
@@ -1605,7 +1630,7 @@ function sleep_remote_callback(index) as void
             '    m.paintBedTimeSelector(0, true)
             'else if (m.menuSelectorIndex=1)
             '    m.paintBedTimeArrows("Active")
-            '    m.clearSleepyBG() 
+            '    m.clearSleepyBG()
             '    m.paintDarkScreenSoundsThumby(false,true)
             '    m.paintBedTimeSelector(0, true)
             '    m.inDarkScreenAudioSelect = true
@@ -1635,7 +1660,7 @@ function sleep_remote_callback(index) as void
                 m.clearAll()
                 m.app.loggedflag = true
                 sm=sectionManager(m.app)
-                sm.show(places_section) 
+                sm.show(places_section)
             endif
         else if (m.inMainSelector)
                 if (m.menuSelectorIndex>0 AND ((m.inStep=2 AND m.updatedFlag=true) OR (m.inStep=3 AND m.updatedFlag=true) OR (m.inStep=1 AND m.updatedFlag=true)))
@@ -1658,12 +1683,12 @@ function sleep_remote_callback(index) as void
             m.bMoveLeft()
             m.paintBedTimeArrows("Active")
         else if (m.inDarkScreenSelector)
-            
+
             if (m.tbs>120)
                 m.tbs = m.tbs - 60
             endif
             m.paintSleepTimeDuration("Active", true, true)
-            
+
         else if (m.inDarkScreenAudioSelect OR m.inPreviewSound)
             m.dMoveLeft()
             m.inDarkScreenAudioSelect = true
@@ -1707,7 +1732,7 @@ function sleep_remote_callback(index) as void
                m.wakeuptime[1] = mi.toStr()
             endif
             m.wakeuptime[2] = dt
-            m.paintQuestion2("Active")  
+            m.paintQuestion2("Active")
         else if (m.inAlarmQuestion3)
             if (m.acw>0)
                 m.acw = m.acw - 1
@@ -1730,7 +1755,7 @@ function sleep_remote_callback(index) as void
                 m.wakeupvideoduration = m.wakeupvideoduration - 1
             endif
             m.paintStopVideoAfter("Active")
-        
+
         endif
     else if (index=5) then ' right
         if (m.inTopMenu)
@@ -1741,8 +1766,8 @@ function sleep_remote_callback(index) as void
             if (m.topMenuIndex=2)
                 m.clearAll()
                 m.app.loggedflag = true
-                sm=sectionManager(m.app) 
-                sm.show(setup_section) 
+                sm=sectionManager(m.app)
+                sm.show(setup_section)
             endif
         else if (m.inMainSelector)
                 if (m.menuSelectorIndex<2 AND ((m.inStep=2 AND m.updatedFlag=true) OR (m.inStep=3 AND m.updatedFlag=true) OR (m.inStep=1 AND m.updatedFlag=true)))
@@ -1772,7 +1797,7 @@ function sleep_remote_callback(index) as void
         else if (m.inDarkScreenAudioSelect OR m.inPreviewSound)
             m.dMoveRight()
             m.inDarkScreenAudioSelect = true
-        else if (m.inAudioTimerSubChoice)   
+        else if (m.inAudioTimerSubChoice)
               if (m.sleepTimeDuration<60)
                 m.sleepTimeDuration = m.sleepTimeDuration + 1
               endif
@@ -1834,20 +1859,20 @@ function sleep_remote_callback(index) as void
                 m.wakeupvideoduration = m.wakeupvideoduration + 1
             endif
             m.paintStopVideoAfter("Active")
-        
+
         endif
     else if (index=6) then
         if (m.inTopMenu)
-            
+
             if (m.topMenuIndex=1)
                 m.clearAll()
-                sm=sectionManager(m.app) 
-                sm.show(places_section) 
+                sm=sectionManager(m.app)
+                sm.show(places_section)
                 m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
             else if (m.topMenuIndex=2)
                 m.clearAll()
-                sm=sectionManager(m.app) 
-                sm.show(setup_section) 
+                sm=sectionManager(m.app)
+                sm.show(setup_section)
                 m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
             endif
         else if (m.inMainSelector)
@@ -1858,7 +1883,7 @@ function sleep_remote_callback(index) as void
         else if (m.inResetSleepButton)
             m.resetPreferences()
         else if (m.inBedTimeSelector)
-        
+
             m.inBedTimeSelector = false
             m.inDarkScreenSelector = true
             m.paintSleepTimeDuration("Active")
@@ -1866,19 +1891,19 @@ function sleep_remote_callback(index) as void
             m.paintBedTimeArrows("No")
             m.paintSleepyBG()
             m.paintBedTimeSelector(0)
-        
+
         else if (m.inDarkScreenSelector)
-        
+
             m.paintSleepTimeDuration("No", true)
             m.inDarkScreenSelector = false
             m.inSaveButton1 = true
             m.paintSaveButton1("Active")
-        
+
         else if (m.inSaveButton1)
-            
+
             'paint mkt
             'm.paintSleepMarketing()
-            
+
             ' saves info in database then moves to next main selector
             m.saveSettings()
             m.paintSaveButton1("No")
@@ -1889,11 +1914,11 @@ function sleep_remote_callback(index) as void
             m.mainSelector(m.menuSelectorIndex)
             m.clearMainSelection(0)
             'm.paintDarkScreenSoundsThumby(false,true)
-            
+
             'm.paintAudioPlayTime("No")
             'm.paintSaveButton2("No")
             'm.isThumb1=true
-            
+
             'to activate zone
             'm.paintBedTimeArrows("Active")
             'm.clearSleepyBG()
@@ -1901,55 +1926,55 @@ function sleep_remote_callback(index) as void
             'm.inDarkScreenAudioSelect = true
             'm.inAudioTimerChoice = false
             m.inMainSelector=true
-            
-            m.paintBedTimeThumb()   
-            
+
+            m.paintBedTimeThumb()
+
             'appear the start sleep button
-            
+
             'm.resetButton()
-            
+
         else if (m.inDarkScreenAudioSelect)
-            
+
             m.inDarkScreenAudioSelect = false
             m.inPreviewSound = true
             m.previewsoundtext(true)
             'play sound and show text of slection on next click
             DownloadFile("http://ahhveo.com/_dev/sounds/previews/"+m.selectedAlarmSoundIndex.preview,"sleep.mp3")
-            m.app.audio.play("http://ahhveo.com/_dev/sounds/previews/"+m.selectedAlarmSoundIndex.preview,"sleep.mp3")            
+            m.app.audio.play("http://ahhveo.com/_dev/sounds/previews/"+m.selectedAlarmSoundIndex.preview,"sleep.mp3")
             m.previewsoundtext(false)
         else if (m.inPreviewSound)
-            m.audioTimerIndex = 0        
+            m.audioTimerIndex = 0
             'm.inDarkScreenAudioSelect = false
             m.app.audio.stop()
             m.inPreviewSound = false
             m.inAudioTimerChoice = true
-            
+
             m.paintAudioPlayTime("Active")
             m.paintBelowItemsSelector(0, true)
-            
+
             ' to deactivate items before this
             m.paintDarkScreenSoundsThumby(true, false)
             m.paintBedTimeArrows("No")
             m.paintWakeUpBG()
-            m.paintBedTimeSelector(0, false) 
-        
+            m.paintBedTimeSelector(0, false)
+
         else if (m.inAudioTimerChoice OR m.inAudioTimerSubChoice)
-        
+
             m.inAudioTimerChoice = false
-            m.inAudioTimerSubChoice = false 
+            m.inAudioTimerSubChoice = false
             m.inSaveButton2 = true
             m.paintSaveButton2("Active")
-        
+
             ' to deactivate previous section
             m.paintAudioPlayTime("No")
             m.paintBelowItemsSelector(0, false)
             m.clearbelowitemsselector()
-            
-            
+
+
         else if (m.inSaveButton2)
             'paint mkt
             'm.paintSleepMarketing()
-            
+
             m.inSaveButton2 = false
             m.inStep = 2
             'clear section and paint first next one
@@ -1968,21 +1993,21 @@ function sleep_remote_callback(index) as void
             m.mainSelector(m.menuSelectorIndex)
             m.inMainSelector = true
             ' paint next one below
-            
+
             'm.inAlarmQuestion1 = true
             m.saveSettings()
             'm.paintQuestion1("Active")
             'm.paintBelowItemsSelector(3, true)
-            
+
             ''''''
             m.paintBedTimeSoundThumb()
-            
+
             '
-            
+
             'm.resetButton()
         else if (m.inAlarmQuestion1)
             m.inAlarmQuestion1 = false
-            
+
             if (m.alarmAnswer1="Yes")
                 ' we paint next question
                 m.inAlarmQuestion2 = true
@@ -1992,16 +2017,16 @@ function sleep_remote_callback(index) as void
                 m.paintNowDate()
                 m.isThumb2=true
             else
-                
+
                 'paint mkt
                 m.paintSleepMarketing()
                 m.resetButton()
-            
+
                 ' return to main selection
                 m.inSaveButton3 = false
                 m.inMainSelector= false
                 m.saveSettings()
-                'paint final 
+                'paint final
                 m.menuSelectorIndex = 0
                 m.clearAlarmBG()
                 m.paintWakeUpThumb("No")
@@ -2027,8 +2052,8 @@ function sleep_remote_callback(index) as void
                 m.canvas.clearLayer(57)
                 m.canvas.clearLayer(102)
                 m.canvas.clearLayer(300)
-            endif    
-        
+            endif
+
         else if (m.inAlarmQuestion2)
             m.inAlarmQuestion2=false
             if (m.alarmAnswer1="Yes")
@@ -2038,7 +2063,7 @@ function sleep_remote_callback(index) as void
                 m.paintBelowItemsSelector(5, true)
             else
                 ' return to main selection
-                
+
             endif
         else if (m.inAlarmQuestion3)
             m.inAlarmQuestion3=false
@@ -2048,7 +2073,7 @@ function sleep_remote_callback(index) as void
                 m.paintQuestion4("Yes")
                 m.paintBelowItemsSelector(6, true)
                 m.isThumb3=true
-            else 
+            else
                 m.clearAlarmBG()
                 m.inWakeUpCarousel=true
                 m.canvas.clearLayer(90)
@@ -2057,7 +2082,7 @@ function sleep_remote_callback(index) as void
                 m.paintWakeUpArrows("Active")
                 m.paintBedTimeSelector(3, true)
                 m.isThumb3=true
-            endif    
+            endif
         else if (m.inAlarmQuestion4)
             m.inAlarmQuestion4=false
             m.clearAlarmBG()
@@ -2067,46 +2092,46 @@ function sleep_remote_callback(index) as void
             m.paintWakeUpThumby(false, "Yes")
             m.paintWakeUpArrows("Active")
             m.paintBedTimeSelector(3, true)
-        
+
         else if (m.inWakeUpCarousel)
-            
+
             m.inWakeUpCarousel = false
             m.inStopVideoAfter = true
-            
+
             ' paint here text and option
             m.paintStopVideoAfter("Active")
             m.paintBelowItemsSelector(7, true)
-            
+
             ' deactivate carousel
             m.paintWakeUpThumby(true, "No")
             m.paintWakeUpArrows("No")
             m.paintAlarmBG()
             m.paintBedTimeSelector(3, false)
             m.paintSaveButton3("No")
-        
+
         else if (m.inStopVideoAfter)
-        
+
             m.inStopVideoAfter=false
             m.inSaveButton3=true
-            
+
             'paint next
             m.paintSaveButton3("Active")
-            
+
             'deactive before
             m.paintStopVideoAfter("No")
             m.canvas.clearLayer(90)
-        
+
         else if (m.inSaveButton3)
-        
+
             'paint mkt
             m.paintSleepMarketing()
-            
+
             m.inSaveButton3 = false
             m.inMainSelector= false
             m.menuSelectorIndex = 0
             m.saveSettings()
             m.clearAlarmBG()
-            'paint final 
+            'paint final
             if (m.acw=2)
                 m.paintWakeUpThumb("NoSound")
             else
@@ -2134,7 +2159,7 @@ function sleep_remote_callback(index) as void
             m.canvas.clearLayer(102)
             m.canvas.clearLayer(300)
         else if (m.inStartYourSleepButton)
-            
+
             'start player here
             if (type(m.selectedBedVideoIndex)<>"roInteger" AND type(m.selectedAlarmSoundIndex)<>"roInteger")
                 if (m.audiotimerindex=0)
@@ -2154,51 +2179,51 @@ function sleep_remote_callback(index) as void
                 endif
                 default_url = "videos/roku/r062_MED_Ahhveo10_30_14v13/r062_MED_Ahhveo10_30_14v13.m3u8"
                 a = SleepPlayer(m, m.app, m.selectedBedVideoIndex.video_url, m.tbs, m.selectedAlarmSoundIndex.filename, m.selectedAlarmSoundIndex.id, m.selectedAlarmSoundIndex.screensaverimage, m.sleeptimeduration, m.wakeuptime, m.selectedWakeUpVideoIndex, m.wakeupvideoduration, m.alarmAnswer1, m.acw, m.alarmchime[m.ac], m.wakeupalarmsound[0])
-            endif      
+            endif
             a.setup()
             a.paint()
             a.eventloop()
-            
+
         endif
-        
+
     else if (index=7) then
-        
-        
+
+
        'm.app.setBackground()
        'm.clearSleepSection()
        'm.app.isPlaces=true
        'm.app.section.show(places_section)
        'm.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
-    
+
     else if (index=10)
-        
+
         m.resetPreferences()
-        
+
         'query to reset in db
-           
+
     end if
 end Function
 
 function reset_preferences() as void
-    
+
     m.inStep=1
     'paint dialog before resetting
     resp = m.app.dialog.confirm2("Are you sure that you want to reset your sleep settings?")
-    
+
     if (resp)
-       
+
         if (m.inResetSleepButton)
             m.inTopMenu = true
         endif
-        
+
         dataResponse = m.app.http.getWs("resetSleepSettings.php?user_id="+m.app.userid)
-        
+
         m.sleepPaint()
-    
+
     endif
     'datastring = "?user_id="+m.app.userid+"&bedtime_video_id="+m.bedtime_video_id.toStr()+"&bedtime_before_sleep="+m.tbs.toStr()+"&bedtime_sound="+m.sss.toStr()+"&wakeup_video_id="+m.wakeup_video_id.toStr()+"&wakeup_time="+wutime+"&wakeup_sound="+m.ac.toStr()+"&wakeup_sound_when="+m.acw.toStr()+"&bedtime_sound_duration="+m.sleeptimeduration.toStr()+"&wakeup_video_duration="+m.wakeupvideoduration.toStr()+""
     'dataResponse = m.app.http.getWs("setSleepSettings.php"+datastring)
-    
+
 end function
 
 function clear_sleep() as void
@@ -2217,16 +2242,16 @@ function clear_sleep() as void
     m.canvas.clearLayer(63)
     m.canvas.clearLayer(64)
     m.canvas.clearLayer(65)
-    m.canvas.clearLayer(66) 
-    m.canvas.clearLayer(67)   
+    m.canvas.clearLayer(66)
+    m.canvas.clearLayer(67)
     m.canvas.clearLayer(131)
     m.canvas.clearLayer(84)
     m.canvas.clearLayer(110)
-    m.canvas.clearLayer(111) 
-    m.canvas.clearLayer(300) 
-    m.canvas.clearLayer(400) 
+    m.canvas.clearLayer(111)
+    m.canvas.clearLayer(300)
+    m.canvas.clearLayer(400)
     m.canvas.clearLayer(401)
-    m.canvas.clearLayer(40) 
+    m.canvas.clearLayer(40)
     m.canvas.clearLayer(41)
     m.canvas.clearLayer(42)
 end function
@@ -2240,7 +2265,7 @@ function clear_sleep_advanced() as void
     m.canvas.clearLayer(75)
     m.canvas.clearLayer(76)
     m.canvas.clearLayer(77)
-    
+
 end function
 
 function clear_top() as void
@@ -2298,7 +2323,7 @@ function clear_sleep_start_message() as void
 end function
 
 function clear_main_selection(index=0) as void
-    
+
     if (index=0)
         m.canvas.clearLayer(57)
         m.canvas.clearLayer(71)
@@ -2310,30 +2335,30 @@ function clear_main_selection(index=0) as void
         m.canvas.clearLayer(110)
         m.canvas.clearLayer(400)
     else if (index=1)
-        
+
     else if (index=2)
-        
+
     endif
-    
+
 end function
 
 Function paint_marketing2() as void
-    
+
     print "marketing"
-    
+
     if m.app.trial
         json=m.app.http.getWs("getNews.php?trial=0")
     else
         json=m.app.http.getWs("getNews.php?trial=1")
     endif
     m.app.json=json
-    
+
     items = []
-    
+
     bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:515,w:1280,h:200}}
-    
+
     'items.push({Color: "#343434", TargetRect:{x:0,y:530,w:1280,h:200}})
-    
+
     items.push({text:json.title,
             textAttrs:{HAlign:"left",font:m.app.carouseltitlefont},
            targetRect:{x:100,y:555,w:840,h:50}})
@@ -2341,18 +2366,18 @@ Function paint_marketing2() as void
     items.push({text:json.content,
                 textAttrs:{HAlign:"left",font:m.app.h35},
                targetRect:{x:100,y:610,w:620,h:50}})
-    
+
     items.push({url:json.thumb2,
            targetRect:{x:790,y:575,w:182,h:101}})
 
     items.push({url:json.thumb1,
            targetRect:{x:1000,y:575,w:182,h:101}})
-     
+
     copyright = {text:"Patent Pending, Copyright 2015 Ahhveo Inc.", textAttrs:{HAlign:"Center",Color:"#CCCCCC",font: m.app.h4}, targetRect:{x:480,y:500,w:1150,h:50}}
-    
+
     items.push(copyright)
-     
-    m.canvas.setLayer(17, bottombg)       
+
+    m.canvas.setLayer(17, bottombg)
     m.canvas.setLayer(70, items)
 
 End Function
