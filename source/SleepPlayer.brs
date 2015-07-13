@@ -324,12 +324,6 @@ Sub EventLoop3()
                 if(m.app.deviceinfo.getLinkStatus()=false) m.app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
                 index = msg.GetIndex()
                 print index
-                print "m.insleepdialog"
-                print m.insleepdialog
-                print "m.inAlarmSound"
-                print m.inAlarmSound
-                print "m.inAfterAlarm"
-                print m.inAfterAlarm
                 if (index<>32 AND m.insleepdialog=false)
                    print index
                    if (m.inAlarmSound OR m.inAfterAlarm)
@@ -368,6 +362,27 @@ Sub EventLoop3()
                         m.sleepmenuindex = m.sleepmenuindex + 1
                     endif
                     m.paintSleepMenu(m.sleepmenuindex)
+                  else if (index=5 AND m.isMenuUp=true AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' OK
+                      if (m.sleepmenuindex=0) ' menu to exit
+                          m.app.hideScreenSaver()
+                          m.app.audio.stop()
+                          m.player.stop()
+                          m.canvas.Clear()
+                          m.canvas.clearLayer(911)
+                          m.canvas.clearLayer(199)
+                          m.canvas.clearLayer(942)
+                          m.player.ClearContent()
+                          m.canvas.close()
+                          m.app.sleeping = false
+                          m.issleeping = false
+                          m.app.remoteListener=m.h
+                          return
+                      else if (m.sleepmenuindex=1) ' repeat
+                      else if (m.sleepmenuindex=2) ' favorite
+                      else if (m.sleepmenuindex=3) ' next
+                      else if (m.sleepmenuindex=4) ' sleep
+                      else if (m.sleepmenuindex=5) ' video wake up
+                      endif
                   endif
 
                 else if (index<>32 AND m.insleepdialog=true)
@@ -499,11 +514,11 @@ function paint_sleep_details() as void
     else
         x_ = 500
     endif
-    if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24) 
+    if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24)
       daytime = "pm"
       hr = m.wakeuptime[0].toInt() - 12
       if (hr=0) hr = 12
-    else 
+    else
       daytime = "am"
       hr = m.wakeuptime[0].toInt()
     endif
