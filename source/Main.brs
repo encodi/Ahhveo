@@ -1,6 +1,6 @@
 Library "v30/bslCore.brs"
 Function Main(args as Dynamic) as void
-    
+
 End Function
 
 Sub Tickle_the_player()
@@ -45,13 +45,13 @@ app.init()
         endif
         event = wait(320, app.port)
         if (event<> invalid)
-            
-                
-        
+
+
+
                 if type(event) = "roAudioPlayerEvent"
                         if event.isStatusMessage() then
                             if event.getmessage() = "end of playlist"
-                            
+
                             else  if event.getmessage() = "end of stream" then
                                 print "ended audio"
                                 'if app.sleeping
@@ -60,16 +60,16 @@ app.init()
                                 '    app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
                                 'endif
                             end if
-                         endif 
-                endif                                  
-        
-        
+                         endif
+                endif
+
+
                 if type(event) = "roChannelStoreEvent" then
-                
+
                         if event.IsRequestSucceeded() then
                             response= event.GetResponse()
                             for each res in response
-                                ' if subscription exists all ok, if not we need to check if still on our database and delete it;'                                
+                                ' if subscription exists all ok, if not we need to check if still on our database and delete it;'
                                 if (res.code="ahhveo12hrs" OR res.code="S12HOURS") then
                                     print "ahhveo12hrs"
                                     subcheck=app.http.getWs("checkSubscription.php?device_id="+app.deviceid+"&user_id="+app.cuserid+"&type=s12hr")
@@ -97,18 +97,18 @@ app.init()
                                     if usercancel.done="1" then
                                         app.reloadAllData()
                                     endif
-                                endif 
+                                endif
                             end for
                         else if event.IsRequestFailed() then
                             print "channel store req failed: ";event.GetStatusMessage()
-                        end if    
-          
-                         
+                        end if
+
+
                else if (event.isRemoteKeyPressed())
                     if(app.deviceinfo.getLinkStatus()=false) app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
                     index = event.GetIndex()
-                    if(index=6 or index=5)app.audio.player.stop()   
-                    
+                    if(index=6 or index=5)app.audio.player.stop()
+
                     if (index<>32 and app.sleeping)
                          app.setBackground()
                          app.player.set_sleep=false
@@ -119,59 +119,59 @@ app.init()
                          'app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma") ''except when it comes from the player screensaver
                          if (app.isplaces) app.audio.player.stop()
                     endif
-                         
+
                      'Disable all remote events, for example when
                      'Start the Player or Showing Dialog
                           'Handles RemoteListener
-                                                                              
+
                          if (app.sleeping=false)
                              app.remoteIndex=index
                              if(type(app.remoteListener)="roAssociativeArray")
                                     app.remoteListener.remoteCallback(app.remoteIndex)
                              endif
-                        
+
                               'Handles Main Menu
                               if(app.menu.inMain)
                                 app.menu.handleMenuAction(app.remoteIndex)
-                              end if   
-                               
+                              end if
+
                           else if (app.sleeping and index<>32)
                                 app.setBackground()
                                 app.sleeping=false
                                 app.hideScreensaver()
-                          endif   
-                
+                          endif
+
                     'Global Sleep Timer
                     'app.restartGlobalSleepTimer()
-                
-                
+
+
                 endif
-                
+
         endif
-        
-        
+
+
        'In News
        if(app.inNews)
            if(type(app.chronListener)="roAssociativeArray")
                             app.chronListener.remoteCallback(app.remoteIndex)
            endif
        endif
-       
+
        if(app.timeout<>0)
-           
+
             if(app.timer.totalMilliseconds()>app.timeout)
                 if(type(app.timeoutCallback)="roFunction")
                     app.timeoutCallback()
                     app.timeoutCallback=false
-                endif                
+                endif
             endif
        endif
-       
-       
+
+
        if(app.sleeping)
             if(app.lastsleeptime<app.timer.TotalMilliseconds())
                 app.lastsleeptime=app.lastsleeptime+1
-                
+
                 if (app.lastsleeptime MOD 25=0)
                        dr = app.http.getWs("logState.php?userID="+app.getRegistry()+"&leftAt=screensaver")
                        app.randomizeScreensaver(app.darkscreensaver)
@@ -185,25 +185,25 @@ app.init()
                         print "stopped sound"
                         app.audio.player.stop()
                         app.stopsoundflag=true
-                     endif  
+                     endif
                 endif
-                
+
                 'if app.globalscreensavertimer<app.timer.totalMilliseconds() ' should be 12 hours
                 '    app.sleeping=false
                 '    app.hideScreenSaver()
                 '    app.setBackground()
                 '    app.restartGlobalScreenSavertimer()
                 'endif
-            
+
             endif
        endif
-       
+
        'if(app.lastglobalsleeptimer<>0)
-       '               
+       '
        '         if(app.sleeping=false and (app.lastglobalsleeptimer<app.timer.totalMilliseconds()))
        '             app.sleeping=true
        '             app.audio.play(app.settings.sleep_sound,"sleep.wma")
-       '         endif      
+       '         endif
        'endif
     end while
 
@@ -275,7 +275,7 @@ Function CreateApp() As Object
             restartGlobalScreenSavertimer:main_restart_global_screensaver_timer
             isTrial:main_is_trial
             isTrial2:main_is_trial2
-            sleepSound:0           
+            sleepSound:0
             tos:false
             reloadData:main_reload_data
             reloadAllData:main_reload_all_data
@@ -312,18 +312,18 @@ Function CreateApp() As Object
             wIndex:0
             timeover:false
            }
-        
+
     this.header_h=50
     this.margin_top=50
-    this.canvas.SetMessagePort(this.port)    
+    this.canvas.SetMessagePort(this.port)
     this.store.setMessagePort(this.port)
-    
+
     devicesize=this.deviceinfo.GetDisplaySize()
     this.size=devicesize
-   
+
     'this.store.getCatalog()
     'this.store.FakeServer(false)
-        
+
     'for the SD
     'for the HD
     if(ISHD())
@@ -345,9 +345,9 @@ Function CreateApp() As Object
         this.screen=CreateObject("roScreen", true, 720, 480) ' add, 1280, 720 ?
         this.sidebar_width=158
     end if
-   
 
-    
+
+
 
 
     this.size.free_width=(this.safe_w-(this.sidebar_width+this.edge_left))
@@ -359,7 +359,7 @@ Function CreateApp() As Object
     this.fonts.Register("pkg:/fonts/HelveticaNeueLTStd-Md.otf")
     this.fonts.Register("pkg:/fonts/HelveticaNeueLTStd-Lt.otf")
     this.fonts.Register("pkg:/fonts/ProximaNova.otf")
-    
+
     if (IsHD())
         this.menufont=this.fonts.get("HelveticaNeueLT Std Med",26,false,false)
         this.carouseltitlefont=this.fonts.get("HelveticaNeueLT Std Lt",32,false,false)
@@ -391,13 +391,13 @@ Function CreateApp() As Object
         this.h6=this.fonts.get("HelveticaNeueLT Std Lt",6,false,false)
         this.hnova=this.fonts.get("ProximaNova",25,false,false)
     endif
- 
-    
+
+
   '  this.textcolor = "#406040"
 
     'Resolution-specific settings:
     mode = CreateObject("roDeviceInfo").GetDisplayMode()
-    
+
     if mode = "720p"
         this.layout = {
           '  full:   this.canvas.GetCanvasRect()
@@ -420,8 +420,8 @@ Function CreateApp() As Object
   '      this.headerfont = this.fonts.get("lmroman10 caps", 30, 50, false)
     end if
 
-  
-    
+
+
 
 
     return this
@@ -438,13 +438,13 @@ function main_init() as void
         m.facade = CreateObject("roParagraphScreen")
         m.facade.AddParagraph(" ")
         m.facade.Show()
-        
+
         'm.store.FakeServer(true) ' TODO delete
-        
+
         device=CreateObject("roDeviceInfo")
         deviceid=device.GetDeviceUniqueId()
         m.deviceid=deviceid
-       
+
         m.showPreloader()
         'sleep(3000)
         'm.setLogo()
@@ -452,7 +452,7 @@ function main_init() as void
 
         'Creating the main menu
         menu=CreateMenu(m)
-        
+
        'items=[]
        'm.items.push({action:relaxnow_section,label:"Relax"})
        m.items.push({action:sleep_section,label:"Sleep"})
@@ -461,9 +461,9 @@ function main_init() as void
        'm.items.push({action:information_section,label:"Information"})
        'm.items.push({action:shop_section,label:"Shop Ahhveo"})
        'm.items.push({action:settings_section,label:"Settings"})
-       
+
        menu.setOptions(m.items)
-        
+
        sm=sectionManager(m)
        dlg=CreateDialog(m)
        m.menu=menu
@@ -472,30 +472,30 @@ function main_init() as void
        m.inNews=true
        'menu.render(0)
        'menu.drawLineReference()
-       'sm.show(home_section) 
+       'sm.show(home_section)
        audio=NewAudio(m)
        m.audio=audio
        player=NewPlayer(m)
        m.player=player
        m.http=NewHttp(m)
        m.userFlag=false
-         
-         
+
+
         global_ws="getGlobalTrialTimer.php"
         gtt=m.http.getWs(global_ws)
-        
+
         preview_ws="getPreviewTimer.php"
         pt=m.http.getWs(preview_ws)
-           
+
         m.globaltrialtime=gtt.globaltrialtimer
         m.previewtime=pt.previewtime
-        
+
         ' m.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
-        
-       'sm.show(home_section) 
-        
+
+       'sm.show(home_section)
+
         m.menu.executeAction()
-        'm.userLogin()   
+        'm.userLogin()
 end function
 
 
@@ -514,7 +514,7 @@ function main_swtich_sound(index) as void
     else if(index=0 or index=6 or index=7)
         m.soundFx("click")
     endif
-    
+
 end function
 
 
@@ -522,13 +522,13 @@ end function
 function main_sound_fx(fx="move") as void
 
   '  return
-    
+
     if(fx="click")
         m.click.trigger(60)
     else
         m.move.trigger(60)
     endif
-    
+
 end function
 
 
@@ -549,7 +549,7 @@ popup=m.http.getWs(ws)
 
 options=[popup[0].option_1, popup[0].option_2]
 message=popup[0].content
-                        
+
 ws="getPopup.php?id=11"
 popup=m.http.getWs(ws)
 
@@ -557,10 +557,10 @@ options2=[popup[0].option_1, popup[0].option_2]
 message2=popup[0].content
 
                                  if(m.trial)
-                                 
+
                                             resp=m.dialog.confirmbuy2(message,options)
-                                            
-                                            if resp then 
+
+                                            if resp then
                                                 m.istrial()
                                                   'ws="getPopup.php?id=1"
                                                   'popup=m.http.getWs(ws)
@@ -572,43 +572,43 @@ message2=popup[0].content
                                                   '  m.subscribe(2)
                                                   'else if r2=0
                                                   '  m.subscribe(1)
-                                                  'endif   
+                                                  'endif
                                             endif
                                                'm.app.subscribe()
-                                            
+
                                  else
-                                    
+
                                     resp=m.dialog.confirmbuy2(message,options)
-                                            
+
                                     if resp then
-                                         
+
                                          resp2=m.dialog.confirmbuy(message2,options2)
-                                         if resp2 then         
-                                                
+                                         if resp2 then
+
                                                 userid=m.userid
                                                 ws="buyAdditionalTime.php?user_id="+userid
                                                 m.store.clearorder()
                                                 order=[{code:"ahhveoadditionaltime",qty:1}]
                                                 currentOrder = m.store.SetOrder(order)  ' id del producto en la tienda a comprar
-                                               
+
                                                 m.dialog.process("Please wait...")
                                                 purchase = m.store.DoOrder()
                                                 m.dialog.stopProcess()
-                                                
-                                                
+
+
                                                 if purchase
-                                                            
+
                                                             m.dialog.process("Please wait...")
                                                             addt=m.http.getWs(ws)
                                         '                    ws="paytime.php?user_id="+userid
                                         '                    addt=m.app.http.getPPWs(ws)
-                                                            
+
                                                             m.dialog.stopProcess()
-                                                            
+
                                                            if(type(addt)<>"roInvalid")
                                                                 if(addt.done="1")
-                                                                
-                                                                     m.dialog.alert("Purchase completed for 12 additional hours of streaming time. Thank You!")     
+
+                                                                     m.dialog.alert("Purchase completed for 12 additional hours of streaming time. Thank You!")
                                                                      'addtxt=m.toTime(addt.time_available.toStr())
                                                                      m.consumed=false
                                                                      'time_remain={text:"Time remaining: "+addtxt+" hours",textAttrs:{HAlign:"Left",font:m.app.h3},targetRect:m.positions[3]}
@@ -622,14 +622,14 @@ message2=popup[0].content
                                                      'm.goHome()
                                                 endif 'end if Purchase
                                          else
-                                           ' m.goHome()      
+                                           ' m.goHome()
                                          endif
                                     else
                                        ' m.goHome()
                                     endif
-                                    
-                                            
-                                            
+
+
+
                                  endif
 
 end function
@@ -653,10 +653,10 @@ function main_not_tos() as void
                       m.dialog.removeDialog()
                       '#todo
                       m.section.show(setup_section)
-                    
+
                 else if r3=0
                     m.tosAgree() ' clicked i agree
-                else 
+                else
                     m.isTrial()
                 endif
 end function
@@ -674,10 +674,10 @@ m.istrial()
             ''            m.subscribe(2)
             '          else if r2=0
             '            m.subscribe(1)
-            '          else 
+            '          else
                         'r3=m.dialog.optional({text:"In order to subscribe to Ahhveo we ask you to agree our Terms of Use and Privacy Policy. Feel free to explore them, thank you!",
                         '     options:["I Agree","Full Terms of Use","Privacy Policy"]})
-        
+
                         'if(r3=2)
                         '    m.inNews=false
                         '    m.seepolicy=true
@@ -691,14 +691,14 @@ m.istrial()
                         'else
              '               m.goHome()
                         'endif
-             '         endif   
+             '         endif
 
 end function
 
 
 function main_is_trial() as void
                  r2 = m.dialog.subpop()
-                
+
                  'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
                  'ws="getPopup.php?id=1"
                  'popup=m.http.getWs(ws)
@@ -706,7 +706,7 @@ function main_is_trial() as void
                   '       options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
                   print "returned"
                   print r2
-                  
+
                   if r2=0
                     m.subscribe(2)
                   else if r2=-1
@@ -716,10 +716,10 @@ function main_is_trial() as void
                     r=m.dialog.optional3({text1:popup[0].content, text2:popup[0].content_2,
                      options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
                      print "user clicked on is trial"
-                     print r    
+                     print r
                     if(r=2)
                         m.exitApp()
-                    else if(r=0)      
+                    else if(r=0)
                         print m.tos
                         if m.tos=false then
                             m.notTos()
@@ -728,9 +728,9 @@ function main_is_trial() as void
                             m.goHome()
                             print "goHome"
                         endif
-                    else if r=1                
+                    else if r=1
                         m.isTrial()
-                    else 
+                    else
                        m.isTrial()
                     endif
                     print "out of is trial if"
@@ -743,17 +743,17 @@ function main_is_trial() as void
                   ''  m.subscribe(1)
                   'else if r2=3
                     ' nothing
-                  'else 
+                  'else
                   '  dr = m.http.getWs("logState.php?userID="+m.getRegistry()+"&leftAt=subscription_popup_2")
                   '  ws="getPopup.php?id=4"
                   '  popup=m.http.getWs(ws)
                   '  r=m.dialog.optional3({text1:popup[0].content, text2:popup[0].content_2,
                   '   options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
                   '   print "user clicked on is trial"
-                  '   print r    
+                  '   print r
                   '  if(r=2)
                   '      m.exitApp()
-                  '  else if(r=0)      
+                  '  else if(r=0)
                   '      print m.tos
                   '      if m.tos=false then
                   '          m.notTos()
@@ -762,9 +762,9 @@ function main_is_trial() as void
                   '          m.goHome()
                   '          print "goHome"
                   '      endif
-                  '  else if r=1                
+                  '  else if r=1
                   '      m.isTrial()
-                  '  else 
+                  '  else
                   '     m.isTrial()
                   '  endif
                   'endif
@@ -775,16 +775,16 @@ function main_explore_ahhveo() as void
 
                         ws="getPopup.php?id=4"
                         popup=m.http.getWs(ws)
-                        
+
                         r=m.dialog.optional3({text1:popup[0].content, text2:popup[0].content_2,
-                         options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)    
+                         options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
                         if(r=2)
                             m.exitApp()
-                        else if(r=0)      
+                        else if(r=0)
                             if m.tos=false then
                                 m.notTos()
                             endif
-                        else if r=1                
+                        else if r=1
                          'ws="getPopup.php?id=1"
                          'popup=m.http.getWs(ws)
                          'r2=m.dialog.optional2({text:popup[0].content, text2:popup[0].content_2, text3:popup[0].content_3,  text4:"Prices are USD.",
@@ -795,11 +795,11 @@ function main_explore_ahhveo() as void
                          '   m.subscribe(2)
                          ' else if r2=0
                          '   m.subscribe(1)
-                         ' else 
+                         ' else
                          '   m.isTrial()
                          ' endif
                          m.istrial()
-                        else 
+                        else
                            m.isTrial()
                         endif
 end function
@@ -822,7 +822,7 @@ function main_tos_agree(toscustom=true as boolean) as boolean
                     print "m.userid"
                     print m.userid
                     ws="setTOS.php?user_id="+m.userid
-                    'm.dialog.process("Please wait while saving...") 
+                    'm.dialog.process("Please wait while saving...")
                     ' TODO here we add the request for roku account information and we update the user account
                     r=m.http.getWs(ws)
                     m.dialog.stopProcess()
@@ -847,16 +847,16 @@ function main_tos_agree(toscustom=true as boolean) as boolean
                     'here we added a lock for the user
                     'ws_update="updateUser.php?user_id="+m.userid+"&email="+m.myuser.email+"&firstname="+m.myuser.firstname+"&device_id="+m.getRegistry()
                     'ws_update_response = m.http.getWs(ws_update)
-                    'if (type(ws_update_response)<>"roInvalid") then           
+                    'if (type(ws_update_response)<>"roInvalid") then
                         'm.goHome()
-                    'else 
+                    'else
                     '    m.dialog.alert("An error occurred")
                     '    m.goHome()
                     '    if(m.trial)m.isTrial()
                     'endif
                     'm.reloaddata()
                 endif
-            else    
+            else
                 print "toscustom false"
                 m.tos=false
                 m.goHome()
@@ -879,10 +879,10 @@ function main_do_subscription(st) as boolean
                  options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]})
          if r3=0
             userid=m.userid.trim()
-           
+
             'm.store.ClearOrder()
             'm.GetUserData()
-            
+
             if st=1
                 order=[{code:"ahhveo12hrs",qty:1}]
             else if st=2
@@ -890,7 +890,7 @@ function main_do_subscription(st) as boolean
             else if st=3
                 order=[{code:"ahhveo50hrs",qty:1}]
             endif
-            
+
             currentOrder = m.store.SetOrder(order)  ' id del producto en la tienda a comprar
 
             m.myuser=m.store.GetPartialUserData("email, firstname")
@@ -899,26 +899,26 @@ function main_do_subscription(st) as boolean
                 ws_check_user = "searchEmail.php?email="+m.myuser.email
                 ws_check_user_q = m.http.getWs(ws_check_user)
                 print ws_check_user_q.id
-                if (ws_check_user_q.id<>invalid) then 'user exists 
+                if (ws_check_user_q.id<>invalid) then 'user exists
                     ' login user
                     m.dialog.alert2("You are already subscribed with this Roku account.")
                     'm.isTrial()
                     ' need to update user to add the new token to his account
                 else
-                
-                    ' continue with subscription process here                
+
+                    ' continue with subscription process here
                     m.dialog.process("Please wait...")
                     purchase = m.store.DoOrder()
-                     
-                   
+
+
                         if purchase
-                            
+
                             ws_update="updateUser.php?user_id="+userid+"&email="+m.myuser.email+"&firstname="+m.myuser.firstname+"&device_id="+m.getRegistry()
                             ws_update_response = m.http.getWs(ws_update)
-                            
-                            if (type(ws_update_response)<>"roInvalid") then            
-                                ws="setSubscription.php?user_id="+userid+"&subscription_time="+st.tostr()                 
-                                subs=m.http.getWs(ws)                                                          
+
+                            if (type(ws_update_response)<>"roInvalid") then
+                                ws="setSubscription.php?user_id="+userid+"&subscription_time="+st.tostr()
+                                subs=m.http.getWs(ws)
                                 m.dialog.stopProcess()
                                 if(type(subs)<>"roInvalid")
                                            if(subs.done="1")
@@ -928,14 +928,14 @@ function main_do_subscription(st) as boolean
                                                 m.trial=false
                                                 m.tos=true
                                                 m.timeover=false
-                                                m.reloadAllData() 
+                                                m.reloadAllData()
                                                 'm.goHome()
                                                 print "reload view"
                                            else
                                                 m.dialog.alert("An error occured while trying to subscribe.")
                                            endif
-                                else        
-                                    m.isTrial()    
+                                else
+                                    m.isTrial()
                                 endif
                             else
                                 ws="getPopup.php?id=9"
@@ -943,11 +943,11 @@ function main_do_subscription(st) as boolean
                                 m.dialog.alert(popup[0].content)
                                 m.isTrial()
                             endif
-                        else    
+                        else
                             m.dialog.alert("An error occured while trying to subscribe.")
                         endif
-                    
-                    
+
+
                 endif
             else
                 m.isTrial()
@@ -968,7 +968,7 @@ function main_do_subscription(st) as boolean
             'm.menu.executeaction()
          else
             m.isTrial()
-         endif       
+         endif
 end function
 
 
@@ -1001,14 +1001,14 @@ function main_show_preloader() as void
     m.http=NewHttp(m)
     splashimage = []
     did=m.getRegistry()
-    
+
     thisDate = CreateObject("roDateTime")
     yearbefore = thisDate.getYear() - 1
     yearnow = thisDate.getYear()
     randomselection = m.http.getWs("getRandomNumber.php").rn
-    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul8.jpg") '_A _B _C
-    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul8.jpg")
-    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul8.jpg")
+    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg") '_A _B _C
+    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg")
+    splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg")
     print "show preloader"
     print randomselection
     print type(splashimage[randomselection])
@@ -1022,11 +1022,11 @@ function main_show_preloader() as void
     endif
     m.canvas.setLayer(600, { Color: "#000000", CompositionMode: "Source" })
     m.canvas.show()
-    
+
     if (did<>Invalid)
         dr = m.http.getWs("logState.php?userID="+did+"&leftAt=splash_screen")
     endif
-    
+
 end function
 
 function main_hide_preloader() as void
@@ -1069,7 +1069,7 @@ function main_draw_tip() as void
         tips.Push({text:"Back",textAttrs:{Color:"#ffffff",font:m.carouseldescriptionfont,HAlign:"Left"},targetRect:{x:m.sidebar_width+44,y:m.edge_top,w:33,h:10}})
     endif
     m.canvas.setLayer(16,tips)
-    
+
 end function
 
 function main_draw_title(t) as void
@@ -1101,8 +1101,8 @@ function main_force_section(section=places_section) as void
        'With this the callback menu action is not triggered in the Main While
        'at the RunUserInterface otherwise the action is executed two times
             m.remoteIndex=0
-       
-       'Force to set the cursor focus to Main menu  
+
+       'Force to set the cursor focus to Main menu
             m.menu.inMain=true
        'Takes inNews mode
             m.inNews=true
@@ -1118,7 +1118,7 @@ function main_reload_all_data() as void
         print m.getRegistry()
          wss="getTrial.php?device_id="+m.getRegistry()
          trialuser=m.http.getWs(wss)
-         
+
          print trialuser
          if trialuser.trial=0
             m.wsString="device_id="+m.getRegistry()+"&name="+trialuser.name+"&email="+trialuser.email
@@ -1126,12 +1126,12 @@ function main_reload_all_data() as void
             m.myuser=m.store.GetPartialUserData("email, firstname")
             m.wsString="device_id="+m.getRegistry()+"&name="+m.myuser.firstname+"&email="+m.myuser.email
          endif
-         
+
          ws="getUser.php?"+m.wsString
         user=m.http.getWs(ws)
-                                                               
+
         if(type(user)<>"roInvalid")
-                        
+
                 m.userid=user.uid
                 m.cuserid=user.uid
                 m.favorites=user.favorites
@@ -1142,7 +1142,7 @@ function main_reload_all_data() as void
                         m.tos=false
                     else
                         m.tos=true
-                    endif    
+                    endif
                 else
                     if m.trial
                         m.tos=false
@@ -1156,16 +1156,16 @@ function main_reload_all_data() as void
                             sleep_timer:user.settings.sleep_timer.toint()
                          }
                m.settings=settings
-                         
+
                s_time=user.streaming_time
                s_time=s_time.toInt()
                if(s_time>0)m.timeover=false else m.timeover=true
-                
-        
+
+
         endif
         print "about to call goHome"
         m.goHome()
-        
+
 end function
 
 
@@ -1173,9 +1173,9 @@ end function
 function main_reload_data() as void
         ws="getUser.php?"+m.wsString
         user=m.http.getWs(ws)
-                                                               
+
         if(type(user)<>"roInvalid")
-                
+
                 m.userid=user.uid
                 m.cuserid=user.uid
                 m.favorites=user.favorites
@@ -1186,7 +1186,7 @@ function main_reload_data() as void
                         m.tos=false
                     else
                         m.tos=true
-                    endif    
+                    endif
                 else
                     if m.trial
                         m.tos=false
@@ -1200,12 +1200,12 @@ function main_reload_data() as void
                             sleep_timer:user.settings.sleep_timer.toint()
                          }
                m.settings=settings
-                         
+
                s_time=user.streaming_time
                s_time=s_time.toInt()
                if(s_time>0)m.timeover=false else m.timeover=true
-                
-        
+
+
         endif
         m.goHome()
 end function
@@ -1223,39 +1223,39 @@ function main_go_home() as void
        'm.items.push({action:places_section,label:"Relax"})
        'm.items.push({action:customize_section,label:"Customize"})
        'm.items.push({action:information_section,label:"Information"})
-       
+
       print m.trial
-       'if m.trial then 
+       'if m.trial then
        '     m.items.push({action:subscribenow_section,label:"Subscribe Now"})
        '     print "pushed subscribe now button in"
        '     if m.tos=false
        '         print "inside here"
        '         m.isTrial()
        '     endif
-        
+
       'endif            '
-            
+
        m.remoteIndex=0
        'm.menu.inMain=true
        'm.inNews=false
        'Display the section
        'm.section.show(section)
-       
+
        'm.menu.setOptions(m.items)
        'm.menu.position=0
        'm.menu.render(0)
        'm.menu.drawLineReference()
-        
+
        'sm = sectionManager(m)
        'sm.show(sleep_section)
-        
+
         m.section.show(sleep_section)
-       
+
        'm.forceSection()
-       
-       'm.canvas.SetMessagePort(m.port)    
+
+       'm.canvas.SetMessagePort(m.port)
        'm.store.setMessagePort(m.port)
-        
+
         'm.remoteListener=false
         m.canvas.clearLayer(107)
         m.canvas.clearLayer(108)
@@ -1265,7 +1265,7 @@ function main_go_home() as void
         m.canvas.clearLayer(112)
         m.canvas.clearLayer(113)
         print "end of goHome call"
-        'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma") 
+        'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
        'm.audio.play(m.settings.sleep_sound,"sleep.wma")
        'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
 end function
@@ -1287,24 +1287,24 @@ end function
 
 
 function main_restart_global_sleep_timer() as void
-    
+
     m.lastglobalsleeptimer=m.timer.TotalMilliseconds()+m.globalsleeptime
 
 end function
 
 
 function main_restart_global_screensaver_timer() as void
-    
+
     m.globalscreensavertimer=m.timer.TotalMilliseconds()+m.staticscreensavertimer
 
 end function
 
 
 function main_start_sleep_timer() as void
-    
+
     m.lastsleeptime=m.timer.GetMilliseconds()+m.sleeptime
-    
-    
+
+
 end function
 
 
@@ -1323,7 +1323,7 @@ app=createObject("roAppManager")
     brandingGray               = "#5E5F66"
     backgroundColor             = "#000000"
     lightgray="#333333"
-    
+
     theme = {
         BackgroundColor: backgroundColor
         OverhangSliceHD: "pkg:/images/overhang.png"
@@ -1337,7 +1337,7 @@ app=createObject("roAppManager")
         BreadcrumbTextLeft: brandingGray
         BreadcrumbTextRight: lightgray
         BreadcrumbDelimiter: brandingGray
-        
+
         ListItemText: listItemText
         ListItemHighlightText: listItemHighlight
         ListScreenDescriptionText: listItemText
@@ -1388,7 +1388,7 @@ End function
 
 Function IsHD() As Boolean
     di = CreateObject("roDeviceInfo")
-    if di.GetDisplayType() = "HDTV" then 
+    if di.GetDisplayType() = "HDTV" then
     return true
     End if
     return false
@@ -1406,7 +1406,7 @@ function fixVideoUrl(video_url) as string
         video_url=regex.replaceAll(video_url,"")
         regex=CreateObject("roRegex","\|+COMPONENT=HLS","i")
         video_url=regex.replaceAll(video_url,"")
-        theurl.setString(video_url)   
+        theurl.setString(video_url)
 
         return theurl
 end function
@@ -1442,7 +1442,7 @@ Function arraySearch(value,array) as integer
 
     total=array.count()
     counter=total-1
-    
+
     index=-1
     for i=0 to counter
         if(array[i]=value)
@@ -1475,7 +1475,7 @@ Function userSignIn(uid As integer) As Void
         else
             m.dialog.alert2("Error retrieving your user information, try restarting Ahhveo again. Thank you.")
             m.set_exit=true
-        endif   
+        endif
     endif
 End Function
 
@@ -1502,9 +1502,9 @@ Function userLogin() As Void
             print "email: "+user.email
             wss="getTrial.php?device_id="+m.getRegistry()
             trialuser=m.http.getWs(wss)
-            
+
             m.wsString="device_id="+m.getRegistry()+"&name="+trialuser.name+"&email="+trialuser.email
-            
+
             if trialuser.trial=0 ' exists on db, is not trial
                 m.trial=false
             else
@@ -1515,14 +1515,14 @@ Function userLogin() As Void
         else
             m.dialog.alert2("Error retrieving your user information, try restarting Ahhveo again. Thank you.")
             m.set_exit=true
-        endif        
+        endif
     else
         token = m.http.getWs("getToken.php")
         if (type(token)<>"roInvalid")
             if (token.registrationToken<>"0")
                 token = token.registrationToken
                 print "Created a new token: "+token
-                user = m.http.getWs("createTrialUser.php?token="+token) 
+                user = m.http.getWs("createTrialUser.php?token="+token)
                 print "email:"+user.email
                 print "id: "+user.id
                 if (type(user)<>"roInvalid")
@@ -1541,24 +1541,24 @@ Function userLogin() As Void
             m.dialog.alert2("Error on Token creation, try starting Ahhveo Channel again. Thank you.")
        endif
     endif
-    
+
     if(m.set_exit=invalid)
         ws="getUser.php?"+m.wsString
-        user=m.http.getWs(ws)                           
-        
+        user=m.http.getWs(ws)
+
         if(type(user)<>"roInvalid")
-                        
+
             m.userid=user.uid
             m.cuserid=user.uid
             m.favorites=user.favorites
             m.trial=user.trial
-            
+
             if type(user.tos)="String" then
                 if user.tos="0" then
                     m.tos=false
                 else
                     m.tos=true
-                endif    
+                endif
             else
                 if m.trial
                     m.tos=false
@@ -1566,17 +1566,17 @@ Function userLogin() As Void
                     m.tos=user.tos
                 endif
             endif
-            
+
             settings={
                         sleep_sound:user.settings.sleep_sound
                         shutoff_timer:user.settings.shutoff_timer.toint()
                         sleep_timer:user.settings.sleep_timer.toint()
                      }
-                   
+
            settingss=m.http.getWs("getSettings.php?user_id="+m.userid)
-          
+
            m.settings=settings
-           
+
            if settingss.sleep_sound="Ocean Waves" then
             'ocean
                 m.sleepSound=1
@@ -1596,15 +1596,15 @@ Function userLogin() As Void
             'crickets
                 m.sleepSound=0
            endif
-                   
+
            s_time=user.streaming_time
            s_time=s_time.toInt()
            if(s_time>0)m.timeover=false else m.timeover=true
-            
+
         endif
-        
-        m.canvas.show()        
-        
+
+        m.canvas.show()
+
         print "istrial: "
         print m.trial
         if m.trial then
@@ -1619,7 +1619,7 @@ Function userLogin() As Void
             m.menu.setOptions(m.items)
             sm=sectionManager(m)
             dlg=CreateDialog(m)
-            
+
             m.section=sm
             m.dialog=dlg
             'm.inNews=true
@@ -1635,7 +1635,7 @@ Function userLogin() As Void
          'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
         m.store.GetPurchases()
         m.restartGlobalSleepTimer()
-        
+
     endif
 End Function
 
@@ -1644,12 +1644,12 @@ End Function
 
 Function GetAuthData() As Dynamic
      sec = CreateObject("roRegistrySection", "Authentication")
-     if sec.Exists("UserRegistrationToken") 
+     if sec.Exists("UserRegistrationToken")
          return sec.Read("UserRegistrationToken")
      endif
      return invalid
 End Function
-  
+
 Function SetAuthData(userToken As String) As Void
     sec = CreateObject("roRegistrySection", "Authentication")
     sec.Write("UserRegistrationToken", userToken)
@@ -1658,7 +1658,7 @@ End Function
 
 Function deleteAuthData() As Void
     sec = CreateObject("roRegistrySection", "Authentication")
-     if sec.Exists("UserRegistrationToken") 
+     if sec.Exists("UserRegistrationToken")
          sec.Delete("UserRegistrationToken")
      endif
 End Function
@@ -1667,12 +1667,12 @@ End Function
 
 Function GetUserData() As Dynamic
      sec = CreateObject("roRegistrySection", "UserData")
-     if sec.Exists("UserEmail") 
+     if sec.Exists("UserEmail")
          return sec.Read("UserEmail")
      endif
      return invalid
 End Function
-  
+
 Function SetUserData(userEmail As String) As Void
     sec = CreateObject("roRegistrySection", "UserData")
     sec.Write("UserEmail", userEmail)
@@ -1681,19 +1681,19 @@ End Function
 
 Function deleteUserData() As Void
     sec = CreateObject("roRegistrySection", "UserData")
-     if sec.Exists("UserEmail") 
+     if sec.Exists("UserEmail")
          sec.Delete("UserEmail")
      endif
 End Function
 
 Function GetUserName() As Dynamic
      sec = CreateObject("roRegistrySection", "UserName")
-     if sec.Exists("UserFirstName") 
+     if sec.Exists("UserFirstName")
          return sec.Read("UserFirstName")
      endif
      return invalid
 End Function
-  
+
 Function SetUserName(userName As String) As Void
     sec = CreateObject("roRegistrySection", "UserName")
     sec.Write("UserFirstName", userName)
@@ -1702,7 +1702,7 @@ End Function
 
 Function deleteUserName() As Void
     sec = CreateObject("roRegistrySection", "UserName")
-     if sec.Exists("UserFirstName") 
+     if sec.Exists("UserFirstName")
          sec.Delete("UserFirstName")
      endif
 End Function

@@ -59,16 +59,16 @@ Function paint_static3() as void
             url:"pkg:/images/logo.png",
             TargetRect:{x:45,y:40,w:160,h:53}
         }
-        bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:100,w:1280,h:60}}
+        bgmenu = {url:"pkg:/images/bgmenunew2.png", TargetRect:{x:0,y:165,w:1280,h:80}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
         preferencessubmenu = {text: "Preferences", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
-        helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:315,y:120,w:200,h:50}}
+        helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
         artistsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:520,y:120,w:200,h:50}}
-        faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:645,y:120,w:200,h:50}}
-        additionalsubmenu = {text: "Additional Time", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:765,y:120,w:200,h:50}}
-        aboutsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:520,y:120,w:200,h:50}}
+        faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:833,y:120,w:200,h:50}}
+        'additionalsubmenu = {text: "Additional Time", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:765,y:120,w:200,h:50}}
+        aboutsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:120,w:200,h:50}}
         policytermssubmenu = {text: "Policy & Terms", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:1010,y:120,w:200,h:50}}
     else
         logo={
@@ -76,17 +76,17 @@ Function paint_static3() as void
             TargetRect:{x:45,y:40,w:160,h:53}
 
         }
-        bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:100,w:1280,h:60}}
+        bgmenu = {url:"pkg:/images/bgmenunew2.png", TargetRect:{x:0,y:165,w:1280,h:80}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        preferencessubmenu = {text: "Preferences", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:45,y:120,w:200,h:50}}
-        helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:250,y:120,w:200,h:50}}
-        artistsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:455,y:120,w:200,h:50}}
-        faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:580,y:120,w:200,h:50}}
-        additionalsubmenu = {text: "Additional Time", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:700,y:120,w:200,h:50}}
-        aboutsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:455,y:120,w:200,h:50}}
-        policytermssubmenu = {text: "Policy & Terms", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:940,y:120,w:200,h:50}}
+        preferencessubmenu = {text: "Preferences", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
+        helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
+        artistsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:520,y:120,w:200,h:50}}
+        faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:833,y:120,w:200,h:50}}
+        'additionalsubmenu = {text: "Additional Time", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:765,y:120,w:200,h:50}}
+        aboutsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:120,w:200,h:50}}
+        policytermssubmenu = {text: "Policy & Terms", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:1010,y:120,w:200,h:50}}
     endif
     '#9da2a6
     'staticStuff.push(logo)
@@ -97,11 +97,11 @@ Function paint_static3() as void
     staticStuff.Push(helpfulhintssubmenu)
     staticStuff.Push(aboutsubmenu)
     staticStuff.Push(faqsubmenu)
-    staticStuff.Push(additionalsubmenu)
+    'staticStuff.Push(additionalsubmenu)
     'staticStuff.Push(aboutsubmenu)
     staticStuff.Push(policytermssubmenu)
     m.canvas.setLayer(201, staticStuff)
-    'm.canvas.setLayer(4, bgmenu)
+    m.canvas.setLayer(170, bgmenu)
 End Function
 
 
@@ -158,12 +158,10 @@ Function paint_subtop_menu_selector(topindex=0) as void
     pos_rings=[]
 
     pos_rings.push({x:110,y:160,w:130,h:2})
-    pos_rings.push({x:315,y:160,w:138,h:2})
-    pos_rings.push({x:520,y:160,w:65,h:2})
-    pos_rings.push({x:640,y:160,w:60,h:2})
-    pos_rings.push({x:765,y:160,w:170,h:2})
-    pos_rings.push({x:1005,y:160,w:165,h:2})
-    'pos_rings.push({x:1080,y:160,w:160,h:2})
+    pos_rings.push({x:365,y:160,w:138,h:2})
+    pos_rings.push({x:620,y:160,w:65,h:2})
+    pos_rings.push({x:833,y:160,w:50,h:2})
+    pos_rings.push({x:1010,y:160,w:155,h:2})
 
     if (NOT m.inTopMenu)
         ring={
@@ -197,6 +195,7 @@ Function paint_section() as void
     if (m.subTopMenuIndex=0)
         m.clearUnderDev()
         m.paintPreferences()
+        m.paintAditional()
     else if (m.subTopMenuIndex=1)
         m.clearUnderDev()
         m.paintHints()
@@ -208,11 +207,8 @@ Function paint_section() as void
         m.paintFAQ()
     else if (m.subTopMenuIndex=4)
         m.clearUnderDev()
-        m.paintAditional()
-    else if (m.subTopMenuIndex=5)
-        m.clearUnderDev()
         m.paintPolicyTerms()
-    else if (m.subTopMenuIndex=6)
+    else if (m.subTopMenuIndex=5)
         m.clearUnderDev()
         m.paintPolicyTerms()
     else
@@ -246,7 +242,7 @@ function paint_preferences() as void
     '
     'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:690,y:190}})
     pref.push({text:"<   0   > hours",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:740,y:290}})
-    pref.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
+    pref.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:580}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))
@@ -329,21 +325,21 @@ function paint_additional() as void
     endif
 
 
-    addi.push({text:"Buy Additional Time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:230}})
-    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:1180,h:50,x:45,y:290}})
-    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:380}})
+    addi.push({text:"Buy Additional Time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:400}})
+    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:1180,h:50,x:100,y:460}})
+    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:540}})
 
-    addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
+    'addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))
     min = Str(Fix(minutes))
-    addi.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:635,h:100}} )
-    addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:599,h:100}})
-    addi.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:625}})
-    addi.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:635,h:100}})
+    addi.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:805,h:100}} )
+    addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:770,h:100}})
+    addi.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:795}})
+    addi.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:805,h:100}})
 
-    m.canvas.setLayer(400, addi)
+    m.canvas.setLayer(401, addi)
 
 end function
 
@@ -353,7 +349,7 @@ function paint_about() as void
     about=m.app.http.getWs("getAbout.php")
     if(type(about)<>"roInvalid")
         content=strReplace(about.content,"\n","")
-        artistscontent.push( {text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:590,x:650,y:200,h:500}} )
+        artistscontent.push( {text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:590,x:45,y:200,h:500}} )
         'm.canvas.setLayer(400, aboutcontent)
     endif
 
@@ -361,10 +357,10 @@ function paint_about() as void
     if(type(artists)<>"roInvalid")
 
         content=strReplace(artists.content,"\n","")
-        artistscontent.push({text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:550,x:45,y:360,h:500}})
-        artistscontent.push({url:"pkg:/images/peter_roberts_logo.png",targetRect:{w:110,h:30,x:350,y:200}})
-        artistscontent.Push({text:"'I work to capture the magic of idyllic locations and deliver it to people's homes.'",textAttrs:{font:m.app.h5},targetRect:{w:235,h:235,x:300,y:180}})
-        artistscontent.push({ url:artists.image,targetRect:{w:200,h:200,x:45,y:200}})
+        artistscontent.push({text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:550,x:650,y:360,h:500}})
+        'artistscontent.push({url:"pkg:/images/peter_roberts_logo.png",targetRect:{w:110,h:30,x:945,y:200}})
+        artistscontent.Push({text:"'I work to capture the magic of idyllic locations and deliver it to people's homes.'",textAttrs:{font:m.app.h5},targetRect:{w:235,h:235,x:900,y:180}})
+        artistscontent.push({ url:artists.image,targetRect:{w:200,h:200,x:650,y:200}})
         m.canvas.setLayer(400, artistscontent)
     endif
 End function
@@ -471,7 +467,7 @@ function setup_remote_callback(index) as void
         if (m.topMenuIndex<2 AND m.inTopMenu)
             m.topMenuIndex = m.topMenuIndex + 1
             m.paintTopMenuSelector(m.topMenuIndex)
-        else if (m.subTopMenuIndex<5 AND NOT m.inTopMenu)
+        else if (m.subTopMenuIndex<4 AND NOT m.inTopMenu)
             m.subTopMenuIndex = m.subTopMenuIndex + 1
             m.paintSubTopMenuSelector(m.subTopMenuIndex)
         endif
@@ -509,6 +505,7 @@ function clear_setup() as void
     m.canvas.clearLayer(50)
     'm.canvas.clearLayer(36)
     m.canvas.clearLayer(201)
+    m.canvas.clearLayer(401)
     m.canvas.clearLayer(178)
     m.canvas.clearLayer(42)
     m.canvas.clearLayer(400)
@@ -544,5 +541,5 @@ function clear_preferences() as void
 end function
 
 function clear_additional() as void
-    m.canvas.clearLayer(400)
+    m.canvas.clearLayer(401)
 end function
