@@ -9,6 +9,7 @@ this={
      setupPaintStatic:paint_static3
      paintTopMenuSelector:paint_top_menu_selector3
      paintSubTopMenuSelector:paint_subtop_menu_selector
+     paintPreferenceSelector:paint_preference_selector
      inTopMenu:true
      topMenuIndex:0
      subTopMenuIndex:0
@@ -29,7 +30,18 @@ this={
      paintAditional:paint_additional
      clearAditional:clear_additional
      isInFocus:false
+     inSubTopMenu:false
+     inPreferences:false
+     inAutoShutOff:false
+     inBuyAdditionalTime:false
+     inChangeSubscription:false
+     inFAQFocus:false
+     inPolicyFocus:false
      scrollingFocused:scrolling_focused
+     globalvideotime:5
+     autoshutoff:0.5
+     faqpage:0
+     pppage:0
      }
 
 this.setupPaint()
@@ -153,7 +165,7 @@ End Function
 
 
 
-Function paint_subtop_menu_selector(topindex=0) as void
+Function paint_subtop_menu_selector(topindex=0, active=true) as void
 
     pos_rings=[]
 
@@ -180,6 +192,30 @@ Function paint_subtop_menu_selector(topindex=0) as void
 
 End Function
 
+
+Function paint_preference_selector(preferenceindex=0) as void
+      pos_rings=[]
+
+      pos_rings.push({x:215,y:360,w:100,h:2})
+      pos_rings.push({x:800,y:360,w:100,h:2})
+      pos_rings.push({x:540,y:430,w:230,h:2})
+      pos_rings.push({x:540,y:570,w:230,h:2})
+      pos_rings.push({x:1010,y:160,w:155,h:2})
+
+      if (NOT m.inTopMenu)
+          ring={
+              url:"pkg:/images/ring_play_100.png",
+              targetRect:pos_rings[preferenceindex]
+          }
+      else
+          ring={
+              url:"pkg:/images/bgmenuitemhover.png",
+              targetRect:pos_rings[preferenceindex]
+          }
+      endif
+
+      m.canvas.setLayer(43,ring)
+End Function
 
 
 Function paint_section() as void
@@ -236,12 +272,13 @@ function paint_preferences() as void
     pref.push( {text:"Choose the amount of time you want all videos to play",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:110,y:250,h:100}} )
     '
     'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:45,y:190}})
-    pref.push({text:"<   0   > minutes",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:170,y:290}})
+    pref.push({text:"<   "+m.globalvideotime.toStr()+"   > minutes",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:170,y:290}})
     pref.push( {text:"Auto-ShutOff",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:720,y:200,h:100}} )
     pref.push( {text:"Set a timer to turn of Ahhveo streaming automatically",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:720,y:250,h:100}} )
     '
     'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:690,y:190}})
-    pref.push({text:"<   0   > hours",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:740,y:290}})
+
+    pref.push({text:"<   "+Str(m.autoshutoff)+"   > hours",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:740,y:290}})
     pref.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:580}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
@@ -258,7 +295,7 @@ end function
 
 
 
-function paint_faq() as void
+function paint_faq(page=0) as void
 
     faq=m.app.http.getWs("getFaqs.php")
     if(type(faq)<>"roInvalid")
@@ -266,18 +303,18 @@ function paint_faq() as void
         faqcontent = []
         separation = 0
         specialy = 0
-        actualpage = 1
+        actualpage = page
         totalpages = faq.content.count()-1
         For i=0 To faq.content.count()-1
             content.push(strReplace(faq.content[i],"\n",""))
-            if (i=1)
-                specialy = -30
-            endif
-            faqcontent.push({text:content[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-            separation = separation + 600
         End For
-        faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-        m.canvas.setLayer(400, faqcontent)
+        if (type(content[page+1])<>"Invalid")
+          faqcontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200,h:500}})
+          separation = separation + 600
+          faqcontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200,h:500}})
+          faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          m.canvas.setLayer(400, faqcontent)
+        endif
     endif
 
 end function
@@ -441,14 +478,48 @@ end function
 function setup_remote_callback(index) as void
     print index
     if (index=2) then ' up
-        m.inTopMenu=true
-        m.topMenuIndex=2
-        m.canvas.clearLAyer(42)
-        m.paintTopMenuSelector(m.topMenuIndex)
+        if (m.inSubTopMenu)
+          m.inTopMenu=true
+          m.topMenuIndex=2
+          m.canvas.clearLayer(42)
+          m.paintTopMenuSelector(m.topMenuIndex)
+        else if (m.inPreferences OR m.inAutoShutOff)
+          m.canvas.clearLayer(43)
+          m.inPreferences=false
+          m.inAutoShutOff=false
+          m.paintSubTopMenuSelector()
+          m.inSubTopMenu=true
+        else if (m.inBuyAdditionalTime)
+          m.inBuyAdditionalTime=false
+          m.inPreferences=true
+          m.paintPreferenceSelector(0)
+        else if (m.inChangeSubscription)
+          m.inChangeSubscription=false
+          m.inBuyAdditionalTime=true
+          m.paintPreferenceSelector(2)
+        endif
     else if (index=3) then ' down
-        m.canvas.clearLayer(181)
-        m.inTopMenu=false
-        m.paintSubTopMenuSelector()
+        if (m.inTopMenu)
+          m.canvas.clearLayer(181)
+          m.inTopMenu=false
+          m.paintSubTopMenuSelector()
+          m.inSubTopMenu=true
+        else if (m.inSubTopMenu)
+          m.inSubTopMenu=false
+          m.canvasClearLayer(42)
+         ' todo white marker
+          m.paintPreferenceSelector(0)
+          m.inPreferences=true
+        else if (m.inPreferences OR m.inAutoShutOff)
+          m.inPreferences=false
+          m.inAutoShutOff=false
+          m.inBuyAdditionalTime=true
+          m.PaintPreferenceSelector(2)
+        else if (m.inBuyAdditionalTime)
+          m.inBuyAdditionalTime=false
+          m.inChangeSubscription=true
+          m.paintPreferenceSelector(3)
+        endif
     else if (index=4) then ' left
         if (m.topMenuIndex>0 AND m.inTopMenu)
             m.topMenuIndex = m.topMenuIndex - 1
@@ -458,45 +529,73 @@ function setup_remote_callback(index) as void
                 sm = sectionManager(m.app)
                 sm.show(sleep_section)
             endif
-        else if (m.subTopMenuIndex>0 AND NOT m.inTopMenu)
+        else if (m.subTopMenuIndex>0 AND m.inSubTopMenu)
             m.subTopMenuIndex = m.subTopMenuIndex - 1
             m.paintSubTopMenuSelector(m.subTopMenuIndex)
             m.paintSection()
+        else if (m.inPreferences AND m.globalvideotime>5)
+            m.globalvideotime = m.globalvideotime - 1
+            m.paintPreferences()
+        else if (m.inAutoShutOff AND m.autoshutoff>0.5)
+            m.autoshutoff = m.autoshutoff - 0.5
+            m.paintPreferences()
+        else if (m.inFaqFocus)
+            if (m.faqpage>0)
+              m.faqpage = m.faqpage - 2
+              m.paintFaq(m.faqpage)
+            endif
         endif
     else if (index=5) then ' right
         if (m.topMenuIndex<2 AND m.inTopMenu)
             m.topMenuIndex = m.topMenuIndex + 1
             m.paintTopMenuSelector(m.topMenuIndex)
-        else if (m.subTopMenuIndex<4 AND NOT m.inTopMenu)
+        else if (m.subTopMenuIndex<4 AND m.inSubTopMenu)
             m.subTopMenuIndex = m.subTopMenuIndex + 1
             m.paintSubTopMenuSelector(m.subTopMenuIndex)
-        endif
-        m.paintSection()
-    else if (index=6) then
-
-       'm.app.setLogo()
-       'm.app.setBackground()
-       if (m.inTopMenu)
-            if (m.topMenuIndex=0)
-               m.clearsetup()
-               m.app.section.show(sleep_section)
-               m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
-            else if (m.topMenuIndex=1)
-               m.clearsetup()
-               m.app.isPlaces=true
-               m.app.section.show(places_section)
-               m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
+            m.paintSection()
+        else if (m.inPreferences AND m.globalvideotime<50)
+            m.globalvideotime = m.globalvideotime + 1
+            m.paintPreferences()
+        else if (m.inAutoShutOff AND m.autoshutoff<12)
+            m.autoshutoff = m.autoshutoff + 0.5
+            m.paintPreferences()
+        else if (m.inFaqFocus)
+            if (m.faqpage<40)
+              m.faqpage = m.faqpage + 2
+              m.paintFaq(m.faqpage)
             endif
-       endif
-
+        endif
+    else if (index=6) then
+        if (m.subTopMenuIndex=0)
+          if (m.inPreferences)
+              m.inPreferences=false
+              m.inAutoShutOff=true
+              m.PaintPreferenceSelector(1)
+          else if (m.inAutoShutOff)
+              m.inAutoShutOff=false
+              m.inBuyAdditionalTime=true
+              m.PaintPreferenceSelector(2)
+          else if (m.inBuyAdditionalTime)
+              m.inBuyAdditionalTime=false
+              'dialog
+          else if (m.inChangeSubscription)
+              m.inChangeSubscription=false
+              'dialog
+          endif
+        else if (m.subTopMenuIndex=3) ' FAQ focus
+          if (m.inFaqFocus)
+            m.inFaqFocus=false
+            m.inSubTopMenu=true
+          else
+            m.inFaqFocus=true
+            m.inSubTopMenu=false
+          endif
+        endif
 
     else if (index=7) then
-       'm.app.setLogo()
-       'm.app.setBackground()
-       m.clearsetup()
-       m.app.isPlaces=true
-       m.app.section.show(places_section)
-       m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
+
+
+
     end if
 end function
 
