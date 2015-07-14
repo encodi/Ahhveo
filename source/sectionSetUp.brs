@@ -59,6 +59,7 @@ Function paint_static3() as void
             url:"pkg:/images/logo.png",
             TargetRect:{x:45,y:40,w:160,h:53}
         }
+        bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:100,w:1280,h:60}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
@@ -73,8 +74,9 @@ Function paint_static3() as void
         logo={
             url:"pkg:/images/logo.png",
             TargetRect:{x:45,y:40,w:160,h:53}
-        
+
         }
+        bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:100,w:1280,h:60}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
@@ -99,7 +101,7 @@ Function paint_static3() as void
     'staticStuff.Push(aboutsubmenu)
     staticStuff.Push(policytermssubmenu)
     m.canvas.setLayer(201, staticStuff)
-    
+    'm.canvas.setLayer(4, bgmenu)
 End Function
 
 
@@ -111,24 +113,40 @@ End Function
 Function paint_top_menu_selector3(topindex=0) as void
 
     pos_rings=[]
-    
+    staticStuff=[]
     pos_rings.push({x:425,y:90,w:180,h:2})
     pos_rings.push({x:625,y:90,w:180,h:2})
-    pos_rings.push({x:825,y:90,w:180,h:2}) 
-    
+    pos_rings.push({x:825,y:90,w:180,h:2})
+
     if (m.inTopMenu)
         ring={
             url:"pkg:/images/ring_play_100.png",
             targetRect:pos_rings[topindex]
         }
-    else
-        ring={
-            url:"pkg:/images/bgmenuitemhover.png",
-            targetRect:pos_rings[topindex]
-        }
     endif
-    
-    m.canvas.setLayer(42,ring)
+print "topindex"
+print topindex
+    if (topindex=0)
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+    else if (topindex=1)
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+    else if (topindex=2)
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+    endif
+
+    if (m.inTopMenu) m.canvas.setLayer(181,ring)
+
+    staticStuff.push(exploremenu)
+    staticStuff.push(sleepmenu)
+    staticStuff.push(setupmenu)
+
+    m.canvas.setLayer(179, staticStuff)
 
 End Function
 
@@ -138,15 +156,15 @@ End Function
 Function paint_subtop_menu_selector(topindex=0) as void
 
     pos_rings=[]
-    
+
     pos_rings.push({x:110,y:160,w:130,h:2})
     pos_rings.push({x:315,y:160,w:138,h:2})
-    pos_rings.push({x:520,y:160,w:65,h:2}) 
+    pos_rings.push({x:520,y:160,w:65,h:2})
     pos_rings.push({x:640,y:160,w:60,h:2})
     pos_rings.push({x:765,y:160,w:170,h:2})
     pos_rings.push({x:1005,y:160,w:165,h:2})
     'pos_rings.push({x:1080,y:160,w:160,h:2})
-    
+
     if (NOT m.inTopMenu)
         ring={
             url:"pkg:/images/ring_play_100.png",
@@ -158,9 +176,9 @@ Function paint_subtop_menu_selector(topindex=0) as void
             targetRect:pos_rings[topindex]
         }
     endif
-    
+
     m.canvas.setLayer(42,ring)
-    
+
 
 End Function
 
@@ -207,7 +225,7 @@ End Function
 
 function paint_preferences() as void
     settings=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
-    
+
     if(type(settings)<>"roInvalid")
         m.shutoff_timer=settings.shutoff_timer
         m.start_shutoff_timer=m.shutoff_timer
@@ -216,7 +234,7 @@ function paint_preferences() as void
         m.available_time=settings.available_time
         m.app.globalvideotimer = settings.global_timer
     endif
-    
+
     pref = []
     pref.push( {text:"Global Video Timer",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:110,y:200,h:100}} )
     pref.push( {text:"Choose the amount of time you want all videos to play",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:110,y:250,h:100}} )
@@ -237,7 +255,7 @@ function paint_preferences() as void
     pref.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:599,h:100}})
     pref.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:625}})
     pref.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:635,h:100}})
-    
+
     m.canvas.setLayer(400, pref)
 
 end function
@@ -271,7 +289,7 @@ end function
 
 
 function paint_hints() as void
-    
+
     hints=m.app.http.getWs("getHints.php")
     if(type(hints)<>"roInvalid")
         print hints
@@ -297,10 +315,10 @@ End function
 
 
 function paint_additional() as void
-    
+
     addi = []
     settings=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
-    
+
     if(type(settings)<>"roInvalid")
         m.shutoff_timer=settings.shutoff_timer
         m.start_shutoff_timer=m.shutoff_timer
@@ -309,12 +327,12 @@ function paint_additional() as void
         m.available_time=settings.available_time
         m.app.globalvideotimer = settings.global_timer
     endif
-    
-    
+
+
     addi.push({text:"Buy Additional Time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:230}})
     addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:1180,h:50,x:45,y:290}})
     addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:380}})
-    
+
     addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
@@ -324,9 +342,9 @@ function paint_additional() as void
     addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:599,h:100}})
     addi.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:625}})
     addi.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:635,h:100}})
-    
+
     m.canvas.setLayer(400, addi)
-    
+
 end function
 
 
@@ -341,7 +359,7 @@ function paint_about() as void
 
     artists=m.app.http.getWs("getArtist.php")
     if(type(artists)<>"roInvalid")
-        
+
         content=strReplace(artists.content,"\n","")
         artistscontent.push({text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:550,x:45,y:360,h:500}})
         artistscontent.push({url:"pkg:/images/peter_roberts_logo.png",targetRect:{w:110,h:30,x:350,y:200}})
@@ -354,7 +372,7 @@ End function
 
 
 function paint_artist() as void
-    
+
     artists=m.app.http.getWs("getArtist.php")
     if(type(artists)<>"roInvalid")
         artistscontent = []
@@ -377,7 +395,7 @@ function paint_policy_terms() as void
         terms=m.app.http.getWs("getTerms.php?tostype=11")
         privacy=m.app.http.getWs("getPrivacy.php")
     endif
-    
+
     if(type(privacy)<>"roInvalid" AND type(terms)<>"roInvalid")
         content = []
         privacycontent = []
@@ -418,29 +436,31 @@ end function
 
 
 function scrolling_focused() as void
-    
-    
-    
+
+
+
 end function
 
 
 function setup_remote_callback(index) as void
-    print index 
-    if (index=2) then
+    print index
+    if (index=2) then ' up
         m.inTopMenu=true
         m.topMenuIndex=2
+        m.canvas.clearLAyer(42)
         m.paintTopMenuSelector(m.topMenuIndex)
-    else if (index=3) then
+    else if (index=3) then ' down
+        m.canvas.clearLayer(181)
         m.inTopMenu=false
         m.paintSubTopMenuSelector()
     else if (index=4) then ' left
         if (m.topMenuIndex>0 AND m.inTopMenu)
             m.topMenuIndex = m.topMenuIndex - 1
             m.paintTopMenuSelector(m.topMenuIndex)
-            if (m.topMenuIndex=1)                
+            if (m.topMenuIndex=1)
                 m.clearSetup()
                 sm = sectionManager(m.app)
-                sm.show(places_section)
+                sm.show(sleep_section)
             endif
         else if (m.subTopMenuIndex>0 AND NOT m.inTopMenu)
             m.subTopMenuIndex = m.subTopMenuIndex - 1
@@ -457,7 +477,7 @@ function setup_remote_callback(index) as void
         endif
         m.paintSection()
     else if (index=6) then
-    
+
        'm.app.setLogo()
        'm.app.setBackground()
        if (m.inTopMenu)
@@ -472,8 +492,8 @@ function setup_remote_callback(index) as void
                m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
             endif
        endif
-       
-    
+
+
     else if (index=7) then
        'm.app.setLogo()
        'm.app.setBackground()
@@ -489,6 +509,7 @@ function clear_setup() as void
     m.canvas.clearLayer(50)
     'm.canvas.clearLayer(36)
     m.canvas.clearLayer(201)
+    m.canvas.clearLayer(178)
     m.canvas.clearLayer(42)
     m.canvas.clearLayer(400)
 end function

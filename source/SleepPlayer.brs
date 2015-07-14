@@ -61,6 +61,8 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
         alarmchime:alarmchime
         wakeupalarmsound:wakeupalarmsound
         inafteralarm:false
+        repeat:false
+        duration:0
     }
 
 
@@ -111,7 +113,7 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
     'this.canvas.AllowUpdates(true)
 
 
-    this.player.Play()'this start to play the video tutorial
+    this.player.Play()'this start to play the video
 
     return this
 End Function
@@ -132,7 +134,7 @@ Sub EventLoop3()
                 m.app.audio.stop()
                 m.stopsound=true
             endif
-            'wake up
+            ' wake up
             if (timecount >= (m.difftotaltimeleft*4) AND m.startsalarm=false AND m.inAlarmVideo=false AND m.alarmAnswer1="Yes")
                 m.issleeping = false
                 m.stopsound=false
@@ -176,6 +178,19 @@ Sub EventLoop3()
                 print "waking up"
                 print msg
             endif
+        else
+            ' repeat
+            if (timecount >= m.duration AND m.repeat)
+                print "repeating"
+                m.app.audio.stop()
+                m.player.stop()
+                sleep(1000)
+                m.player.SetContentList([{
+                    Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+m.video }
+                    StreamFormat: "hls"
+                }])
+                m.player.Play()
+            endif
         endif
 
         if msg <> invalid
@@ -193,7 +208,6 @@ Sub EventLoop3()
 
             'Playback progress (in seconds):
             else if msg.isPlaybackPosition()
-                'm.player2.GetPlaybackDuration() 'duration of video
                 m.position = msg.GetIndex()
                 if (m.inAfterAlarm OR m.inAlarmSound)
                     if (m.position>((m.wakeupvideoduration-1)*60))
@@ -378,10 +392,22 @@ Sub EventLoop3()
                           m.app.remoteListener=m.h
                           return
                       else if (m.sleepmenuindex=1) ' repeat
+                          m.duration = m.player.GetPlaybackDuration() 'duration of video
+                          print (duration)
+                          if (m.repeat)
+                            m.repeat=false
+                          else
+                            m.repeat=true
+                          endif
+                          m.paintSleepMenu(m.sleepmenuindex)
                       else if (m.sleepmenuindex=2) ' favorite
+
                       else if (m.sleepmenuindex=3) ' next
+
                       else if (m.sleepmenuindex=4) ' sleep
+
                       else if (m.sleepmenuindex=5) ' video wake up
+
                       endif
                   endif
 
@@ -561,9 +587,15 @@ function paint_sleep_menu(selected=2) as void
         items.push({url:"pkg:/images/mainmenu.png"
                 targetRect:{x:220,y:580,w:100,h:100}
                 })
-        items.push({url:"pkg:/images/repeat.png"
+        if (m.repeat)
+          items.push({url:"pkg:/images/repeat_active.png"
                 targetRect:{x:370,y:580,w:100,h:100}
                 })
+        else
+          items.push({url:"pkg:/images/repeat.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        endif
         items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })
@@ -589,9 +621,15 @@ function paint_sleep_menu(selected=2) as void
         items.push({url:"pkg:/images/mainmenu.png"
                 targetRect:{x:220,y:580,w:100,h:100}
                 })
-        items.push({url:"pkg:/images/repeat.png"
+        if (m.repeat)
+          items.push({url:"pkg:/images/repeat_active.png"
                 targetRect:{x:370,y:580,w:100,h:100}
                 })
+        else
+          items.push({url:"pkg:/images/repeat.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        endif
         items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })

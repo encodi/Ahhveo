@@ -184,7 +184,7 @@ Function sleep_paint() as void
     m.canvas.clearLayer(70)
     m.canvas.clearLayer(131)
 
-    m.paintSleepMarketing()
+    m.sleepStartMessage()
 
     m.sleepSettingsData=m.app.http.getWs("getSleepSettings.php?user_id="+m.app.userid)
     '''
@@ -360,7 +360,7 @@ Function reset_button(active = false) as void
 End function
 
 
-Function sleep_start_message(mkt=false) as void
+Function sleep_start_message(mkt=true) as void
 
     tutorialImage = {url:"pkg:/images/tutorial_image2.png", targetRect:{w:1148,h:210,x:85,y:410}}
 
@@ -1531,8 +1531,8 @@ function sleep_remote_callback(index) as void
             m.startYourSleepButton(false)
             m.resetButton(false)
             m.inStartYourSleepButton = false
-            m.paintSleepMarketing()
-            m.clearSleepStartMessage()
+            m.sleepStartMessage()
+            'm.clearSleepMarketing()
         else if (m.inMainSelector)
             if (m.updatedFlag)
                 m.inStartYourSleepButton = true
@@ -1541,8 +1541,8 @@ function sleep_remote_callback(index) as void
                 m.inTopMenu = true
                 m.paintTopMenuSelector(1)
                 'm.startYourSleepButton(false)
-                m.paintSleepMarketing()
-                m.clearSleepStartMessage()
+                m.sleepStartMessage()
+                'm.clearSleepMarketing()
             endif
             m.clearMainSelector()
             m.inMainSelector=false
@@ -1579,7 +1579,7 @@ function sleep_remote_callback(index) as void
     else if (index=3) then 'down
         if (m.inTopMenu)
             m.inTopMenu = false
-            m.clearSleepMarketing()
+            'm.clearSleepMarketing()
             m.sleepStartMessage(true)
             if (m.updatedFlag)
                 m.startYourSleepButton(true)
@@ -2019,7 +2019,7 @@ function sleep_remote_callback(index) as void
             else
 
                 'paint mkt
-                m.paintSleepMarketing()
+                m.sleepStartMessage()
                 m.resetButton()
 
                 ' return to main selection
@@ -2124,7 +2124,7 @@ function sleep_remote_callback(index) as void
         else if (m.inSaveButton3)
 
             'paint mkt
-            m.paintSleepMarketing()
+            m.sleepStartMessage()
 
             m.inSaveButton3 = false
             m.inMainSelector= false
