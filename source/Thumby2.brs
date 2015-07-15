@@ -165,7 +165,7 @@ End Function
 ' initializes the script, painting the canvas
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function initThumby2() as void
-    
+
     m.canvas.clearLayer(777)
     m.clearMenu()
     m.currentLevel=0
@@ -187,12 +187,12 @@ Function initThumby2() as void
 End Function
 
 
-Function login_the_user() as void 
-    
+Function login_the_user() as void
+
     token = m.app.getRegistry()
     print "current token"
     print token
-    
+
     if (token<>invalid)
         user = m.app.http.getWs("searchUser.php?token="+token)
         print "user -------------------------------------------"
@@ -215,7 +215,7 @@ Function login_the_user() as void
             wsString="device_id="+m.app.getRegistry()+"&name="+trialuser.name+"&email="+trialuser.email
             print "wsString ---------------"
             print wsString
-        endif     
+        endif
     else
         token = m.app.http.getWs("getToken.php")
         if (token<>invalid)
@@ -234,19 +234,19 @@ Function login_the_user() as void
     ws="getUser.php?"+wsString
     user=m.app.http.getWs(ws)
     print "user info -----------------------------"
-    print user 
-    m.app.userid = user.uid 
+    print user
+    m.app.userid = user.uid
     settings={
                 sleep_sound:user.settings.sleep_sound
                 shutoff_timer:user.settings.shutoff_timer.toint()
                 sleep_timer:user.settings.sleep_timer.toint()
              }
-           
+
     settingss=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
     print "Settings -------------------------"
     print settingss
     m.app.settings=settings
-   
+
     if settingss.sleep_sound="Ocean Waves" then
     'ocean
         m.app.sleepSound=1
@@ -266,7 +266,7 @@ Function login_the_user() as void
     'crickets
         m.app.sleepSound=0
     endif
-    
+
     ' if user is a trial then we show the popup to subscribe or share information on existent account
     if (user.trial)
         print "trial popup"
@@ -275,32 +275,32 @@ Function login_the_user() as void
         endif
     else
         print "subscriber"
-        
+
     endif
-        
+
     m.app.store.GetPurchases()
     m.app.restartGlobalSleepTimer()
-    
+
 End Function
 
 
 Function paint_marketing() as void
-    
+
     print "marketing"
-    
+
     if m.app.trial
         json=m.app.http.getWs("getNews.php?trial=0")
     else
         json=m.app.http.getWs("getNews.php?trial=1")
     endif
     m.app.json=json
-    
+
     items = []
-    
+
     bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:515,w:1280,h:200}}
-    
+
     'items.push({Color: "#343434", TargetRect:{x:0,y:530,w:1280,h:200}})
-    
+
     items.push({text:json.title,
             textAttrs:{HAlign:"left",font:m.app.carouseltitlefont},
            targetRect:{x:100,y:555,w:840,h:50}})
@@ -308,14 +308,14 @@ Function paint_marketing() as void
     items.push({text:json.content,
                 textAttrs:{HAlign:"left",font:m.app.h35},
                targetRect:{x:100,y:610,w:620,h:50}})
-    
+
     items.push({url:json.thumb2,
            targetRect:{x:790,y:575,w:182,h:101}})
 
     items.push({url:json.thumb1,
            targetRect:{x:1000,y:575,w:182,h:101}})
-     
-    m.canvas.setLayer(17, bottombg)       
+
+    m.canvas.setLayer(17, bottombg)
     m.canvas.setLayer(70, items)
 
 End Function
@@ -346,7 +346,7 @@ Function paint_static() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:45,y:28,w:170,h:63}        
+            TargetRect:{x:45,y:28,w:170,h:63}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
@@ -359,7 +359,7 @@ Function paint_static() as void
     'staticStuff.push(logo)
     'newShadow = {url:"pkg:/images/newshadow.png",targetRect:{w:1400,h:50,x:0,y:90}}
     'm.canvas.setLayer(10, newShadow)
-    
+
     'newShadow = {url:"pkg:/images/newshadowinverse.png",targetRect:{w:1400,h:50,x:0,y:500}}
     'm.canvas.setLayer(11, newShadow)
     m.canvas.setLayer(13, bgmenu)
@@ -381,8 +381,8 @@ Function paint_top_menu_selector(topindex=0) as void
     staticStuff=[]
     pos_rings.push({x:425,y:90,w:180,h:2})
     pos_rings.push({x:625,y:90,w:180,h:2})
-    pos_rings.push({x:825,y:90,w:180,h:2}) 
-    
+    pos_rings.push({x:825,y:90,w:180,h:2})
+
     if (m.inTopMenu)
         ring={
             url:"pkg:/images/ring_play_100.png",
@@ -409,7 +409,7 @@ Function paint_top_menu_selector(topindex=0) as void
             targetRect:pos_rings[topindex]
         }
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}        
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
         if (topindex=0)
             sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
@@ -424,9 +424,9 @@ Function paint_top_menu_selector(topindex=0) as void
         m.canvas.setLayer(82, staticStuff)
         m.canvas.setLayer(181,ring)
     endif
-    
-    
-    
+
+
+
 End Function
 
 
@@ -437,7 +437,7 @@ End Function
 Function paint_topphantomlevel_for(moving=false) as void
     m.resetTopPhantomLevel()
     xTopPhantom = 0
-    if (m.currentLevel=2) 
+    if (m.currentLevel=2)
         m.topPhantomLevelPositions={x:45, y: -47, w:269, h: 149}
         m.topPhantomBGPositions={x:45, y: -47, w:269, h: 149}
         m.topPhantomTPositions={x:45, y: 18, w:269, h: 149}
@@ -449,14 +449,14 @@ Function paint_topphantomlevel_for(moving=false) as void
             m.TopPhantomLevelPositions={x:45 + xTopPhantom, y: -47, w:269, h: 149}
             m.TopPhantomBGPositions={x:45 + xTopPhantom, y: -47, w:269, h: 149}
             m.topPhantomTPositions={x:45 + xTopPhantom, y: 18, w:269, h: 149}
-        end for    
+        end for
             m.canvas.setlayer(40, m.topPhantomLevelThumbnails)
             m.canvas.setLayer(41, m.topPhantomLevelBackground)
             m.canvas.setLayer(43, m.topPhantomLevelTitles)
-    end if    
+    end if
 End Function
 
-    
+
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ' paints the 3rd phantom level
@@ -485,7 +485,7 @@ Function paint_phantomlevel_for(moving=false) as void
             m.canvas.setlayer(38, m.phantomLevelThumbnails)
             'm.canvas.setLayer(39, m.phantomLevelBackground)
         endif
-    else if (m.currentLevel=1) 
+    else if (m.currentLevel=1)
         if (m.allData[0].hasVideos) then
             if (NOT moving)
                 if (m.allData[0].hasplaces)
@@ -520,7 +520,7 @@ Function paint_phantomlevel_for(moving=false) as void
             endif
             m.phantomLevelPositions={x:45, y: 421, w:176, h: 98}
             m.phantomBGPositions={x:45, y: 421, w:176, h: 98}
-            
+
             videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
             videoLevelDescriptionPosition={x:460, y: 575, w:630, h: 100}
             singleThumbPosition={x:130, y: 550, w:269, h: 149}
@@ -558,17 +558,17 @@ Function draw_selected(level) as void
     url_rings.push("pkg:/images/ring_level_1_active.png")
     url_rings.push("pkg:/images/ring_level_1_active.png")
     url_rings.push("pkg:/images/ring_level_1_active.png")
-    
+
     pos_rings.push({x:40,y:115,w:280,h:160})
     pos_rings.push({x:40,y:280,w:225,h:130})
     pos_rings.push({x:40,y:418,w:186,h:105})
     pos_rings.push({x:40,y:418,w:186,h:105})
-    
+
     ring={
         url:url_rings[level],
         targetRect:pos_rings[level]
     }
-    
+
     m.canvas.setLayer(29,ring)
 End Function
 
@@ -609,8 +609,8 @@ Function paint_explore() as void
         m.explorePositions = {x:45 + xExplore, y: 120, w:269, h: 149}
         m.exploreBGPositions = {x:45 + xExplore, y: 244, w:269, h: 25}
         m.exploreTPositions = {x:45 + xExplore, y: 196, w:269, h: 125}
-    end for    
-    
+    end for
+
     'exploreTotal = {text: m.exploreData.count(), textAttrs: {font: m.app.h4}, targetRect:}
     m.canvas.setlayer(30, m.exploreThumbnails)
     m.canvas.setlayer(31, m.exploreBackgrounds)
@@ -640,7 +640,7 @@ Function paint_level_for(moving=false) as void
         end for
         m.canvas.setlayer(30, m.levelThumbnails)
         m.canvas.setlayer(31, m.levelBackgrounds)
-        m.canvas.setlayer(32, m.levelTitles)        
+        m.canvas.setlayer(32, m.levelTitles)
     else if (m.allData[0].hassubplaces)
         print "has subplaces"
         if (NOT moving)
@@ -657,7 +657,7 @@ Function paint_level_for(moving=false) as void
         end for
         m.canvas.setlayer(30, m.levelThumbnails)
         m.canvas.setlayer(31, m.levelBackgrounds)
-        m.canvas.setlayer(32, m.levelTitles)   
+        m.canvas.setlayer(32, m.levelTitles)
     else if (m.allData[0].hasvideos)
         print "has videos"
         if (NOT moving)
@@ -676,7 +676,7 @@ Function paint_level_for(moving=false) as void
         end for
         m.canvas.setlayer(30, m.levelThumbnails)
         m.canvas.setlayer(31, m.theDescription)
-        m.canvas.setlayer(32, m.theTitle)   
+        m.canvas.setlayer(32, m.theTitle)
     endif
 End Function
 
@@ -713,8 +713,8 @@ Function paint_sublevel_for(id, moving=false) as void
             end for
             m.canvas.setlayer(33, m.subLevelThumbnails)
             m.canvas.setlayer(34, m.subLevelBackgrounds)
-            m.canvas.setlayer(35, m.subLevelTitles) 
-            m.idPlacesSelected = m.placesArray[0].id       
+            m.canvas.setlayer(35, m.subLevelTitles)
+            m.idPlacesSelected = m.placesArray[0].id
         else if (m.allData[0].hassubplaces)
             total = m.allData[0].totalsubplaces
             print "has subplaces"
@@ -732,7 +732,7 @@ Function paint_sublevel_for(id, moving=false) as void
             end for
             m.canvas.setlayer(33, m.subLevelThumbnails)
             m.canvas.setlayer(34, m.subLevelBackgrounds)
-            m.canvas.setlayer(35, m.subLevelTitles)   
+            m.canvas.setlayer(35, m.subLevelTitles)
             m.idSubPlacesSelected = m.subPlacesArray[0].id
         else if (m.allData[0].hasvideos)
             total = m.allData[0].totalvideos
@@ -751,12 +751,12 @@ Function paint_sublevel_for(id, moving=false) as void
             end if
             i = 0
             m.subLevelPositions={x:45, y: 286, w:215, h: 119}
-            
+
             videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
             videoLevelDescriptionPosition={x:460, y: 580, w:630, h: 100}
             singleThumbPosition={x:130, y: 550, w:269, h: 149}
             titlesingle = []
-            
+
             for each video in m.videosArray
                 if (i<m.videosLimit)
                     m.subLevelThumbnails.push({url: video.thumbnail, targetRect: m.subLevelPositions})
@@ -772,7 +772,7 @@ Function paint_sublevel_for(id, moving=false) as void
                 endif
                 i = i + 1
             end for
-            
+
             m.canvas.setlayer(33, m.subLevelThumbnails)
             if (m.currentLevel=1 AND (m.idExploreSelected="10" OR m.idExploreSelected="2" OR m.idExploreSelected="12"))
                 titlesingle.push(m.theTitle)
@@ -782,7 +782,7 @@ Function paint_sublevel_for(id, moving=false) as void
                 'm.canvas.setlayer(34, m.theDescription)
                 'm.canvas.setlayer(35, m.theTitle)
                 'm.canvas.setlayer(147, phantomSingleThumb)
-            endif   
+            endif
         endif
     else if (m.currentLevel=2 OR m.currentLevel=3)
         if (m.allData[0].hasvideos)
@@ -817,7 +817,7 @@ Function paint_sublevel_for(id, moving=false) as void
             end for
             m.canvas.setlayer(33, m.subLevelThumbnails)
             m.canvas.setlayer(34, m.theDescription)
-            m.canvas.setlayer(35, m.theTitle)   
+            m.canvas.setlayer(35, m.theTitle)
         endif
     endif
 End Function
@@ -838,7 +838,7 @@ Function move_left() as void
                     exploreTemp[i] = m.exploreData[j-1]
                 else
                     exploreTemp[i] = lastElement
-                end if   
+                end if
             end for
             if (m.level1index>1)
                 m.level1index = m.level1index-1
@@ -856,7 +856,7 @@ Function move_left() as void
             else
                 m.resetPhantomLevel()
             endif
-        end if         
+        end if
     else if (m.currentLevel=1)
         if (m.allData[0].hasplaces)
             print "Moving placesArray"
@@ -869,7 +869,7 @@ Function move_left() as void
                         placesTemp[i] = m.placesArray[j-1]
                     else
                         placesTemp[i] = lastElement
-                    end if   
+                    end if
                 end for
                 if (m.level2index>1)
                     m.level2index = m.level2index - 1
@@ -882,7 +882,7 @@ Function move_left() as void
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(false)
-            end if  
+            end if
         else if (m.allData[0].hassubplaces)
             print "Moving subPlacesArray"
             subPlacesTemp = []
@@ -894,7 +894,7 @@ Function move_left() as void
                         subPlacesTemp[i] = m.subPlacesArray[j-1]
                     else
                         subPlacesTemp[i] = lastElement
-                    end if   
+                    end if
                 end for
                 if (m.level2index>1)
                     m.level2index = m.level2index - 1
@@ -906,7 +906,7 @@ Function move_left() as void
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(false)
-            end if  
+            end if
         else if (m.allData[0].hasvideos)
             print "Moving videosArray"
             videosTemp = []
@@ -918,7 +918,7 @@ Function move_left() as void
                         videosTemp[i] = m.videosArray[j-1]
                     else
                         videosTemp[i] = lastElement
-                    end if   
+                    end if
                 end for
                 if (m.level2index>1)
                     m.level2index = m.level2index - 1
@@ -929,7 +929,7 @@ Function move_left() as void
                 m.idVideosSelected = m.videosArray[0].id
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
-            end if 
+            end if
         end if
     else if (m.currentLevel=2)
          if (m.allData[0].hasvideos)
@@ -943,14 +943,14 @@ Function move_left() as void
                         videosTemp[i] = m.videosArray[j-1]
                     else
                         videosTemp[i] = lastElement
-                    end if   
+                    end if
                 end for
                 m.videosArray = []
                 m.videosArray = videosTemp
                 m.idVideosSelected = m.videosArray[0].id
                 'm.paintSubLevelFor(m.idExploreSelected, true)
                 m.paintPhantomLevelFor(true)
-            end if 
+            end if
         end if
     else if (m.currentLevel=3)
         if (m.allData[0].hasvideos)
@@ -964,13 +964,13 @@ Function move_left() as void
                         videosTemp[i] = m.videosArray[j-1]
                     else
                         videosTemp[i] = lastElement
-                    end if   
+                    end if
                 end for
                 m.videosArray = videosTemp
                 m.idVideosSelected = m.videosArray[0].id
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
-            end if 
+            end if
         end if
     end if
 End Function
@@ -990,8 +990,8 @@ Function move_right() as void
                 if (m.exploreData[j+1]<>invalid) then
                     exploreTemp[i] = m.exploreData[j+1]
                 else
-                    exploreTemp[i] = firstElement 
-                end if  
+                    exploreTemp[i] = firstElement
+                end if
             end for
             if (m.level1index<m.exploreData.count())
                 m.level1index = m.level1index+1
@@ -1009,7 +1009,7 @@ Function move_right() as void
             else
                 m.resetPhantomLevel()
             endif
-        end if     
+        end if
     else if (m.currentLevel=1)
         if (m.allData[0].hasplaces)
             print "Moving placesArray"
@@ -1022,7 +1022,7 @@ Function move_right() as void
                         placesTemp[i] = m.placesArray[j+1]
                     else
                         placesTemp[i] = firstElement
-                    end if  
+                    end if
                 end for
                 if (m.level2index<m.placesArray.count())
                     m.level2index = m.level2index + 1
@@ -1037,7 +1037,7 @@ Function move_right() as void
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(false)
-            end if 
+            end if
         else if (m.allData[0].hassubplaces)
             print "Moving subPlacesArray"
             subPlacesTemp = []
@@ -1049,7 +1049,7 @@ Function move_right() as void
                         subPlacesTemp[i] = m.subPlacesArray[j+1]
                     else
                         subPlacesTemp[i] = firstElement
-                    end if  
+                    end if
                 end for
                 if (m.level2index<m.subPlacesArray.count())
                     m.level2index = m.level2index + 1
@@ -1061,7 +1061,7 @@ Function move_right() as void
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(false)
-            end if 
+            end if
         else if (m.allData[0].hasvideos)
             print "Moving videosArray"
             videosTemp = []
@@ -1073,7 +1073,7 @@ Function move_right() as void
                         videosTemp[i] = m.videosArray[j+1]
                     else
                         videosTemp[i] = firstElement
-                    end if  
+                    end if
                 end for
                 if (m.level2index<m.videosArray.count())
                     m.level2index = m.level2index + 1
@@ -1085,7 +1085,7 @@ Function move_right() as void
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 'if (m.currentLevel=2)m.paintPhantomLevelFor(false)
-            end if 
+            end if
         end if
     else if (m.currentLevel=2)
         if (m.allData[0].hasvideos)
@@ -1099,7 +1099,7 @@ Function move_right() as void
                         videosTemp[i] = m.videosArray[j+1]
                     else
                         videosTemp[i] = firstElement
-                    end if  
+                    end if
                 end for
                 m.videosArray = []
                 m.videosArray = videosTemp
@@ -1107,7 +1107,7 @@ Function move_right() as void
                 'm.paintSubLevelFor(m.idExploreSelected, true)
                 'if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(true)
-            end if 
+            end if
         end if
     else if (m.currentLevel=3)
         if (m.allData[0].hasvideos)
@@ -1121,13 +1121,13 @@ Function move_right() as void
                         videosTemp[i] = m.videosArray[j+1]
                     else
                         videosTemp[i] = firstElement
-                    end if  
+                    end if
                 end for
                 m.videosArray = videosTemp
                 m.idVideosSelected = m.videosArray[0].id
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
-            end if 
+            end if
         end if
     end if
 End Function
@@ -1150,14 +1150,14 @@ Function handle_carousel_keys2(index) as void
                     m.drawSelector(m.currentLevel)
                     if (m.currentLevel=1) m.clearBottomShadow()
                     if (m.currentLevel=0) m.clearTopShadow()
-                    
+
                     if (m.currentLevel<2)
                         m.canvas.clearLayer(60)
                         m.canvas.clearLayer(61)
                         m.canvas.clearLayer(62)
                         m.canvas.clearLayer(34)
-                        print "paint marketing here" 
-                        m.paintMarketing()    
+                        print "paint marketing here"
+                        m.paintMarketing()
                     endif
                 else
                     m.inTopMenu = true
@@ -1174,7 +1174,7 @@ Function handle_carousel_keys2(index) as void
                 '        m.paintSubLevelFor(m.idExploreSelected)
                 '        m.paintStatic()
                 'end if
-            endif    
+            endif
         else if (index=3) 'down
             m.inTopMenu = false
             print "explore id"
@@ -1204,13 +1204,13 @@ Function handle_carousel_keys2(index) as void
             '        m.resetPhantomLevel()
             '        m.paintTopPhantomLevelFor()
             '        m.paintLevelFor()
-            '        m.paintSubLevelFor(m.idExploreSelected) 
+            '        m.paintSubLevelFor(m.idExploreSelected)
             '        m.drawSelector(3)
             '        m.currentLevel=3
             '        m.canvas.clearLayer(42)
             '        m.canvas.clearLayer(36)
             'end if
-        end if                    
+        end if
     else if (index=4 or index=5) 'left/right
         if (m.inTopMenu=false)
             if (index=4)
@@ -1222,7 +1222,7 @@ Function handle_carousel_keys2(index) as void
             if (index=4)
                 if (m.topMenuIndex>0)
                     m.topMenuIndex = m.topMenuIndex - 1
-                endif                    
+                endif
             else if (index=5)
                 if (m.topMenuIndex<2)
                     m.topMenuIndex = m.topMenuIndex + 1
@@ -1241,31 +1241,31 @@ Function handle_carousel_keys2(index) as void
             endif
         endif
     else if (index=6 AND m.currentLevel=-1)
-        
+
         if (m.topMenuIndex=1)
             m.clearAll()
-            sm=sectionManager(m.app) 
-            sm.show(sleep_section) 
+            sm=sectionManager(m.app)
+            sm.show(sleep_section)
         else if (m.topMenuIndex=2)
             m.clearAll()
-            sm=sectionManager(m.app) 
+            sm=sectionManager(m.app)
             'm.app.setLogo() ' this sets the logo for the old menu
-            sm.show(setup_section) 
+            sm.show(setup_section)
         endif
-        
+
     else if ((index=6 AND m.currentLevel=3) OR (m.currentLevel=1 AND index=6 AND (m.idExploreSelected="10" OR m.idExploreSelected="2" OR m.idExploreSelected="12")))
         if (NOT m.inTopMenu)
             currentitems=m.videosArray
             playlist=[]
             for each item in currentitems
-                
+
                 if (m.idExploreSelected="10")
                     playitem_url=item.url+"/"+item.filename
                 else
                     playitem_url="http://wpc.B624.edgecastcdn.net/00B624/"+item.video_url
                 endif
-                playitem_url=fixVideoUrl(playitem_url) 
-               
+                playitem_url=fixVideoUrl(playitem_url)
+
                 playlist.push({
                       id:item.id
                       thumbnail:item.thumbnail
@@ -1274,24 +1274,26 @@ Function handle_carousel_keys2(index) as void
                       StreamBitrates:[384, 500, 1000, 15000]
                       StreamQualities:["SD", "SD", "SD","HD"]
                 })
-            
+
             end for
-        
+            m.canvas.clearLayer(178)
+            m.canvas.clearLayer(179)
+            m.canvas.clearLayer(180)
             selected=m.idVideosSelected
             selected = m.videoIndex 'TODO selected as index of array not as id
             m.app.player.previewmode=false
             if(m.app.trial)m.app.player.previewmode=true
             m.app.player.setPlaylist(playlist)
-            m.app.player.setTrack(selected)     
-            m.app.player.play()    
-        endif            
+            m.app.player.setTrack(selected)
+            m.app.player.play()
+        endif
     else if (index=6 AND (m.currentLevel=0 OR m.currentLevel=1 OR m.currentLevel=2))
-        if (NOT m.inTopMenu)            
+        if (NOT m.inTopMenu)
             if (m.idExploreSelected="11")
-                
+
                 ' TODO playlist
-                
-                
+
+
             endif
             if (m.idExploreSelected="10")
                 maxSub = 2
@@ -1301,20 +1303,20 @@ Function handle_carousel_keys2(index) as void
             if (m.currentLevel<maxSub)
                 m.currentLevel = m.currentLevel+1
                 m.drawSelector(m.currentLevel)
-                
+
                 if (m.currentLevel=2)
                     m.resetPhantomLevel()
                     m.paintTopPhantomLevelFor()
                     m.paintLevelFor()
-                    m.paintSubLevelFor(m.idExploreSelected) 
+                    m.paintSubLevelFor(m.idExploreSelected)
                     m.drawSelector(3)
                     m.currentLevel=3
                     m.canvas.clearLayer(42)
                     'm.canvas.clearLayer(36)
                 end if
-                
-            endif            
-       endif 
+
+            endif
+       endif
     else if (index=10) then
        m.app.section.show(playlists_section)
     end if
@@ -1427,7 +1429,7 @@ Function reset_phantom_level() as void
    m.canvas.clearLayer(62)
    m.phantomLevelThumbnails = []
    m.phantomLevelBackground = []
-   m.phantomLevelPositions={x:45, y: 421, w:176, h: 98} 
+   m.phantomLevelPositions={x:45, y: 421, w:176, h: 98}
    m.phantomBGPositions={x:45, y: 421, w:176, h: 98}
 End Function
 
@@ -1438,7 +1440,7 @@ Function reset_topphantom_level() as void
    m.canvas.clearLayer(43)
    m.topPhantomLevelThumbnails = []
    m.topPhantomLevelBackground = []
-   m.topPhantomLevelPositions={x:45, y: -47, w:269, h: 149} 
+   m.topPhantomLevelPositions={x:45, y: -47, w:269, h: 149}
    m.topPhantomBGPositions={x:45, y: -47, w:269, h: 149}
    m.topPhantomTPositions={x:45, y: 18, w:269, h: 149}
 End Function
@@ -1448,8 +1450,8 @@ function player_callback2(params)
     action=params.action
     if(action=1) 'Move Next Video
        m.scrollHorizontal(5)
-    endif   
-   
+    endif
+
 end function
 
 function carousel_scroll_horizontal2(index) as void
@@ -1466,7 +1468,7 @@ end function
 function paint_top_shadow() as void
     shadows = []
     xshadow = 0
-    For i=1 To 5 Step 1 
+    For i=1 To 5 Step 1
         topShadow = {x:331 + xshadow, y:120, w:269, h: 149}
         shadows.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect: topShadow})
         xshadow = xshadow + 286
@@ -1478,7 +1480,7 @@ end function
 function paint_bottom_shadow() as void
     bshadows = []
     xbshadow=0
-    For i=1 To m.placesArray.count()-1 Step 1 
+    For i=1 To m.placesArray.count()-1 Step 1
         bottomShadow = {x:276 + xbshadow, y:286, w:215, h: 119}
         bshadows.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect: bottomShadow})
         xbshadow = xbshadow + 231

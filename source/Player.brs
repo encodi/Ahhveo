@@ -78,11 +78,11 @@ this={
       setupAnimation:setupLoadingAnimation
       updateAnimation:updateLoadingAnimation
      }
-     
- 
+
+
 
 return this
-     
+
 end function
 
 
@@ -92,19 +92,19 @@ end function
 
 Function player_play_video() as Void
 
-    
+
     'Validate the Streaming time
-    'm.app.audio.player.stop()   
+    'm.app.audio.player.stop()
     m.set_exit=false
     m.repeat=false
     m.player.SetMessagePort(m.port)
   '  m.player.SetLoop(true)
     m.player.SetPositionNotificationPeriod(1)
     if (IsHD())
-        m.player.SetDestinationRect({x:0,y:0,w:1280,h:720}) 
+        m.player.SetDestinationRect({x:0,y:0,w:1280,h:720})
         m.player.SetMaxVideoDecodeResolution(1280,720)
     else
-        m.player.SetDestinationRect({x:0,y:0,w:720,h:480}) 
+        m.player.SetDestinationRect({x:0,y:0,w:720,h:480})
         m.player.SetMaxVideoDecodeResolution(1280, 720)
     endif
     m.player.setLoop(true)
@@ -117,37 +117,37 @@ Function player_play_video() as Void
     print theTrack
     print m.playlist[m.track].stream
     m.player.setNext(theTrack)
-    
+
     vid=m.playlist[theTrack].id
-    
+
     ws="logCounterVideos.php?user_id="+m.app.userid+"&video_id="+vid
     r=m.app.http.getWs(ws)
-    
+
     m.temptimer=0
     m.player.Play()
     m.eventLoop()
-    
+
 End Function
 
 
 
 function player_finish() as void
-    m.set_exit=true        
+    m.set_exit=true
 end function
 
 function player_shutoff() as void
-       
+
        m.stop()
        m.finish()
        m.app.menu.inMain=true
        m.app.menu.render(0)
        m.app.inNews=true
-       m.app.section.show(home_section)
+       m.app.section.show(places_section)
        m.app.menu.inMain=true
        m.app.menu.position=0
        m.app.menu.drawLineReference()
        m.isShop=false
-       
+
        'Reset The app
 '       RunUserInterface()
 end function
@@ -179,6 +179,32 @@ m.canvas.clearLayer(114)
 
 m.hideMenu()
 
+staticStuff=[]
+if (IsHD())
+    logo={
+        url:"pkg:/images/logo.png",
+        TargetRect:{x:40,y:20,w:283,h:85}
+    }
+    bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
+    exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+    sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+    setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+else
+    logo={
+        url:"pkg:/images/logo.png",
+        TargetRect:{x:40,y:20,w:283,h:85}
+    }
+    bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
+    exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+    sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+    setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+endif
+staticStuff.push(exploremenu)
+staticStuff.push(sleepmenu)
+staticStuff.push(setupmenu)
+m.canvas.setLayer(178, bgmenu)
+m.canvas.setLayer(179, staticStuff)
+m.canvas.setLayer(180, logo)
 
 
 if(type(m.onStop)="roFunction")m.onStop()
@@ -219,8 +245,8 @@ function player_set_favorite() as void
 
     endif
 
-    
-    
+
+
 end function
 
 
@@ -258,7 +284,7 @@ function player_draw_thumb() as void
         '              targetRect:{x:positions[m.menuselected].x-13,y:positions[m.menuselected].y,w:125,h:75}
         '       }
         'endif
-        
+
         '''''''''''''''''''''''''''''''''''''''''m.app.size.center_x_full
         if (IsHD())
             thumb={url:m.playlist[c_track].thumbnail,
@@ -270,14 +296,14 @@ function player_draw_thumb() as void
                }
         endif
         '''''''''''''''''''''''''''''''''''''''''
-        
+
         m.canvas.setLayer(113,thumb)
 
 end function
 
 
 function player_show_up() as void
-    
+
 
     if(m.playing=false or m.showingup)return
     up={url:"pkg:/images/show.png",targetRect:{x:m.app.size.center_x_full,y:m.app.size.h-m.app.edge_top-35,w:36,h:35}}
@@ -295,9 +321,9 @@ function player_is_favorite() as boolean
 
 
    exists=false
-   
+
    for each v in favorites
-        
+
         if v=id
             exists=true
             exit for
@@ -315,7 +341,7 @@ function player_set_sleep() as void
             m.set_sleep=false
      else
             m.startSleepTimer()
-            m.set_sleep=true            
+            m.set_sleep=true
      endif
 end function
 
@@ -324,13 +350,13 @@ function start_audio_player() as void
     m.app.showScreensaver()
     m.app.sleeping=true
     'while m.app.sleeping
-        if m.app.sleeping=false 
+        if m.app.sleeping=false
             'exit while
         endif
         dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=screensaver")
         if m.app.sleepSound=1 then
         'ocean
-            m.app.randomizeScreensaver("screensaver_logo_ocean.png")    
+            m.app.randomizeScreensaver("screensaver_logo_ocean.png")
         else if m.app.sleepsound=2 then
         'frogs
             m.app.randomizeScreensaver("screensaver_logo_frogs.png")
@@ -347,7 +373,7 @@ function start_audio_player() as void
         'sleepy thunder
           m.app.randomizeScreensaver("screensaver_logo_sleepy_thunder.png")
         endif
-    'end while 
+    'end while
     m.app.audio.play(m.app.settings.sleep_sound,"sleep.wma")
 end function
 
@@ -355,10 +381,10 @@ end function
 
 function player_start_sleep() as void
     m.stop()
-    m.Finish()    
-      
+    m.Finish()
+
     m.startSleepTimer()
-    m.set_sleep=true     
+    m.set_sleep=true
     m.startAudioPlayer()
 end function
 
@@ -367,7 +393,7 @@ end function
 function player_start_sleep_timer() as void
 
     m.last_time_sleep=m.timer.TotalMilliseconds()+m.app.settings.sleep_timer
-        
+
 end function
 
 
@@ -385,7 +411,7 @@ function player_draw_menu() as void
     'if(m.previewmode and m.isshop)return
 
     selected=m.menuselected
-    
+
      if IsHD()
         x_=Fix((m.app.size.w/2)-420)
         top=Fix(m.app.size.h-140)
@@ -393,7 +419,7 @@ function player_draw_menu() as void
         x_=Fix((m.app.size.w/2)-236)
         top=Fix(m.app.size.h-93)
      endif
-     
+
      positions=[]
      for i=0 to 5
      if (IsHD())
@@ -403,12 +429,12 @@ function player_draw_menu() as void
         positions[i]={x:x_,y:top,w:60,h:60}
         x_=x_+90
      endif
-     
+
      end for
-     
-     
-    items=[]    
-     
+
+
+    items=[]
+
      if IsHD()
         items.push({url:"pkg:/images/hide.png"
                  targetRect:{x:m.app.size.center_x_full,y:positions[0].y-35,w:36,h:35}
@@ -418,64 +444,64 @@ function player_draw_menu() as void
                  targetRect:{x:m.app.size.center_x_full,y:positions[0].y-23,w:20,h:23}
                 })
      endif
-     
-     
-     
+
+
+
      repeat_image="pkg:/images/repeat.png"
          if(m.repeat)repeat_image="pkg:/images/repeat_active.png"
-          
-         
-         
+
+
+
     sleep_image="pkg:/images/sleep.png"
         if(m.set_sleep)sleep_image="pkg:/images/sleep_active.png"
 
     items.push({url:sleep_image
                 targetRect:positions[0]})
-   
-    
+
+
     repeat={url:repeat_image,
                targetRect:positions[1]
-               }                
-             
-             
+               }
+
+
     playpause_image="pkg:/images/pause.png"
         if(m.paused)
-             playpause_image="pkg:/images/play.png"   
+             playpause_image="pkg:/images/play.png"
         end if
     playpause={url:playpause_image,
                targetRect:positions[2]
                }
-                
+
     items.Push({url:"pkg:/images/nextvideo.png"
                 targetRect:positions[3]})
-                
-                
+
+
     favorite_image="pkg:/images/favorites.png"
     if(m.isFavorite())favorite_image="pkg:/images/favorites_filled.png"
     items.Push({url:favorite_image
                 targetRect:positions[4]})
-                
+
     items.Push({url:"pkg:/images/mainmenu.png"
                 targetRect:positions[5]})
 
     ring={url:"pkg:/images/ringplayer.png"
           targetRect:positions[selected]
            }
-           
-               
+
+
     ' if(m.menuselected=3)
-                
-                
+
+
     '            ring={url:"pkg:/images/ringplayer.png"
     '                  targetRect:positions[m.menuselected]
    '                   }
-    
+
    ' end if
-                                
+
   '  m.menuselected=2
     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=playing_video")
-                
-    m.menupositions=positions                      
+
+    m.menupositions=positions
     m.canvas.setLayer(109,items)
     m.canvas.setLayer(110,playpause)
     m.canvas.setLayer(111,repeat)
@@ -507,7 +533,7 @@ function restart_last_time_off() as void
 
     m.last_time_off=m.timer.TotalMilliseconds()+m.app.settings.shutoff_timer
     print m.last_time_off
-    
+
 end function
 
 
@@ -542,39 +568,39 @@ end function
 
 
 Sub EventLoop()
-        
-    
-        
+
+
+
     while true
         msg = wait(450, m.port)
-                
-                
+
+
                 'Force to stop all, clear and exit while when some special case for example
                 'Shutoff timer, Sleep timer or Streaming time off
-                
-                
+
+
                 if(m.set_exit)
                     m.stop()
-                    if (m.previewmode=false) 
+                    if (m.previewmode=false)
                         m.finish()
                     else
                         m.app.goHome()
                     endif
                     exit while
                 endif
-                                                          
-        if msg <> invalid       
+
+        if msg <> invalid
             'If this is a startup progress status message, record progress
             'and update the UI accordingly:
-                 'print msg.isFullResult()     
-                   
+                 'print msg.isFullResult()
+
             if msg.isStatusMessage() and msg.GetMessage() = "startup progress"
                 m.paused = false
                 progress% = msg.GetIndex() / 10
                 if m.progress <> progress%
                     m.progress = progress%
                     m.paint()
-                else 
+                else
                     'm.hideThumb()
                 end if
 
@@ -589,38 +615,38 @@ Sub EventLoop()
             'If the <UP> key is pressed, jump out of this context:
             else if msg.isRemoteKeyPressed()
                         if(m.app.deviceinfo.getLinkStatus()=false) m.app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
-                        
+
                         index = msg.GetIndex()
-                        
+
                         if m.app.sleeping=true and index<>32
                             m.app.sleeping=false
                             m.set_sleep=false
                             m.app.hideScreenSaver()
                         endif
-                        
-                                      
-                        'if(index=0)    
-            
+
+
+                        'if(index=0)
+
                                         if index=0  '<BACK> or ShutoffTimer was done
                                             m.stop()
-                                            
+
                                             'm.app.audio.play(m.app.settings.sleep_sound,"sleep.wma")
                                             'm.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
                                             exit while
                                         else if index = 3 '<DOWN>
-                                            m.hideMenu()            
+                                            m.hideMenu()
                                         else if index=4 or index=5 '<LEFT> or <RIGHT>
                                                     'm.hideThumb()
                                                     if(m.menulocked=false)
                                                             if(index=4)     '<LEFT>'
                                                                  m.movePrevMenu()
                                                             else if index=5 '<RIGHT>
-                                                                 m.moveNextMenu() 
+                                                                 m.moveNextMenu()
                                                             endif
                                                             m.drawMenu()
-                                                   endif          
+                                                   endif
                                         else if index=6 or index=13 or index=7 'OK or Play/Pause
-                                            
+
                                                 'Repeat remote Pressed
                                                 if(index=7)
                                                      m.stop()
@@ -628,10 +654,10 @@ Sub EventLoop()
                                                      'm.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
                                                      exit while
                                                      ' if(m.menulocked=false)
-                                                     '     if m.repeat=false m.repeat=true else m.repeat=false                                                    
-                                                     ' end if               
+                                                     '     if m.repeat=false m.repeat=true else m.repeat=false
+                                                     ' end if
                                                 'Play/Pause button pressed
-                                                else if(index=13)                             
+                                                else if(index=13)
                                                     if(m.playing)
                                                             if m.paused then
                                                                 m.player.Resume()
@@ -639,15 +665,15 @@ Sub EventLoop()
                                                                 m.set_sleep=false
                                                                 m.app.sleeping=false
                                                                 m.menulocked=false
-                                                            else 
+                                                            else
                                                                 m.player.Pause()
                                                                 rs=m.app.http.getWs("logSleepUse.php?user_id="+m.app.userid)
                                                                 m.setSleep()
                                                                 m.menulocked=false
-                                                            endif                                                                                                                         
+                                                            endif
                                                     end if
-                                                else if(m.menulocked=false)                                
-                                                                mselected=m.menuselected                                                                
+                                                else if(m.menulocked=false)
+                                                                mselected=m.menuselected
                                                                 if(mselected=5) 'Back to Menu Button Pressed
                                                                     m.stop()
                                                                     'm.app.audio.play(m.app.settings.sleep_sound,"sleep.wma")
@@ -658,18 +684,18 @@ Sub EventLoop()
                                                                         m.counter=0
                                                                         m.temptimer=0
                                                                     endif
-                                                                    m.nextTrack()                        
+                                                                    m.nextTrack()
                                                                 else if mselected=2 'Play/Pause Button Pressed
                                                                         positions=m.menupositions
-                                                                        if m.paused                                                         
-                                                                            m.player.Resume() 
+                                                                        if m.paused
+                                                                            m.player.Resume()
                                                                             m.restartLastTimeOff()
                                                                             m.set_sleep=false
                                                                             m.app.sleeping=false
-                                                                        else 
+                                                                        else
                                                                             m.player.Pause()
                                                                             m.setSleep()
-                                                                        endif                                                                                                                         
+                                                                        endif
                                                                 else if mselected=1  'Repeat Button
                                                                         positions=m.menupositions
                                                                         if (m.app.trial=false and m.isshop=false)
@@ -682,14 +708,14 @@ Sub EventLoop()
                                                                             m.setSleep()
                                                                         endif
                                                                 else if mselected=4
-                                                                        if (m.app.trial=false and m.isshop=false) 
+                                                                        if (m.app.trial=false and m.isshop=false)
                                                                             print "can set favorite"
                                                                             m.setFavorite()
                                                                         endif
                                                                 endif
-                                                                m.drawMenu()                                                                                              
+                                                                m.drawMenu()
                                                  endif
-            
+
                                                                        '<FWD> <REV> buttons
                                                                        '     else if index = 8  '<REV>
                                                                        '         m.position = m.position - 20
@@ -697,26 +723,26 @@ Sub EventLoop()
                                                                        '     else if index = 9  '<FWD>
                                                                        '         m.position = m.position + 20
                                                                        '         m.player.Seek(m.position * 1000)
-             
+
                                         end if
-                                        
-                                        
+
+
                                   '      if index=2 or index=3 or index=4 or index=5 or index=6 or index=13 or index=7  'Show Menu In Each Case
-                                        
+
                                         if(index=2 or index=6) 'Show Menu if the <UP> or <OK> buttons are pressed
                                               if(m.playing)
                                                   m.drawMenu()
                                                   m.menulocked=false
                                               endif
                                         end if
-                                        
+
                         'else
                         '           m.stop()
-                        '           exit while             
+                        '           exit while
                         'endif 'End if preview mode
-                        
-                        
-                        
+
+
+
             else if msg.isPaused()
                 m.paused = true
                 m.paint()
@@ -727,45 +753,45 @@ Sub EventLoop()
                 m.paint()
                 m.drawMenu()
             else if msg.isFullResult()  'getMessage()="Playback stopped" 'HANDLING THE REPEAT FUNCTION
-            
+
             end if
-            
-            
-            
-            
-            
+
+
+
+
+
             'Output events for debug
         end if
-        
+
 
       if(m.last_time_menu<>0)
                 if m.timer.TotalMilliseconds() > m.last_time_menu then
-                    if(m.paused) 
+                    if(m.paused)
                         m.hideMenu(2)
-                    else 
+                    else
                         m.hideMenu()
                     endif
                     m.last_time_menu=0
                 end if
       endif
-       
+
       if(m.last_time_up<>0)
                 if m.timer.TotalMilliseconds() > m.last_time_up then
                     m.hideUp()
                     m.last_time_up=0
                 end if
       endif
-       
+
       if(m.set_sleep and m.last_time_sleep<>0 and m.previewmode=false)
-                
+
                 if(m.timer.TotalMilliseconds()>m.last_time_sleep)
                     m.startSleep()
                     if (m.timer.TotalMilliseconds() MOD 15=0)m.app.ticklesmall()
                     m.last_time_sleep=0
-                    
+
                 endif
-      endif     
-       
+      endif
+
       if(m.app.timeover and m.last_time_trial<>0 and m.previewmode=false)
                 if(m.timer.TotalMilliseconds()>m.last_time_trial)
                     m.player.stop()
@@ -776,11 +802,11 @@ Sub EventLoop()
                     m.last_time_trial=0
                     exit while
                 endif
-      endif   
-       
-       
+      endif
+
+
       if(m.last_time_off<>0 and m.previewmode=false and m.set_sleep=false)
-                'print m.timer.TotalMilliseconds() 
+                'print m.timer.TotalMilliseconds()
                 'print " > "
                 'print m.last_time_off
                 if m.timer.TotalMilliseconds() > m.last_time_off then
@@ -791,12 +817,12 @@ Sub EventLoop()
                     m.last_time_off=0
                 end if
        endif
-                     
+
     end while
-    
-    
-    
-    
+
+
+
+
 End Sub
 
 
@@ -808,8 +834,8 @@ function player_on_playback_position(index) as void
     'Increment the counter
     m.countertrial=m.countertrial+1000
     m.counter=m.counter+1000
-    if (m.app.trial or m.isShop) 
-        m.previewmode=true 
+    if (m.app.trial or m.isShop)
+        m.previewmode=true
     else
         m.previewmode=false
     endif' if user is trial start the previewmode
@@ -818,45 +844,45 @@ function player_on_playback_position(index) as void
     endif
     'When playing in preview mode don�t log the streaming time
     if (m.temptimer>=2400000) '40min 24000000 'now set at 30min to test
-        
-        
+
+
         m.temptimer=0
-        m.counter=0   
+        m.counter=0
         'if(m.useraction=false)
-      
-                track=m.track                                        
+
+                track=m.track
                 if(m.repeat)
-                    
+
                     m.player.stop()
                     'm.player.setNext(track)
                     m.player.SetContentList(m.playlist)
                     m.player.SetNext(track)
                     m.player.Play()
-                    
+
                 else
-                    
+
    '             'does nothing
-   '                 'm.ntrack=track+1        
+   '                 'm.ntrack=track+1
    '                 'if(m.ntrack>last_track)
     '                '    m.ntrack=0
-    '                'endif                      
+    '                'endif
     '                'm.track=m.track
                 end if
         'endif
-      
+
         m.useraction=false ' this is false when the user hasnt pressed anything
     'else if (m.temptimer>=m.app.globalvideotimer)
     '                m.player.stop()
     '                m.player.SetContentList(m.playlist)
-    '                if (m.repeat) 
+    '                if (m.repeat)
                         'm.player.SetNext(track+1)
                      'endif
     '                m.player.Play()
     endif
-    
+
     '' need an else on all the other elements
-    
-    
+
+
     if(m.previewmode)
         print "got on preview mode"
         m.app.globaltrialtime = m.app.globaltrialtime - 1000
@@ -868,26 +894,26 @@ function player_on_playback_position(index) as void
             ws="logStreamingTime.php?user_id="+m.app.userid+"&video_id="+video_id+"&time_watched=10000"
             r=m.app.http.getWs(ws)
             if(type(r)<>"roInvalid")
-                
-            end if 
+
+            end if
         end if
         if m.app.globaltrialtime>5000
             if(m.counter>=m.previewtime)
                 m.counter=0
                 m.temptimer=0
-                if (m.isShop) 
+                if (m.isShop)
                     m.nextTrack()
                     print "nextTrack()"
                     return
-                endif  
+                endif
                 m.stop()
                 m.finish()
                 if m.app.trial
                     ws="getPopup.php?id=12"
                     popup=m.app.http.getWs(ws)
-            
+
                     r=m.app.dialog.confirm2(popup[0].content,[popup[0].option_1,popup[0].option_2])
-                    
+
                     if r then
                        m.app.istrial()
                       'ws="getPopup.php?id=1"
@@ -900,7 +926,7 @@ function player_on_playback_position(index) as void
                       '      m.app.subscribe(2)
                       '    else if r2=0
                       '      m.app.subscribe(1)
-                      '    endif    
+                      '    endif
                     else
                         m.app.forceSection()
                         return
@@ -910,19 +936,19 @@ function player_on_playback_position(index) as void
         else
             m.counter=0
             m.temptimer=0
-            if (m.isShop) 
+            if (m.isShop)
                 m.nextTrack()
                 return
-            endif  
+            endif
             print "error 2"
             m.stop()
             m.finish()
             if m.app.trial
                 ws="getPopup.php?id=12"
                 popup=m.app.http.getWs(ws)
-        
+
                 r=m.app.dialog.confirm2(popup[0].content,[popup[0].option_1,popup[0].option_2])
-                
+
                 if r then
                     m.app.istrial()
                   'ws="getPopup.php?id=1"
@@ -935,7 +961,7 @@ function player_on_playback_position(index) as void
                   '      m.app.subscribe(2)
                   '    else if r2=0
                   '      m.app.subscribe(1)
-                  '    endif    
+                  '    endif
                 else
                     m.app.forceSection()
                     return
@@ -944,10 +970,10 @@ function player_on_playback_position(index) as void
         endif
         return
     endif
-    
-    
-    
-    
+
+
+
+
     if(m.app.trial)
         if(m.counter>=m.firsttrialtime)
             m.counter=0
@@ -968,36 +994,36 @@ function player_on_playback_position(index) as void
             '                  else
             '                    m.app.goHome()
             '                  endif
-        else 
+        else
             print "was in here?"
             print m.counter
             if(m.counter>=m.send_time_interval)
-                
+
                 m.counter=0
                 video_id=m.playlist[m.track].id
                 print "never here in trial?"
                 ws="setStreamingTime.php?user_id="+m.app.userid+"&video_id="+video_id+"&time_watched=10000"
-                
+
                 r=m.app.http.getWs(ws)
                 if(type(r)<>"roInvalid")
                         if(r.available_time<=0)
                             m.previewmode=true
                             return
-                        endif            
-                end if 
-            endif   
+                        endif
+                end if
+            endif
         endif
         return
-    endif    
-    
-    
-    
+    endif
+
+
+
     if(m.counter>=m.send_time_interval)
         m.counter=0
         video_id=m.playlist[m.track].id
         'print "never here?"
         ws="setStreamingTime.php?user_id="+m.app.userid+"&video_id="+video_id+"&time_watched=10000"
-        
+
         r=m.app.http.getWs(ws)
         'print type(r)
         if(type(r)<>"roInvalid")
@@ -1007,25 +1033,25 @@ function player_on_playback_position(index) as void
                      m.finish()
                      print "on this finish"
                      m.stop()
-    
-                            
-                              
-                                 m.app.onTimeOver()                            
-                            
-                                 
+
+
+
+                                 m.app.onTimeOver()
+
+
                                  'resp=m.app.dialog.confirm(message)
                                  'if(resp)
                                  '     m.app.section.show(settings_section)
                                  'endif
-                    
-                    
-                else   
+
+
+                else
                     print "failed here"
-                endif 
+                endif
         else
-            print "error on this zone"           
-        end if       
-    endif 
+            print "error on this zone"
+        end if
+    endif
 end function
 
 
@@ -1077,10 +1103,10 @@ function player_next_track() as void
         else
             print "next track"
             m.ntrack=track+1
-        endif       
+        endif
         playlist=m.playlist
         totalplaylist=playlist.count()-1
-        print m.ntrack       
+        print m.ntrack
         print totalplaylist
         if(m.ntrack>totalplaylist and m.isShop=false)
             m.ntrack=0
@@ -1090,9 +1116,9 @@ function player_next_track() as void
             if m.app.trial
                 ws="getPopup.php?id=12"
                 popup=m.app.http.getWs(ws)
-        
+
                 r=m.app.dialog.confirm2(popup[0].content,[popup[0].option_1,popup[0].option_2])
-                
+
                 if r then
                     m.app.istrial()
                   'ws="getPopup.php?id=1"
@@ -1105,7 +1131,7 @@ function player_next_track() as void
                   '      m.app.subscribe(2)
                   '    else if r2=0
                   '      m.app.subscribe(1)
-                  '    endif    
+                  '    endif
                 else
                     m.app.forceSection()
                     return
@@ -1113,7 +1139,7 @@ function player_next_track() as void
             endif
             return
         endif
-                
+
         m.track=m.ntrack
         params={action:1}
         m.playerListener.playerCallback(params)
@@ -1132,13 +1158,13 @@ function setupLoadingAnimation() as object
     'm.drawThumb()
     m.animation=[{url:"pkg:/images/frame_000.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_001.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
-                      {url:"pkg:/images/frame_002.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},  
+                      {url:"pkg:/images/frame_002.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_003.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_004.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_005.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_006.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}},
                       {url:"pkg:/images/frame_007.gif",compositionMode:"Source_Over",targetrect:{x:m.app.size.center_x_full-7,y:260,w:64,h:64}}]
-       
+
 end function
 
 function updateLoadingAnimation() as void
@@ -1148,7 +1174,7 @@ function updateLoadingAnimation() as void
         m.animateIndex=0
     endif
    m.canvas.SetLayer(121,m.animation[m.animateIndex])
-    
+
 end function
 
 
@@ -1168,9 +1194,9 @@ Sub PaintFullscreenCanvas()
             Text: "Buffering video..." '+ m.progress.tostr() + "%"
             TextAttrs: { font: m.app.h4 }
             TargetRect: m.layout.full
-        })   
-        
-        
+        })
+
+
         'list.Push({url:"pkg:/images/loading.gif",targetRect:{x:m.app.size.center_x_full,y:200,w:128,h:128}})
     else if m.paused
         color = "#80000000" 'semi-transparent black
@@ -1185,11 +1211,11 @@ Sub PaintFullscreenCanvas()
         if(m.playing=false)
             m.drawMenu()
             m.playing=true
-            
+
                 if(m.app.timeover and m.app.trial=false)
                         m.startTrialTimer()
                 endif
-                        
+
             m.restartLastTimeOff()
             m.menulocked=false
         endif
@@ -1213,7 +1239,7 @@ Sub SetupFramedCanvas()
             TargetRect: m.layout.top
             TextAttrs: { valign: "bottom", font: m.headerfont, color: m.textcolor }
         },
-      
+
     ])
     m.paint()
     m.canvas.AllowUpdates(true)
@@ -1257,5 +1283,3 @@ Sub PaintFramedCanvas()
     end if
     m.canvas.SetLayer(106, list)
 End Sub
-
-

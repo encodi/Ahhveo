@@ -40,6 +40,7 @@ this={
      scrollingFocused:scrolling_focused
      globalvideotime:5
      autoshutoff:0.5
+     page:1
      faqpage:0
      pppage:0
      }
@@ -303,16 +304,23 @@ function paint_faq(page=0) as void
         faqcontent = []
         separation = 0
         specialy = 0
-        actualpage = page
-        totalpages = faq.content.count()-1
+        actualpage = m.page
+        totalpages = faq.content.count()-4
         For i=0 To faq.content.count()-1
             content.push(strReplace(faq.content[i],"\n",""))
         End For
         if (type(content[page+1])<>"Invalid")
-          faqcontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200,h:500}})
+          if (m.page>1)
+            specialy = -30
+          endif
+          faqcontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
           separation = separation + 600
-          faqcontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200,h:500}})
-          faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          faqcontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
+          if (m.inFaqFocus)
+            faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFF55", font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          else
+            faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFFFF", font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          endif
           m.canvas.setLayer(400, faqcontent)
         endif
     endif
@@ -340,7 +348,9 @@ function paint_hints() as void
             hintscontent.push({text:content[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
             separation = separation + 600
         End For
-        hintscontent.push({text:"Page "+actualpage.toStr()+" of "+totalpages.toStr(),textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+        if (totalpages>1)
+          hintscontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+        endif
         m.canvas.setLayer(400, hintscontent)
     endif
 
@@ -420,7 +430,7 @@ function paint_artist() as void
 End function
 
 
-function paint_policy_terms() as void
+function paint_policy_terms(page=0) as void
     if (m.app.trial)
         privacy=m.app.http.getWs("getTerms.php?tostype=7")
         terms.content[0] = " "
@@ -436,9 +446,7 @@ function paint_policy_terms() as void
         datacontent = []
         separation = 0
         specialy = 0
-        actualpage = 1
-        print type(terms)
-        print terms
+        actualpage = m.page
         if (terms.content[0]=" ")
             content = []
             totalpages = privacy.content.count() - 1
@@ -456,13 +464,24 @@ function paint_policy_terms() as void
                 content.push(strReplace(terms.content[i],"\n",""))
             endfor
         endif
-        For i=0 To content.count()-1
-            'content.push(strReplace(privacy.content[i],"\n",""))
-            datacontent.push({text:content[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-            separation = separation + 600
-        End For
-        datacontent.push({text:"Page "+actualpage.toStr()+" of "+totalpages.toStr(),textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-        m.canvas.setLayer(400, datacontent)
+        totalpages = totalpages - 13
+        if (type(content[page+1])<>"Invalid")
+          'For i=0 To content.count()-1
+              'content.push(strReplace(privacy.content[i],"\n",""))
+              if (page>1)
+                specialy = -30
+              endif
+              datacontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
+              separation = separation + 600
+              datacontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
+          'End For
+          if (m.inPolicyFocus)
+            datacontent.push({text:"Page < "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFF55",font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          else
+            datacontent.push({text:"Page < "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFFFF",font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+          endif
+          m.canvas.setLayer(400, datacontent)
+        endif
     endif
 
 end function
@@ -542,8 +561,19 @@ function setup_remote_callback(index) as void
         else if (m.inFaqFocus)
             if (m.faqpage>0)
               m.faqpage = m.faqpage - 2
+              if (m.page>0)
+                m.page = m.page - 1
+              endif
               m.paintFaq(m.faqpage)
             endif
+        else if (m.inPolicyFocus)
+          if (m.pppage>0)
+            m.pppage = m.pppage - 2
+            if (m.page>0)
+              m.page = m.page - 1
+            endif
+            m.paintPolicyTerms(m.pppage)
+          endif
         endif
     else if (index=5) then ' right
         if (m.topMenuIndex<2 AND m.inTopMenu)
@@ -562,8 +592,19 @@ function setup_remote_callback(index) as void
         else if (m.inFaqFocus)
             if (m.faqpage<40)
               m.faqpage = m.faqpage + 2
+              if (m.page<40)
+                m.page = m.page + 1
+              endif
               m.paintFaq(m.faqpage)
             endif
+        else if (m.inPolicyFocus)
+          if (m.pppage<40)
+            m.pppage = m.pppage + 2
+            if (m.page<40)
+              m.page = m.page + 1
+            endif
+            m.paintPolicyTerms(m.pppage)
+          endif
         endif
     else if (index=6) then
         if (m.subTopMenuIndex=0)
@@ -585,11 +626,23 @@ function setup_remote_callback(index) as void
         else if (m.subTopMenuIndex=3) ' FAQ focus
           if (m.inFaqFocus)
             m.inFaqFocus=false
+            m.page=1
             m.inSubTopMenu=true
           else
             m.inFaqFocus=true
             m.inSubTopMenu=false
           endif
+          m.paintFaq(m.page)
+        else if (m.subTopMenuIndex=4) ' policy
+          if (m.inPolicyFocus)
+            m.inPolicyFocus=false
+            m.page=1
+            m.inSubTopMenu=true
+          else
+            m.inPolicyFocus=true
+            m.inSubTopMenu=false
+          endif
+          m.paintPolicyTerms(m.page)
         endif
 
     else if (index=7) then
@@ -605,6 +658,7 @@ function clear_setup() as void
     'm.canvas.clearLayer(36)
     m.canvas.clearLayer(201)
     m.canvas.clearLayer(401)
+    m.canvas.clearLayer(170)
     m.canvas.clearLayer(178)
     m.canvas.clearLayer(42)
     m.canvas.clearLayer(400)
