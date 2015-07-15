@@ -1894,7 +1894,7 @@ function sleep_remote_callback(index) as void
 
         else if (m.inDarkScreenSelector)
 
-            m.paintSleepTimeDuration("No", true)
+            m.paintSleepTimeDuration("No", true, true)
             m.inDarkScreenSelector = false
             m.inSaveButton1 = true
             m.paintSaveButton1("Active")
@@ -1903,6 +1903,7 @@ function sleep_remote_callback(index) as void
 
             'paint mkt
             'm.paintSleepMarketing()
+            m.sleepStartMessage()
 
             ' saves info in database then moves to next main selector
             m.saveSettings()
@@ -1938,12 +1939,13 @@ function sleep_remote_callback(index) as void
             m.inDarkScreenAudioSelect = false
             m.inPreviewSound = true
             m.previewsoundtext(true)
-            'play sound and show text of slection on next click
+            'play sound and show text of selection on next click
             DownloadFile("http://ahhveo.com/_dev/sounds/previews/"+m.selectedAlarmSoundIndex.preview,"sleep.mp3")
             m.app.audio.play("http://ahhveo.com/_dev/sounds/previews/"+m.selectedAlarmSoundIndex.preview,"sleep.mp3")
             m.previewsoundtext(false)
         else if (m.inPreviewSound)
             m.audioTimerIndex = 0
+            m.clearSleepStartMessage()
             'm.inDarkScreenAudioSelect = false
             m.app.audio.stop()
             m.inPreviewSound = false
@@ -1974,7 +1976,7 @@ function sleep_remote_callback(index) as void
         else if (m.inSaveButton2)
             'paint mkt
             'm.paintSleepMarketing()
-
+            m.sleepStartMessage()
             m.inSaveButton2 = false
             m.inStep = 2
             'clear section and paint first next one
@@ -2007,7 +2009,7 @@ function sleep_remote_callback(index) as void
             'm.resetButton()
         else if (m.inAlarmQuestion1)
             m.inAlarmQuestion1 = false
-
+            m.clearSleepStartMessage()
             if (m.alarmAnswer1="Yes")
                 ' we paint next question
                 m.inAlarmQuestion2 = true
