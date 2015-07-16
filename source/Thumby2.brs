@@ -171,18 +171,44 @@ Function initThumby2() as void
     m.currentLevel=0
     m.getExploreData()
     m.paintExplore()
-    'm.paintStatic()
+    m.paintStatic()
     m.loginahhveo()
     if (m.app.loggedflag=true)
         print "paint marketing at init"
         m.paintMarketing()
+        m.inTopMenu = true
+        m.currentLevel=-1
+        m.canvas.clearLayer(29)
+        m.canvas.clearLayer(33)
+        m.clearTopShadow()
+        m.topMenuIndex = 0
+        m.paintTopMenuSelector(0)
         m.drawSelector(m.currentLevel)
         m.idExploreSelected = m.exploreData[0].id
+        print "EXPLORE ID"
+        print m.idExploreSelected
         m.getDataFor(m.idExploreSelected)
         m.paintSubLevelFor(m.idExploreSelected)
+        m.paintPhantomLevelFor(false)
     else
-        sm = sectionManager(m.app)
-        sm.show(sleep_section)
+        print "paint marketing at init"
+        m.paintMarketing()
+        m.inTopMenu = true
+        m.currentLevel=-1
+        m.canvas.clearLayer(29)
+        m.canvas.clearLayer(33)
+        m.clearTopShadow()
+        m.topMenuIndex = 0
+        m.paintTopMenuSelector(0)
+        m.drawSelector(m.currentLevel)
+        m.idExploreSelected = m.exploreData[0].id
+        print "EXPLORE ID"
+        print m.idExploreSelected
+        m.getDataFor(m.idExploreSelected)
+        m.paintSubLevelFor(m.idExploreSelected)
+        m.paintPhantomLevelFor(false)
+        'sm = sectionManager(m.app)
+        'sm.show(places_section)
     endif
 End Function
 
@@ -337,38 +363,48 @@ Function paint_static() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:45,y:28,w:170,h:63}
+            TargetRect:{x:40,y:20,w:283,h:85}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
-        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
+        newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
+        newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
+        'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:45,y:28,w:170,h:63}
+            TargetRect:{x:40,y:20,w:283,h:85}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
-        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
+        newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
+        newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
+        'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
     endif
     '#9da2a6
-    m.app.canvas.clearLayer(52)
-    m.app.canvas.clearLayer(53)
-    'staticStuff.push(logo)
-    'newShadow = {url:"pkg:/images/newshadow.png",targetRect:{w:1400,h:50,x:0,y:90}}
-    'm.canvas.setLayer(10, newShadow)
+    'm.canvas.clearlayer(201)
+    m.canvas.setLayer(178, bgmenu)
 
-    'newShadow = {url:"pkg:/images/newshadowinverse.png",targetRect:{w:1400,h:50,x:0,y:500}}
-    'm.canvas.setLayer(11, newShadow)
-    m.canvas.setLayer(13, bgmenu)
+    'staticStuff.push(logo)
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
     staticStuff.push(setupmenu)
-    m.canvas.setLayer(81, logo)
-    m.canvas.setLayer(82, staticStuff)
-    'm.paintTopMenuSelector(1)
+    'staticStuff.push(normalmenu)
+    'staticStuff.push(advancedmenu)
+    m.canvas.setLayer(179, staticStuff)
+    m.canvas.setLayer(180, logo)
+    m.canvas.setLayer(33, shapebehindboxessleep)
+    m.canvas.setLayer(34, newshadow1)
+    m.canvas.setLayer(35, newshadow2)
+    m.paintTopMenuSelector(0)
 End Function
 
 
@@ -388,44 +424,28 @@ Function paint_top_menu_selector(topindex=0) as void
             url:"pkg:/images/ring_play_100.png",
             targetRect:pos_rings[topindex]
         }
-        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+    endif
+    if (topindex=0)
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        if (topindex=0)
-            sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        else if (topindex=1)
-            exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        else if (topindex=2)
-            setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        endif
-        staticStuff.push(exploremenu)
-        staticStuff.push(sleepmenu)
-        staticStuff.push(setupmenu)
-        m.canvas.setLayer(82, staticStuff)
-        m.canvas.setLayer(181,ring)
-    else
-        ring={
-            url:"pkg:/images/ring_play_100.png",
-            targetRect:pos_rings[topindex]
-        }
+    else if (topindex=1)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        if (topindex=0)
-            sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        else if (topindex=1)
-            exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        else if (topindex=2)
-            setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        endif
-        staticStuff.push(exploremenu)
-        staticStuff.push(sleepmenu)
-        staticStuff.push(setupmenu)
-        m.canvas.setLayer(82, staticStuff)
-        m.canvas.setLayer(181,ring)
+    else if (topindex=2)
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
+        setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
     endif
 
+    if (m.inTopMenu) m.canvas.setLayer(181,ring)
 
+    staticStuff.push(exploremenu)
+    staticStuff.push(sleepmenu)
+    staticStuff.push(setupmenu)
+
+    m.canvas.setLayer(179, staticStuff)
 
 End Function
 
@@ -485,7 +505,7 @@ Function paint_phantomlevel_for(moving=false) as void
             m.canvas.setlayer(38, m.phantomLevelThumbnails)
             'm.canvas.setLayer(39, m.phantomLevelBackground)
         endif
-    else if (m.currentLevel=1)
+    else if (m.currentLevel=1 OR m.currentLevel=-1)
         if (m.allData[0].hasVideos) then
             if (NOT moving)
                 if (m.allData[0].hasplaces)
@@ -687,7 +707,7 @@ End Function
 Function paint_sublevel_for(id, moving=false) as void
     m.resetSubLevel()
     xSubLevel = 0
-    if (m.currentLevel=0 OR m.currentLevel=1)
+    if (m.currentLevel=0 OR m.currentLevel=1 OR m.currentLevel=-1)
         if (m.allData[0].hasplaces)
             total = m.allData[0].totalplaces.tostr()
             subtotal = m.allData[0].totalvideos.tostr()
@@ -1285,9 +1305,11 @@ Function handle_carousel_keys2(index) as void
             if(m.app.trial)m.app.player.previewmode=true
             m.app.player.setPlaylist(playlist)
             m.app.player.setTrack(selected)
+
             m.app.player.play()
         endif
     else if (index=6 AND (m.currentLevel=0 OR m.currentLevel=1 OR m.currentLevel=2))
+      print "not playing"
         if (NOT m.inTopMenu)
             if (m.idExploreSelected="11")
 

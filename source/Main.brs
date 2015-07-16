@@ -1249,7 +1249,7 @@ function main_go_home() as void
        'sm = sectionManager(m)
        'sm.show(sleep_section)
 
-        m.section.show(sleep_section)
+        m.section.show(places_section)
 
        'm.forceSection()
 

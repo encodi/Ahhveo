@@ -63,6 +63,7 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
         inafteralarm:false
         repeat:false
         duration:0
+        isFavorite:false
     }
 
 
@@ -105,7 +106,7 @@ Function SleepPlayer(h, s, v, darkscreentimer, soundfile, soundindex, darkscreen
     this.player.SetDestinationRect(this.layout.left)
     this.player.SetMaxVideoDecodeResolution(1280,720)
     this.player.SetContentList([{
-        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+v }
+        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+v.video_url }
         StreamFormat: "hls"
     }])
 
@@ -350,7 +351,7 @@ Sub EventLoop3()
                             Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+m.wakeupvideo.video_url }
                             StreamFormat: "hls"
                         }])
-                        m.player.Play()'this start to play the video tutorial
+                        m.player.Play()'this start to play the video
                         m.inAfterAlarm = false
                         m.inAlarmSound = false
                    endif
@@ -359,7 +360,7 @@ Sub EventLoop3()
                        'if (m.insleepdialog = false)
                             print "show dialog"
                             m.insleepdialog = true
-                            m.showsleepinterruption(" A Wake Up Video alarm has been set, continue the sequence or exit to cancel it.")
+                            m.showsleepinterruption("A Wake Up Video alarm has been set, continue the sequence or exit to cancel it.")
                        'endif
 
                   else if (index=2 AND m.isMenuUp=false AND m.issleeping=false AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' up
@@ -401,7 +402,17 @@ Sub EventLoop3()
                           endif
                           m.paintSleepMenu(m.sleepmenuindex)
                       else if (m.sleepmenuindex=2) ' favorite
-
+                          if (m.inAlarmVideo)
+                            print m.wakeupvideo
+                          else
+                            print m.video
+                          endif
+                          if (m.isfavorite) 
+                            m.isfavorite=false
+                          else
+                            m.isfavorite=true
+                          endif
+                          m.paintSleepMenu(m.sleepmenuindex)
                       else if (m.sleepmenuindex=3) ' next
 
                       else if (m.sleepmenuindex=4) ' sleep
@@ -596,9 +607,15 @@ function paint_sleep_menu(selected=2) as void
                 targetRect:{x:370,y:580,w:100,h:100}
                 })
         endif
-        items.push({url:"pkg:/images/favorites.png"
+        if (m.isFavorite)
+            items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })
+        else
+            items.push({url:"pkg:/images/favorites_filled.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        endif
         items.push({url:"pkg:/images/nextvideo.png"
                 targetRect:{x:670,y:580,w:100,h:100}
                 })
@@ -630,9 +647,15 @@ function paint_sleep_menu(selected=2) as void
                 targetRect:{x:370,y:580,w:100,h:100}
                 })
         endif
-        items.push({url:"pkg:/images/favorites.png"
+        if (m.isfavorite)
+            items.push({url:"pkg:/images/favorites.png"
                 targetRect:{x:520,y:580,w:100,h:100}
                 })
+        else
+            items.push({url:"pkg:/images/favorites_filled.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        endif
         items.push({url:"pkg:/images/nextvideo.png"
                 targetRect:{x:670,y:580,w:100,h:100}
                 })

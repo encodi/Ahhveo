@@ -2167,7 +2167,8 @@ function sleep_remote_callback(index) as void
                 if (m.audiotimerindex=0)
                     m.sleeptimeduration = 12*60
                 endif
-                a = SleepPlayer(m, m.app, m.selectedBedvideoIndex.video_url, m.tbs, m.selectedAlarmSoundIndex.filename, m.selectedAlarmSoundIndex.id, m.selectedAlarmSoundIndex.screensaverimage, m.sleeptimeduration, m.wakeuptime, m.selectedWakeUpVideoIndex, m.wakeupvideoduration, m.alarmAnswer1, m.acw, m.alarmchime[m.ac], m.wakeupalarmsound[0])
+
+                a = SleepPlayer(m, m.app, m.selectedBedvideoIndex, m.tbs, m.selectedAlarmSoundIndex.filename, m.selectedAlarmSoundIndex.id, m.selectedAlarmSoundIndex.screensaverimage, m.sleeptimeduration, m.wakeuptime, m.selectedWakeUpVideoIndex, m.wakeupvideoduration, m.alarmAnswer1, m.acw, m.alarmchime[m.ac], m.wakeupalarmsound[0])
             else
                 ' we load the data here with webservices
                 data1 = m.app.http.getWs("getSleepSound.php?user_id="+m.app.userid)
@@ -2180,7 +2181,8 @@ function sleep_remote_callback(index) as void
                     m.sleeptimeduration = 12*60
                 endif
                 default_url = "videos/roku/r062_MED_Ahhveo10_30_14v13/r062_MED_Ahhveo10_30_14v13.m3u8"
-                a = SleepPlayer(m, m.app, m.selectedBedVideoIndex.video_url, m.tbs, m.selectedAlarmSoundIndex.filename, m.selectedAlarmSoundIndex.id, m.selectedAlarmSoundIndex.screensaverimage, m.sleeptimeduration, m.wakeuptime, m.selectedWakeUpVideoIndex, m.wakeupvideoduration, m.alarmAnswer1, m.acw, m.alarmchime[m.ac], m.wakeupalarmsound[0])
+
+                a = SleepPlayer(m, m.app, m.selectedBedVideoIndex, m.tbs, m.selectedAlarmSoundIndex.filename, m.selectedAlarmSoundIndex.id, m.selectedAlarmSoundIndex.screensaverimage, m.sleeptimeduration, m.wakeuptime, m.selectedWakeUpVideoIndex, m.wakeupvideoduration, m.alarmAnswer1, m.acw, m.alarmchime[m.ac], m.wakeupalarmsound[0])
             endif
             a.setup()
             a.paint()
