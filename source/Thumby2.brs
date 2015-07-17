@@ -336,10 +336,10 @@ Function paint_marketing() as void
                targetRect:{x:100,y:610,w:620,h:50}})
 
     items.push({url:json.thumb2,
-           targetRect:{x:790,y:575,w:182,h:101}})
+           targetRect:{x:790,y:570,w:195,h:115}})
 
     items.push({url:json.thumb1,
-           targetRect:{x:1000,y:575,w:182,h:101}})
+           targetRect:{x:1000,y:570,w:195,h:115}})
 
     m.canvas.setLayer(17, bottombg)
     m.canvas.setLayer(70, items)

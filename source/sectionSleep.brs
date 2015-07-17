@@ -149,6 +149,7 @@ this={
      inPreviewSound:false
      previewSoundText:preview_sound_text
      wakeupalarmsound:invalid
+     wakeupalarms:invalid
      naturaltimesdata:invalid
      naturaltimes:[]
      paintSleepMarketing:paint_marketing2
@@ -218,14 +219,13 @@ Function sleep_paint() as void
         ''' list of alarms
         m.alarmchime = []
 
-        wakeupalarms = m.app.http.getWs("getWakeUpAlarms.php")
-        for each alarm in wakeupalarms
+        m.wakeupalarms = m.app.http.getWs("getWakeUpAlarms.php")
+        for each alarm in m.wakeupalarms
             m.alarmchime[alarm.array_index.toInt()] = alarm.name
         end for
-
+        
         ''' alarm sound for wake up
         m.wakeupalarmsound = m.app.http.getWs("getWakeUpAlarmSound.php?user_id="+m.app.userid)
-
 
         'm.naturaltimesdata = m.app.http.getWs("getVideosLength.php")
         'for each natural in m.naturaltimesdata
@@ -378,9 +378,20 @@ End Function
 
 Function save_settings() as void
     wutime = m.wakeuptime[0]+","+m.wakeuptime[1]+","+m.wakeuptime[2]
-    datastring = "?user_id="+m.app.userid+"&bedtime_video_id="+m.bedtime_video_id.toStr()+"&bedtime_before_sleep="+m.tbs.toStr()+"&bedtime_sound="+m.sss.toStr()+"&wakeup_video_id="+m.wakeup_video_id.toStr()+"&wakeup_time="+wutime+"&wakeup_sound="+m.ac.toStr()+"&wakeup_sound_when="+m.acw.toStr()+"&bedtime_sound_duration="+m.sleeptimeduration.toStr()+"&wakeup_video_duration="+m.wakeupvideoduration.toStr()+"&wakeup_answer_1="+m.alarmAnswer1+"&audiotimerindex="+m.audiotimerindex.toStr()
+    if (m.inStep=3)
+        update="1"
+    else
+        update="0"
+    endif
+    datastring = "?user_id="+m.app.userid+"&bedtime_video_id="+m.bedtime_video_id.toStr()+"&bedtime_before_sleep="+m.tbs.toStr()+"&bedtime_sound="+m.sss.toStr()+"&wakeup_video_id="+m.wakeup_video_id.toStr()+"&wakeup_time="+wutime+"&wakeup_sound="+m.ac.toStr()+"&wakeup_sound_when="+m.acw.toStr()+"&bedtime_sound_duration="+m.sleeptimeduration.toStr()+"&wakeup_video_duration="+m.wakeupvideoduration.toStr()+"&wakeup_answer_1="+m.alarmAnswer1+"&audiotimerindex="+m.audiotimerindex.toStr()+"&update="+update
     dataResponse = m.app.http.getWs("setSleepSettings.php"+datastring)
-    m.updatedFlag = true
+    print dataResponse
+    m.updatedFlag = dataResponse.update
+    if (m.updatedFlag="0")
+        m.updatedFlag=false
+    else if (m.updatedFlag="1")
+        m.updatedFlag=true
+    endif
 End Function
 
 Function paint_now_date() as void
@@ -1098,7 +1109,7 @@ Function paint_below_items_selector(topindex=0, active=false) as void
     pos_rings=[]
     staticStuff=[]
     pos_rings.push({x:985,y:512,w:150,h:2})
-    pos_rings.push({x:985,y:545,w:150,h:2})
+    pos_rings.push({x:960,y:545,w:200,h:2})
     pos_rings.push({x:985,y:630,w:150,h:2})
     pos_rings.push({x:445,y:410,w:80,h:2})
     pos_rings.push({x:510,y:460,w:150,h:2})
@@ -1534,7 +1545,7 @@ function sleep_remote_callback(index) as void
             m.sleepStartMessage()
             'm.clearSleepMarketing()
         else if (m.inMainSelector)
-            if (m.updatedFlag)
+            if (m.updatedFlag AND m.inStep=3)
                 m.inStartYourSleepButton = true
                 m.startYourSleepButton(true)
             else
@@ -1586,6 +1597,7 @@ function sleep_remote_callback(index) as void
                 m.inStartYourSleepButton = true
                 m.paintTopMenuSelector(1)
             else
+                m.inStep=1
                 m.paintTopMenuSelector(1)
                 if (m.isThumb1=true OR m.isThumb2=true OR m.isThumb3=true)
                     m.mainSelector(0, true)
@@ -1740,6 +1752,7 @@ function sleep_remote_callback(index) as void
                 m.acw = 2
             endif
             m.paintQuestion3("Active")
+            
         else if (m.inAlarmQuestion4)
             if (m.ac>0)
                 m.ac = m.ac - 1
@@ -1747,6 +1760,9 @@ function sleep_remote_callback(index) as void
                 m.ac = 1
             endif
             m.paintQuestion4("Active")
+                            DownloadFile(m.wakeupalarms[m.ac].url,"alarm.mp3")
+                m.app.audio.play(m.wakeupalarms[m.ac].url,"alarm.mp3")
+            
         else if (m.inWakeUpCarousel)
             m.wMoveLeft()
             m.paintWakeUpArrows("Active")
@@ -1851,6 +1867,9 @@ function sleep_remote_callback(index) as void
                 m.ac = 0
             endif
             m.paintQuestion4("Active")
+                            DownloadFile(m.wakeupalarms[m.ac].url,"alarm.mp3")
+                m.app.audio.play(m.wakeupalarms[m.ac].url,"alarm.mp3")
+            
         else if (m.inWakeUpCarousel)
             m.wMoveRight()
             m.paintWakeUpArrows("Active")
@@ -1876,7 +1895,7 @@ function sleep_remote_callback(index) as void
                 m.app.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
             endif
         else if (m.inMainSelector)
-            if (m.updatedFlag OR m.menuSelectorIndex=0)
+            if (m.updatedFlag OR m.menuSelectorIndex=0 OR (m.updatedFlag=false AND (m.inStep=1 OR m.inStep=2 OR m.inStep=3)))
                 m.inMainSelector=false
                 m.showSubSectionOptions()
             endif
@@ -2025,6 +2044,7 @@ function sleep_remote_callback(index) as void
                 m.resetButton()
 
                 ' return to main selection
+                m.inStep=3
                 m.inSaveButton3 = false
                 m.inMainSelector= false
                 m.saveSettings()
@@ -2035,7 +2055,7 @@ function sleep_remote_callback(index) as void
                 m.startYourSleepButton(true)
                 m.inStartYourSleepButton = true
                 m.isThumb2=false
-                m.inStep=3
+                
                 'clear below
                 m.canvas.clearLayer(84)
                 m.canvas.clearLayer(88)
@@ -2073,6 +2093,9 @@ function sleep_remote_callback(index) as void
                 m.inAlarmQuestion4=true
                 m.paintQuestion3("No")
                 m.paintQuestion4("Yes")
+                print m.wakeupalarmsound[0]
+                DownloadFile(m.wakeupalarms[m.ac].url,"alarm.mp3")
+                m.app.audio.play(m.wakeupalarms[m.ac].url,"alarm.mp3")
                 m.paintBelowItemsSelector(6, true)
                 m.isThumb3=true
             else
@@ -2094,9 +2117,9 @@ function sleep_remote_callback(index) as void
             m.paintWakeUpThumby(false, "Yes")
             m.paintWakeUpArrows("Active")
             m.paintBedTimeSelector(3, true)
-
+            m.app.audio.stop()
         else if (m.inWakeUpCarousel)
-
+            m.app.audio.stop()
             m.inWakeUpCarousel = false
             m.inStopVideoAfter = true
 
@@ -2130,6 +2153,7 @@ function sleep_remote_callback(index) as void
 
             m.inSaveButton3 = false
             m.inMainSelector= false
+            m.inStep=3
             m.menuSelectorIndex = 0
             m.saveSettings()
             m.clearAlarmBG()
@@ -2141,7 +2165,6 @@ function sleep_remote_callback(index) as void
             endif
             m.startYourSleepButton(true)
             m.inStartYourSleepButton = true
-            m.inStep=3
             m.resetButton()
             'clear below
             m.canvas.clearLayer(84)
