@@ -363,7 +363,7 @@ Function paint_static() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:230,h:84}
+            TargetRect:{x:70,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -377,7 +377,7 @@ Function paint_static() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:230,h:84}
+            TargetRect:{x:70,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -622,13 +622,13 @@ Function paint_explore() as void
             'm.exploreTitles.push({text: "("+stotal+")", textAttrs: {font: m.app.h5}, targetRect:{x:-70, y: 196, w:269, h: 125}})
             'm.exploreTitles.push({text: "("+m.level1index.tostr()+" of "+total+")", textAttrs: {font: m.app.h5}, targetRect:{x:150, y: 196, w:269, h: 125}})
         endif
-        m.exploreTitles.push({text: thumb.title, textAttrs: {font: m.app.h4}, targetRect:m.exploreTPositions})
+        m.exploreTitles.push({text: thumb.title, textAttrs: {font: m.app.h3}, targetRect:m.exploreTPositions})
         m.exploreBackgrounds.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect:m.exploreBGPositions})
         xExplore = xExplore + 286
         k = k + 1
         m.explorePositions = {x:45 + xExplore, y: 120, w:269, h: 149}
         m.exploreBGPositions = {x:45 + xExplore, y: 244, w:269, h: 25}
-        m.exploreTPositions = {x:45 + xExplore, y: 196, w:269, h: 125}
+        m.exploreTPositions = {x:45 + xExplore, y: 194, w:269, h: 125}
     end for
 
     'exploreTotal = {text: m.exploreData.count(), textAttrs: {font: m.app.h4}, targetRect:}
@@ -1408,7 +1408,7 @@ Function reset_explore() as void
     m.exploreBackgrounds=[]
     m.explorePositions = {x:45, y: 120, w:269, h: 149}
     m.exploreBGPositions = {x:45, y: 244, w:269, h: 25}
-    m.exploreTPositions = {x:45, y: 196, w:269, h: 125}
+    m.exploreTPositions = {x:45, y: 194, w:269, h: 125}
 End Function
 
 

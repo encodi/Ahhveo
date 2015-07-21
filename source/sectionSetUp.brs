@@ -76,7 +76,7 @@ Function paint_static3() as void
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        preferencessubmenu = {text: "Preferences", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
+        preferencessubmenu = {text: "Settings", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
         helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
         artistsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:520,y:120,w:200,h:50}}
         faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:833,y:120,w:200,h:50}}
@@ -93,7 +93,7 @@ Function paint_static3() as void
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
-        preferencessubmenu = {text: "Preferences", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
+        preferencessubmenu = {text: "Settings", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
         helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
         artistsubmenu = {text: "About", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:520,y:120,w:200,h:50}}
         faqsubmenu = {text: "FAQ", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:833,y:120,w:200,h:50}}
@@ -269,18 +269,18 @@ function paint_preferences() as void
     endif
 
     pref = []
-    pref.push( {text:"Global Video Timer",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:110,y:200,h:100}} )
-    pref.push( {text:"Choose the amount of time you want all videos to play",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:110,y:250,h:100}} )
+    pref.push( {text:"Time to Advance Setting",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:110,y:200,h:100}} )
+    pref.push( {text:"Choose the amount of time a video should play before advancing to next title",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:110,y:250,h:100}} )
     '
     'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:45,y:190}})
     pref.push({text:"<   "+m.globalvideotime.toStr()+"   > minutes",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:170,y:290}})
-    pref.push( {text:"Auto-ShutOff",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:720,y:200,h:100}} )
+    pref.push( {text:"Auto-ShutOff Setting",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:720,y:200,h:100}} )
     pref.push( {text:"Set a timer to turn of Ahhveo streaming automatically",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:720,y:250,h:100}} )
     '
     'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:690,y:190}})
 
     pref.push({text:"<   "+Str(m.autoshutoff)+"   > hours",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:740,y:290}})
-    pref.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:580}})
+    pref.push({text:"THESE SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",textAttrs:{font:m.app.hnova},targetRect:{w:800,h:50,x:280,y:580}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))

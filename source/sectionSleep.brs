@@ -362,11 +362,11 @@ End function
 
 Function sleep_start_message(mkt=true) as void
 
-    tutorialImage = {url:"pkg:/images/tutorial_image2.png", targetRect:{w:1148,h:210,x:85,y:410}}
+    tutorialImage = {url:"pkg:/images/tutorial_image3.png", targetRect:{w:1148,h:210,x:85,y:410}}
 
     startMessage = {text:"Go to sleep with a sunset, sleep with the sound of the ocean waves and awakened by the sunrise.", textAttrs:{HAlign:"Center",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:60,y:610,w:1150,h:50}}
 
-    copyright = {text:"Patent Pending, Copyright 2015 Ahhveo Inc.", textAttrs:{HAlign:"Center",Color:"#CCCCCC",font: m.app.h4}, targetRect:{x:480,y:670,w:1150,h:50}}
+    copyright = {text:"Copyright 2015 Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:660,w:1150,h:50}}
     'm.canvas.setLayer(101, startMessage)
 
     if (mkt) m.canvas.setLayer(69, tutorialimage)
@@ -1018,7 +1018,7 @@ Function paint_static2() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:230,h:84}
+            TargetRect:{x:70,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -1032,7 +1032,7 @@ Function paint_static2() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:230,h:84}
+            TargetRect:{x:70,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -2402,7 +2402,7 @@ Function paint_marketing2() as void
     items.push({url:json.thumb1,
            targetRect:{x:1000,y:575,w:182,h:101}})
 
-    copyright = {text:"Patent Pending, Copyright 2015 Ahhveo Inc.", textAttrs:{HAlign:"Center",Color:"#CCCCCC",font: m.app.h4}, targetRect:{x:480,y:500,w:1150,h:50}}
+    copyright = {text:"Copyright 2015 Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:480,w:1150,h:50}}
 
     items.push(copyright)
 
