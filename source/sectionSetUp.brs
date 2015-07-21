@@ -285,8 +285,8 @@ function paint_preferences() as void
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))
     min = Str(Fix(minutes))
-    pref.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:635,h:100}} )
-    pref.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:599,h:100}})
+    pref.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:630,h:100}} )
+    pref.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:597,h:100}})
     pref.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:625}})
     pref.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:635,h:100}})
 
@@ -372,17 +372,17 @@ function paint_additional() as void
     endif
 
 
-    addi.push({text:"Buy Additional Time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:400}})
-    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:1180,h:50,x:100,y:460}})
-    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:550,y:540}})
+    addi.push({text:"Purchase more time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:210,y:420}})
+    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:530,h:50,x:720,y:390}})
+    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:780,y:520}})
 
     'addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))
     min = Str(Fix(minutes))
-    addi.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:805,h:100}} )
-    addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:770,h:100}})
+    addi.push( {text:"Time Remaining: "+hr+" hours and "+min+" minutes",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:500,x:70,y:780,h:100}} )
+    addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:760,h:100}})
     addi.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:795}})
     addi.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:805,h:100}})
 
