@@ -573,11 +573,13 @@ Function paint_wakeup_duration(active="No") as void
 End Function
 
 Function paint_bedtime_text(active=true) as void
-
+    'fonts = CreateObject("roFontRegistry") 
+    'fonts.Register("pkg:/fonts/Proxima-Nova-Alt-Lt.otf")
+    'hnova=fonts.Get("Proxima Nova Alt Lt",24,false,false)
     if (active)
-        sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {HAlign:"Center",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:105,y:230,w:245,h:50}}
+        sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {Color: "#FFFFFF",Font: m.app.hnova,HAlign:"Center"}, targetRect:{x:105,y:230,w:245,h:50}}
     else
-        sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {HAlign:"Center",Color: "#666666",font: m.app.hnova}, targetRect:{x:105,y:230,w:245,h:50}}
+        sleepText = {text: "Choose your bedtime video and how long it should play.", textAttrs: {Color: "#666666",Font: m.app.hnova,HAlign:"Center"}, targetRect:{x:105,y:230,w:245,h:50}}
     endif
     m.canvas.setLayer(52, sleepText)
 
@@ -1016,7 +1018,7 @@ Function paint_static2() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:283,h:85}
+            TargetRect:{x:40,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -1030,7 +1032,7 @@ Function paint_static2() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:283,h:85}
+            TargetRect:{x:40,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}

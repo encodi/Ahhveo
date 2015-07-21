@@ -333,7 +333,7 @@ Function paint_marketing() as void
 
     items.push({text:json.content,
                 textAttrs:{HAlign:"left",font:m.app.h35},
-               targetRect:{x:100,y:610,w:620,h:50}})
+               targetRect:{x:100,y:600,w:620,h:50}})
 
     items.push({url:json.thumb2,
            targetRect:{x:790,y:570,w:195,h:115}})
@@ -363,7 +363,7 @@ Function paint_static() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:283,h:85}
+            TargetRect:{x:40,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -377,7 +377,7 @@ Function paint_static() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:40,y:20,w:283,h:85}
+            TargetRect:{x:40,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -1196,6 +1196,7 @@ Function handle_carousel_keys2(index) as void
                 'end if
             endif
         else if (index=3) 'down
+            m.canvas.clearLayer(181)
             m.inTopMenu = false
             print "explore id"
             print m.idExploreSelected
