@@ -293,10 +293,10 @@ Function start_your_sleep_button(active = false) as void
 
     if (active)
         sleepTextTitle = {url:"pkg:/images/rect_active.png",targetRect:{w:255,h:38,x:100,y:125}}
-        sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFF55",font: m.app.h3}, targetRect:{x:100,y:130,w:255,h:38}}
+        sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFF55",font: m.app.h3}, targetRect:{x:100,y:125,w:255,h:38}}
     else
         sleepTextTitle = {url:"pkg:/images/rect.png",targetRect:{w:255,h:38,x:100,y:125}}
-        sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFFFF",font: m.app.h3}, targetRect:{x:100,y:130,w:255,h:38}}
+        sleepText = {text: "Start Sleep", textAttrs: {Color: "#FFFFFF",font: m.app.h3}, targetRect:{x:100,y:125,w:255,h:38}}
     endif
 
 
@@ -366,7 +366,7 @@ Function sleep_start_message(mkt=true) as void
 
     startMessage = {text:"Go to sleep with a sunset, sleep with the sound of the ocean waves and awakened by the sunrise.", textAttrs:{HAlign:"Center",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:60,y:610,w:1150,h:50}}
 
-    copyright = {text:"Copyright 2015 Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:660,w:1150,h:50}}
+    copyright = {text:"Copyright "+m.currentdate.GetYear().toStr()+" Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:660,w:1150,h:50}}
     'm.canvas.setLayer(101, startMessage)
 
     if (mkt) m.canvas.setLayer(69, tutorialimage)
@@ -497,10 +497,10 @@ End Function
 Function paint_save_button_1(active = "No") as void
     if (active = "Active")
         saveborder = {url:"pkg:/images/rect_active.png",targetRect:{w:170,h:32,x:1000,y:580}}
-        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:1000,y:585,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:1000,y:580,w:170,h:32}}
     else
         saveborder = {url:"pkg:/images/rect.png",targetRect:{w:170,h:32,x:1000,y:580}}
-        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:1000,y:585,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:1000,y:580,w:170,h:32}}
     endif
     m.canvas.setLayer(85, saveborder)
     m.canvas.setLayer(86, savetext)
@@ -510,10 +510,10 @@ End Function
 Function paint_save_button_2(active = "No") as void
     if (active = "Active")
         saveborder = {url:"pkg:/images/rect_active.png",targetRect:{w:170,h:32,x:975,y:555}}
-        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:975,y:560,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:975,y:555,w:170,h:32}}
     else
         saveborder = {url:"pkg:/images/rect.png",targetRect:{w:170,h:32,x:975,y:555}}
-        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:975,y:560,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:975,y:555,w:170,h:32}}
     endif
     m.canvas.setLayer(85, saveborder)
     m.canvas.setLayer(86, savetext)
@@ -522,10 +522,10 @@ End Function
 Function paint_save_button_3(active = "No") as void
     if (active = "Active")
         saveborder = {url:"pkg:/images/rect_active.png",targetRect:{w:170,h:32,x:980,y:597}}
-        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:980,y:600,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#FFFF55",HAlign:"Center",font: m.app.h3}, targetRect:{x:980,y:595,w:170,h:32}}
     else
         saveborder = {url:"pkg:/images/rect.png",targetRect:{w:170,h:32,x:980,y:597}}
-        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:980,y:600,w:170,h:32}}
+        savetext = {text: "Save", textAttrs: {Color:"#666666",HAlign:"Center",font: m.app.h3}, targetRect:{x:980,y:595,w:170,h:32}}
     endif
     m.canvas.setLayer(85, saveborder)
     m.canvas.setLayer(86, savetext)
@@ -2403,7 +2403,7 @@ Function paint_marketing2() as void
     items.push({url:json.thumb1,
            targetRect:{x:1000,y:575,w:182,h:101}})
 
-    copyright = {text:"Copyright 2015 Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:480,w:1150,h:50}}
+    copyright = {text:"Copyright "+m.currentdate.GetYear().toStr()+" Ahhveo Inc, Patent Pending.", textAttrs:{HAlign:"Center",Color:"#777777",font: m.app.h4}, targetRect:{x:460,y:480,w:1150,h:50}}
 
     items.push(copyright)
 
