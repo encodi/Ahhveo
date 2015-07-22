@@ -323,23 +323,23 @@ Function paint_marketing() as void
 
     items = []
 
-    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:515,w:1280,h:200}}
+    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:508,w:1280,h:202}}
 
     'items.push({Color: "#343434", TargetRect:{x:0,y:530,w:1280,h:200}})
 
     items.push({text:json.title,
             textAttrs:{HAlign:"left",font:m.app.carouseltitlefont},
-           targetRect:{x:100,y:555,w:840,h:50}})
+           targetRect:{x:100,y:545,w:840,h:50}})
 
     items.push({text:json.content,
                 textAttrs:{HAlign:"left",font:m.app.h35},
-               targetRect:{x:100,y:600,w:620,h:50}})
+               targetRect:{x:100,y:588,w:620,h:50}})
 
     items.push({url:json.thumb2,
-           targetRect:{x:790,y:570,w:195,h:115}})
+           targetRect:{x:770,y:560,w:210,h:120}})
 
     items.push({url:json.thumb1,
-           targetRect:{x:1000,y:570,w:195,h:115}})
+           targetRect:{x:1010,y:560,w:210,h:120}})
 
     m.canvas.setLayer(17, bottombg)
     m.canvas.setLayer(70, items)
@@ -369,9 +369,9 @@ Function paint_static() as void
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
-        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
     else
@@ -383,9 +383,9 @@ Function paint_static() as void
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
-        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:580,y:50,w:200,h:50}}
+        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:780,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
     endif
@@ -401,9 +401,9 @@ Function paint_static() as void
     'staticStuff.push(advancedmenu)
     m.canvas.setLayer(179, staticStuff)
     m.canvas.setLayer(180, logo)
-    m.canvas.setLayer(33, shapebehindboxessleep)
-    m.canvas.setLayer(34, newshadow1)
-    m.canvas.setLayer(35, newshadow2)
+    'm.canvas.setLayer(33, shapebehindboxessleep)
+    'm.canvas.setLayer(34, newshadow1)
+    'm.canvas.setLayer(35, newshadow2)
     m.paintTopMenuSelector(0)
 End Function
 
@@ -415,9 +415,9 @@ Function paint_top_menu_selector(topindex=0) as void
 
     pos_rings=[]
     staticStuff=[]
-    pos_rings.push({x:425,y:90,w:180,h:2})
-    pos_rings.push({x:625,y:90,w:180,h:2})
-    pos_rings.push({x:825,y:90,w:180,h:2})
+    pos_rings.push({x:345,y:90,w:180,h:2})
+    pos_rings.push({x:545,y:90,w:180,h:2})
+    pos_rings.push({x:745,y:90,w:180,h:2})
 
     if (m.inTopMenu)
         ring={
@@ -426,17 +426,17 @@ Function paint_top_menu_selector(topindex=0) as void
         }
     endif
     if (topindex=0)
-        sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=1)
-        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=2)
-        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-        setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-        setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+        exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     endif
 
     if (m.inTopMenu) m.canvas.setLayer(181,ring)
@@ -543,7 +543,7 @@ Function paint_phantomlevel_for(moving=false) as void
 
             videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
             videoLevelDescriptionPosition={x:460, y: 575, w:630, h: 100}
-            singleThumbPosition={x:130, y: 550, w:269, h: 149}
+            singleThumbPosition={x:130, y: 545, w:269, h: 149}
             for each video in m.videosArray
                 if (i<8)
                     m.phantomLevelThumbnails.push({url: video.thumbnail, targetRect: m.phantomLevelPositions})
@@ -627,7 +627,7 @@ Function paint_explore() as void
         xExplore = xExplore + 286
         k = k + 1
         m.explorePositions = {x:45 + xExplore, y: 120, w:269, h: 149}
-        m.exploreBGPositions = {x:45 + xExplore, y: 244, w:269, h: 25}
+        m.exploreBGPositions = {x:45 + xExplore, y: 242, w:269, h: 27}
         m.exploreTPositions = {x:45 + xExplore, y: 194, w:269, h: 125}
     end for
 
@@ -774,7 +774,7 @@ Function paint_sublevel_for(id, moving=false) as void
 
             videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
             videoLevelDescriptionPosition={x:460, y: 580, w:630, h: 100}
-            singleThumbPosition={x:130, y: 550, w:269, h: 149}
+            singleThumbPosition={x:130, y: 545, w:269, h: 149}
             titlesingle = []
 
             for each video in m.videosArray
@@ -1407,7 +1407,7 @@ Function reset_explore() as void
     m.exploreTitles=[]
     m.exploreBackgrounds=[]
     m.explorePositions = {x:45, y: 120, w:269, h: 149}
-    m.exploreBGPositions = {x:45, y: 244, w:269, h: 25}
+    m.exploreBGPositions = {x:45, y: 242, w:269, h: 27}
     m.exploreTPositions = {x:45, y: 194, w:269, h: 125}
 End Function
 
