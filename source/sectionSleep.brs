@@ -590,7 +590,7 @@ Function paint_bedtime_thumb() as void
     secs = CINT(m.tbs/60)
     bedtimethumb.push({url: m.selectedBedVideoIndex.thumbnail, targetRect: {x:100, y: 185, w:256, h:130}}) '176x98
     bedtimethumb.push( {text: "Will play for around      minutes.", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:95,y:305,w:300,h:50}})
-    bedtimethumb.push( {text: secs.toStr(), textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:270,y:305,w:300,h:50}})
+    bedtimethumb.push( {text: secs.toStr(), textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:272,y:305,w:300,h:50}})
     m.canvas.setLayer(52, bedtimethumb)
 End Function
 

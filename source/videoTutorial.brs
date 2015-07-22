@@ -209,7 +209,7 @@ Sub PaintFramedcanvas2()
             TargetRect: m.layout2.left
         })
         list.Push({
-            Text: "Buffering Video..."' + m.progress.tostr() + "%"
+            Text: "Loading..."' + m.progress.tostr() + "%"
             TargetRect: m.layout2.left
         })
     else  'Video is currently playing

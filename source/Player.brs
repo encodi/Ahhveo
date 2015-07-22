@@ -1191,7 +1191,7 @@ Sub PaintFullscreenCanvas()
         'm.updateAnimation()
         color = "#000000" 'opaque black
         list.Push({
-            Text: "Buffering video..." '+ m.progress.tostr() + "%"
+            Text: "Loading..." '+ m.progress.tostr() + "%"
             TextAttrs: { font: m.app.h4 }
             TargetRect: m.layout.full
         })

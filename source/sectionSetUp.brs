@@ -370,7 +370,7 @@ function paint_additional() as void
         m.available_time=settings.available_time
         m.app.globalvideotimer = settings.global_timer
     endif
-
+    
 
     addi.push({text:"Purchase more time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:210,y:400}})
     addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:530,h:50,x:720,y:450}})
@@ -385,7 +385,7 @@ function paint_additional() as void
     addi.push({text:"Token: "+m.app.getRegistry(),textAttrs:{HAlign:"Right",font:m.app.h3},targetRect:{w:250,x:960,y:760,h:100}})
     addi.push({url:"pkg:/images/rect.png",targetRect:{w:1190,h:40,x:45,y:795}})
     addi.push({text:"Build version: "+m.app.appInfo.GetVersion(),textAttrs:{font:m.app.h4},targetRect:{w:190,x:570,y:805,h:100}})
-
+    
     m.canvas.setLayer(401, addi)
 
 end function
