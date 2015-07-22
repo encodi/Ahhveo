@@ -170,7 +170,7 @@ Function paint_subtop_menu_selector(topindex=0, active=true) as void
 
     pos_rings=[]
 
-    pos_rings.push({x:110,y:160,w:130,h:2})
+    pos_rings.push({x:85,y:160,w:130,h:2})
     pos_rings.push({x:365,y:160,w:138,h:2})
     pos_rings.push({x:620,y:160,w:65,h:2})
     pos_rings.push({x:833,y:160,w:50,h:2})
@@ -372,9 +372,9 @@ function paint_additional() as void
     endif
 
 
-    addi.push({text:"Purchase more time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:210,y:420}})
-    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:530,h:50,x:720,y:390}})
-    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:780,y:520}})
+    addi.push({text:"Purchase more time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:210,y:400}})
+    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:530,h:50,x:720,y:450}})
+    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:780,y:400}})
 
     'addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
     hour = (m.available_time.toInt()/1000)/60/60
