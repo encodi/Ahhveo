@@ -362,7 +362,7 @@ End function
 
 Function sleep_start_message(mkt=true) as void
 
-    tutorialImage = {url:"pkg:/images/tutorial_image3.png", targetRect:{w:1148,h:210,x:85,y:410}}
+    tutorialImage = {url:"pkg:/images/tutorial_image4.jpg", targetRect:{w:1148,h:210,x:85,y:410}}
 
     startMessage = {text:"Go to sleep with a sunset, sleep with the sound of the ocean waves and awakened by the sunrise.", textAttrs:{HAlign:"Center",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:60,y:610,w:1150,h:50}}
 
@@ -483,7 +483,7 @@ Function paint_sleeptime_duration(active="No", inmovement=false, innumbermovemen
     else if (active="Yes")
         sleepText.push({text: "Go to dark screen after: ", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:sleepTextPositions[0]})
         if (m.isnatural) sleepText.push({text: "Natural", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[1]})
-        sleepText.push({text: "<   "+secs.toStr()+"   > minutes", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:sleepTextPositions[2]})
+        sleepText.push({text: "<   "+secs.toStr()+"   > minutes", textAttrs: {Color:"#fe7902",font: m.app.h3}, targetRect:sleepTextPositions[2]})
     else if (active="Active")
         sleepText.push({text: "Go to dark screen after: ", textAttrs: {Color:"#FFFFFF",font: m.app.h3}, targetRect:sleepTextPositions[0]})
         if (m.isnatural) sleepText.push({text: "Natural", textAttrs: {Color:"#666666",font: m.app.h3}, targetRect:sleepTextPositions[1]})
@@ -1018,7 +1018,7 @@ Function paint_static2() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:70,y:20,w:230,h:84}
+            TargetRect:{x:45,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -1032,7 +1032,7 @@ Function paint_static2() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:70,y:20,w:230,h:84}
+            TargetRect:{x:45,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -1915,7 +1915,7 @@ function sleep_remote_callback(index) as void
 
         else if (m.inDarkScreenSelector)
 
-            m.paintSleepTimeDuration("No", true, true)
+            m.paintSleepTimeDuration("Yes", true, true)
             m.inDarkScreenSelector = false
             m.inSaveButton1 = true
             m.paintSaveButton1("Active")
@@ -2091,14 +2091,15 @@ function sleep_remote_callback(index) as void
             endif
         else if (m.inAlarmQuestion3)
             m.inAlarmQuestion3=false
+            'print "m.acw is"
+            'print m.acw
             if (m.acw=0 OR m.acw=1)
                 m.inAlarmQuestion4=true
                 m.paintQuestion3("No")
                 m.paintQuestion4("Yes")
-                print m.wakeupalarmsound[0]
-                DownloadFile(m.wakeupalarms[m.ac].url,"alarm.mp3")
-                m.app.audio.play(m.wakeupalarms[m.ac].url,"alarm.mp3")
                 m.paintBelowItemsSelector(6, true)
+                'DownloadFile(m.wakeupalarms[m.ac].url,"alarm.mp3")
+                'm.app.audio.play(m.wakeupalarms[m.ac].url,"alarm.mp3")
                 m.isThumb3=true
             else
                 m.clearAlarmBG()

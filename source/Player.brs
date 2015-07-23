@@ -1192,7 +1192,7 @@ Sub PaintFullscreenCanvas()
         color = "#000000" 'opaque black
         list.Push({
             Text: "Loading..." '+ m.progress.tostr() + "%"
-            TextAttrs: { font: m.app.h4 }
+            TextAttrs: { font: m.app.h3 }
             TargetRect: m.layout.full
         })
 
@@ -1253,7 +1253,8 @@ Sub PaintFramedCanvas()
             TargetRect: m.layout.left
         })
         list.Push({
-            Text: "Loading..." + m.progress.tostr() + "%"
+            Text: "Loading..." + m.progress.tostr() + "%",
+            TextAttrs: { font: m.app.h3 },
             TargetRect: m.layout.left
         })
         'list.Push({url:"pkg:/images/loading.gif",targetRect:{x:m.app.size.center_x_full,y:200,w:128,h:128}})

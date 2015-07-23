@@ -363,7 +363,7 @@ Function paint_static() as void
     if (IsHD())
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:70,y:20,w:230,h:84}
+            TargetRect:{x:45,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -377,7 +377,7 @@ Function paint_static() as void
     else
         logo={
             url:"pkg:/images/logo.png",
-            TargetRect:{x:70,y:20,w:230,h:84}
+            TargetRect:{x:45,y:20,w:230,h:84}
         }
         bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
         shapebehindboxessleep =  {url:"pkg:/images/shapebehindboxessleep.png", TargetRect:{x:60,y:120,w:1148,h:265}}
@@ -794,7 +794,7 @@ Function paint_sublevel_for(id, moving=false) as void
             end for
 
             m.canvas.setlayer(33, m.subLevelThumbnails)
-            if (m.currentLevel=1 AND (m.idExploreSelected="10" OR m.idExploreSelected="2" OR m.idExploreSelected="12"))
+            if (m.currentLevel=1 AND (m.idExploreSelected="10" OR m.idExploreSelected="12"))
                 titlesingle.push(m.theTitle)
                 titlesingle.push(m.theDescription)
                 titlesingle.push(phantomSingleThumb)
@@ -1175,7 +1175,7 @@ Function handle_carousel_keys2(index) as void
                         m.canvas.clearLayer(60)
                         m.canvas.clearLayer(61)
                         m.canvas.clearLayer(62)
-                        m.canvas.clearLayer(34)
+                        'm.canvas.clearLayer(34)
                         print "paint marketing here"
                         m.paintMarketing()
                     endif
@@ -1200,7 +1200,7 @@ Function handle_carousel_keys2(index) as void
             m.inTopMenu = false
             print "explore id"
             print m.idExploreSelected
-            if (m.idExploreSelected="10" OR m.idExploreSelected="2" OR m.idExploreSelected="12")
+            if (m.idExploreSelected="10" OR m.idExploreSelected="12")
                 maxSub = 1
             else
                 maxSub = 2
@@ -1274,7 +1274,7 @@ Function handle_carousel_keys2(index) as void
             sm.show(setup_section)
         endif
 
-    else if ((index=6 AND m.currentLevel=3) OR (m.currentLevel=1 AND index=6 AND (m.idExploreSelected="10" OR m.idExploreSelected="2" OR m.idExploreSelected="12")))
+    else if ((index=6 AND m.currentLevel=3) OR (m.currentLevel=1 AND index=6 AND (m.idExploreSelected="10" OR m.idExploreSelected="12")))
         if (NOT m.inTopMenu)
             currentitems=m.videosArray
             playlist=[]
