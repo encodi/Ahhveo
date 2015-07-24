@@ -175,7 +175,7 @@ Function initThumby2() as void
     m.loginahhveo()
     if (m.app.loggedflag=true)
         print "paint marketing at init"
-        m.paintMarketing()
+        'm.paintMarketing()
         m.inTopMenu = true
         m.currentLevel=-1
         m.canvas.clearLayer(29)
@@ -192,7 +192,7 @@ Function initThumby2() as void
         m.paintPhantomLevelFor(false)
     else
         print "paint marketing at init"
-        m.paintMarketing()
+        'm.paintMarketing()
         m.inTopMenu = true
         m.currentLevel=-1
         m.canvas.clearLayer(29)
@@ -323,23 +323,23 @@ Function paint_marketing() as void
 
     items = []
 
-    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:508,w:1280,h:202}}
+    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
 
     'items.push({Color: "#343434", TargetRect:{x:0,y:530,w:1280,h:200}})
 
     items.push({text:json.title,
-            textAttrs:{HAlign:"left",font:m.app.carouseltitlefont},
-           targetRect:{x:100,y:545,w:840,h:50}})
+            textAttrs:{HAlign:"right",font:m.app.carouseltitlefont},
+           targetRect:{x:45,y:570,w:815,h:50}})
 
     items.push({text:json.content,
-                textAttrs:{HAlign:"left",font:m.app.h35},
-               targetRect:{x:100,y:588,w:620,h:50}})
+                textAttrs:{HAlign:"right",font:m.app.h35},
+               targetRect:{x:45,y:598,w:815,h:50}})
 
     items.push({url:json.thumb2,
-           targetRect:{x:770,y:560,w:210,h:120}})
+           targetRect:{x:910,y:590,w:150,h:85}})
 
     items.push({url:json.thumb1,
-           targetRect:{x:1010,y:560,w:210,h:120}})
+           targetRect:{x:1080,y:590,w:150,h:85}})
 
     m.canvas.setLayer(17, bottombg)
     m.canvas.setLayer(70, items)
@@ -349,7 +349,8 @@ End Function
 
 
 Function clear_marketing() as void
-
+    
+    m.canvas.clearLayer(17)
     m.canvas.clearLayer(70)
 
 End Function
@@ -421,7 +422,7 @@ Function paint_top_menu_selector(topindex=0) as void
     pos_rings=[]
     staticStuff=[]
     pos_rings.push({x:345,y:90,w:180,h:2})
-    pos_rings.push({x:545,y:90,w:180,h:2})
+    pos_rings.push({x:560,y:90,w:180,h:2})
     pos_rings.push({x:745,y:90,w:180,h:2})
 
     if (m.inTopMenu)
@@ -546,9 +547,9 @@ Function paint_phantomlevel_for(moving=false) as void
             m.phantomLevelPositions={x:45, y: 421, w:176, h: 98}
             m.phantomBGPositions={x:45, y: 421, w:176, h: 98}
 
-            videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
-            videoLevelDescriptionPosition={x:460, y: 575, w:630, h: 100}
-            singleThumbPosition={x:130, y: 545, w:269, h: 149}
+            videoLevelTitlePosition={x:410, y: 535, w:760, h: 100}
+            videoLevelDescriptionPosition={x:410, y: 600, w:760, h: 100}
+            singleThumbPosition={x:130, y: 575, w:195, h: 114}
             for each video in m.videosArray
                 if (i<8)
                     m.phantomLevelThumbnails.push({url: video.thumbnail, targetRect: m.phantomLevelPositions})
@@ -568,6 +569,8 @@ Function paint_phantomlevel_for(moving=false) as void
             m.canvas.setLayer(60, m.theTitle)
             m.canvas.setLayer(61, m.theDescription)
             m.canvas.setLayer(62, phantomSingleThumb)
+            bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
+            m.canvas.setLayer(17, bottombg)
         endif
     end if
 End Function
@@ -702,6 +705,8 @@ Function paint_level_for(moving=false) as void
         m.canvas.setlayer(30, m.levelThumbnails)
         m.canvas.setlayer(31, m.theDescription)
         m.canvas.setlayer(32, m.theTitle)
+        bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
+        m.canvas.setLayer(17, bottombg)
     endif
 End Function
 
@@ -777,9 +782,9 @@ Function paint_sublevel_for(id, moving=false) as void
             i = 0
             m.subLevelPositions={x:45, y: 286, w:215, h: 119}
 
-            videoLevelTitlePosition={x:460, y: 515, w:630, h: 100}
-            videoLevelDescriptionPosition={x:460, y: 580, w:630, h: 100}
-            singleThumbPosition={x:130, y: 545, w:269, h: 149}
+            videoLevelTitlePosition={x:410, y: 535, w:760, h: 100}
+            videoLevelDescriptionPosition={x:410, y: 600, w:760, h: 100}
+            singleThumbPosition={x:130, y: 575, w:195, h: 114}
             titlesingle = []
 
             for each video in m.videosArray
@@ -804,6 +809,8 @@ Function paint_sublevel_for(id, moving=false) as void
                 titlesingle.push(m.theDescription)
                 titlesingle.push(phantomSingleThumb)
                 m.canvas.setLayer(34, titlesingle)
+                bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
+                m.canvas.setLayer(17, bottombg)
                 'm.canvas.setlayer(34, m.theDescription)
                 'm.canvas.setlayer(35, m.theTitle)
                 'm.canvas.setlayer(147, phantomSingleThumb)
@@ -1188,7 +1195,11 @@ Function handle_carousel_keys2(index) as void
                         'm.canvas.clearLayer(34)
                         'm.canvas.clearLayer(41)
                         'm.canvas.clearLayer(43)
-                        m.paintMarketing()
+                        if (m.currentLevel>0) 
+                            m.paintMarketing()
+                        else
+                            m.clearMarketing()
+                        endif
                     endif
                 else
                     m.inTopMenu = true
@@ -1221,15 +1232,24 @@ Function handle_carousel_keys2(index) as void
                 m.drawSelector(m.currentLevel)
                 m.topMenuIndex=0
                 'm.paintTopMenuSelector(1)
+                print "m.currentlevel"
+                print m.currentLevel
+                if (m.currentLevel=0)
+                    m.paintMarketing()
+                endif
                 if (m.currentLevel>0) m.paintTopShadow()
                 if (maxSub=1)
                     m.clearMarketing()
                     m.paintSubLevelFor(m.idExploreSelected, true)
+                    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
+                    m.canvas.setlayer(17, bottombg)
                 endif
                 if (m.currentLevel=2 OR (m.currentLevel=1 AND maxSub=2))
                     if (m.currentLevel>1) m.paintBottomShadow()
                     m.paintPhantomLevelFor(true)
                     m.clearMarketing()
+                    bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
+                    m.canvas.setlayer(17, bottombg)
                 endif
             endif
             'if (m.currentLevel=2)

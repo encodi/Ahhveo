@@ -1025,7 +1025,8 @@ Function paint_static2() as void
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -1039,7 +1040,8 @@ Function paint_static2() as void
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:580,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:780,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -1055,6 +1057,7 @@ Function paint_static2() as void
     'staticStuff.push(normalmenu)
     'staticStuff.push(advancedmenu)
     m.canvas.setLayer(179, staticStuff)
+    m.canvas.setLayer(199, sleepmenunew)
     m.canvas.setLayer(180, logo)
     m.canvas.setLayer(33, shapebehindboxessleep)
     m.canvas.setLayer(34, newshadow1)
@@ -1073,7 +1076,7 @@ Function paint_top_menu_selector2(topindex=0) as void
     pos_rings=[]
     staticStuff=[]
     pos_rings.push({x:345,y:90,w:180,h:2})
-    pos_rings.push({x:545,y:90,w:180,h:2})
+    pos_rings.push({x:560,y:90,w:180,h:2})
     pos_rings.push({x:745,y:90,w:180,h:2})
 
     if (m.inTopMenu)
@@ -1084,25 +1087,27 @@ Function paint_top_menu_selector2(topindex=0) as void
     endif
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=1)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=2)
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
-        setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        setupmenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     endif
+    sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:35,h:55,x:671,y:32}}
 
     if (m.inTopMenu) m.canvas.setLayer(181,ring)
 
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
     staticStuff.push(setupmenu)
-
+    
     m.canvas.setLayer(179, staticStuff)
+    m.canvas.setLayer(199, sleepmenunew)
 End Function
 
 
@@ -2187,7 +2192,7 @@ function sleep_remote_callback(index) as void
             m.canvas.clearLayer(102)
             m.canvas.clearLayer(300)
         else if (m.inStartYourSleepButton)
-
+            m.canvas.clearLayer(199)
             'start player here
             if (type(m.selectedBedVideoIndex)<>"roInteger" AND type(m.selectedAlarmSoundIndex)<>"roInteger")
                 if (m.audiotimerindex=0)

@@ -74,7 +74,8 @@ Function paint_static3() as void
         }
         bgmenu = {url:"pkg:/images/bgmenunew2.png", TargetRect:{x:0,y:165,w:1280,h:80}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
         preferencessubmenu = {text: "Settings", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
         helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
@@ -91,7 +92,8 @@ Function paint_static3() as void
         }
         bgmenu = {url:"pkg:/images/bgmenunew2.png", TargetRect:{x:0,y:165,w:1280,h:80}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:580,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:780,y:50,w:200,h:50}}
         preferencessubmenu = {text: "Settings", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:110,y:120,w:200,h:50}}
         helpfulhintssubmenu = {text: "Helpful Hints", textAttrs: {HAlign:"Left",Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:365,y:120,w:200,h:50}}
@@ -110,6 +112,7 @@ Function paint_static3() as void
     staticStuff.Push(helpfulhintssubmenu)
     staticStuff.Push(aboutsubmenu)
     staticStuff.Push(faqsubmenu)
+    m.canvas.setLayer(199, sleepmenunew)
     'staticStuff.Push(additionalsubmenu)
     'staticStuff.Push(aboutsubmenu)
     staticStuff.Push(policytermssubmenu)
@@ -128,7 +131,7 @@ Function paint_top_menu_selector3(topindex=0) as void
     pos_rings=[]
     staticStuff=[]
     pos_rings.push({x:345,y:90,w:180,h:2})
-    pos_rings.push({x:545,y:90,w:180,h:2})
+    pos_rings.push({x:560,y:90,w:180,h:2})
     pos_rings.push({x:745,y:90,w:180,h:2})
 
     if (m.inTopMenu)
@@ -141,18 +144,19 @@ print "topindex"
 print topindex
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=1)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=2)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     endif
-
+    sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:35,h:55,x:671,y:32}}
+    
     if (m.inTopMenu) m.canvas.setLayer(181,ring)
 
     staticStuff.push(exploremenu)
@@ -160,7 +164,7 @@ print topindex
     staticStuff.push(setupmenu)
 
     m.canvas.setLayer(179, staticStuff)
-
+    m.canvas.setLayer(199, sleepmenunew)
 End Function
 
 
