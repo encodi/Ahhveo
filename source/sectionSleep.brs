@@ -362,7 +362,7 @@ End function
 
 Function sleep_start_message(mkt=true) as void
 
-    tutorialImage = {url:"pkg:/images/tutorial_image4.jpg", targetRect:{w:1148,h:210,x:85,y:410}}
+    tutorialImage = {url:"pkg:/images/tutorial_image4.jpg", targetRect:{w:1053,h:200,x:85,y:410}}
 
     startMessage = {text:"Go to sleep with a sunset, sleep with the sound of the ocean waves and awakened by the sunrise.", textAttrs:{HAlign:"Center",Color:"#FFFFFF",font: m.app.h3}, targetRect:{x:60,y:610,w:1150,h:50}}
 

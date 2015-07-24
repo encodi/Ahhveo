@@ -734,7 +734,7 @@ Function paint_sublevel_for(id, moving=false) as void
                     'm.subLevelTitles.push({text: "("+m.level2index.tostr()+" of "+total+")", textAttrs: {font: m.app.h5}, targetRect:{x:95, y: 332, w:269, h: 125}})
                 endif
                 k = k + 1
-                m.subLevelTitles.push({text: place.title, textAttrs: {font: m.app.h4}, targetRect:m.subLevelTitlePositions})
+                m.subLevelTitles.push({text: place.title, textAttrs: {font: m.app.h45}, targetRect:m.subLevelTitlePositions})
                 m.subLevelBackgrounds.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect:m.subLevelBGPositions})
                 xSubLevel = xSubLevel + 231
                 m.subLevelPositions={x:45 + xSubLevel, y: 286, w:215, h: 119}
