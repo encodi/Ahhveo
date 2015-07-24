@@ -497,7 +497,7 @@ function player_draw_menu() as void
    '                   }
 
    ' end if
-
+m.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
   '  m.menuselected=2
     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=playing_video")
 
@@ -547,6 +547,7 @@ m.canvas.clearLayer(111)
 m.canvas.clearLayer(112)
 m.canvas.clearLayer(113)
 m.canvas.clearLayer(114)
+m.canvas.clearLayer(951)
 m.menulocked=true
 if(m.paused)
     m.menuselected=2

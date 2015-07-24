@@ -370,7 +370,8 @@ Function paint_static() as void
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -384,7 +385,8 @@ Function paint_static() as void
         newShadow1 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:420,y:230}}
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:580,y:50,w:200,h:50}}
-        sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:380,y:50,w:200,h:50}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:35,h:55,x:671,y:32}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:780,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -396,7 +398,10 @@ Function paint_static() as void
     'staticStuff.push(logo)
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
+    
     staticStuff.push(setupmenu)
+    'staticStuff.push(sleepmenunew)
+    m.canvas.setLayer(199, sleepmenunew)
     'staticStuff.push(normalmenu)
     'staticStuff.push(advancedmenu)
     m.canvas.setLayer(179, staticStuff)
@@ -427,15 +432,15 @@ Function paint_top_menu_selector(topindex=0) as void
     endif
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=1)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
-        exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
+        exploremenu = {text: "Slee", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=2)
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:540,y:50,w:200,h:50}}
-        setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
+        setupmenu = {text: "Slee", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:340,y:50,w:200,h:50}}
         setupmenu = {text: "Set Up", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:740,y:50,w:200,h:50}}
     endif
 
@@ -1165,6 +1170,7 @@ Function handle_carousel_keys2(index) as void
         if (index=2) 'up
             if (m.currentLevel>-1)
                 m.currentLevel = m.currentLevel-1
+                
                 if (m.currentLevel>=0)
                     m.inTopMenu = false
                     m.drawSelector(m.currentLevel)
@@ -1175,8 +1181,13 @@ Function handle_carousel_keys2(index) as void
                         m.canvas.clearLayer(60)
                         m.canvas.clearLayer(61)
                         m.canvas.clearLayer(62)
-                        'm.canvas.clearLayer(34)
                         print "paint marketing here"
+                        m.canvas.clearLayer(60)
+                        m.canvas.clearLayer(61)
+                        m.canvas.clearLayer(62)
+                        'm.canvas.clearLayer(34)
+                        'm.canvas.clearLayer(41)
+                        'm.canvas.clearLayer(43)
                         m.paintMarketing()
                     endif
                 else
