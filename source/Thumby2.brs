@@ -1251,11 +1251,11 @@ Function handle_carousel_keys2(index) as void
                 print "m.currentlevel"
                 print m.currentLevel
                 if (m.currentLevel=0)
-                    'm.paintMarketing()
+                    m.paintMarketing()
                 endif
                 if (m.currentLevel>0) m.paintTopShadow()
                 if (maxSub=1)
-                    m.clearMarketing()
+                    'm.clearMarketing()
                     m.paintSubLevelFor(m.idExploreSelected, true)
                     bottombg = {url:"pkg:/images/bottombg.png",TargetRect:{x:0,y:555,w:1280,h:150}}
                     m.canvas.setlayer(17, bottombg)

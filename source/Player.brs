@@ -497,9 +497,17 @@ function player_draw_menu() as void
    '                   }
 
    ' end if
-m.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    m.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    dstominutes = "45"
+    timetoadvancetext = {text: "Time to Advance Setting: "+dstominutes+" minute(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h45}, targetRect:{x:350,y:681,w:300,h:30}}
+    dstohours = "3"
+    autoshutofftext = {text: "Auto-ShutOff Setting: "+dstohours+":00 hour(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h45}, targetRect:{x:670,y:681,w:300,h:30}}
+    
   '  m.menuselected=2
     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=playing_video")
+
+    items.push(timetoadvancetext)
+    items.push(autoshutofftext)
 
     m.menupositions=positions
     m.canvas.setLayer(109,items)
