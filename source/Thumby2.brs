@@ -189,7 +189,9 @@ Function initThumby2() as void
         print m.idExploreSelected
         m.getDataFor(m.idExploreSelected)
         m.paintSubLevelFor(m.idExploreSelected)
-        m.paintPhantomLevelFor(false)
+        if (m.idExploreSelected<>"10")
+            m.paintPhantomLevelFor(false)
+        endif
     else
         print "paint marketing at init"
         m.paintMarketing()
@@ -206,7 +208,9 @@ Function initThumby2() as void
         print m.idExploreSelected
         m.getDataFor(m.idExploreSelected)
         m.paintSubLevelFor(m.idExploreSelected)
-        m.paintPhantomLevelFor(false)
+        if (m.idExploreSelected<>"10")
+            m.paintPhantomLevelFor(false)
+        endif
         'sm = sectionManager(m.app)
         'sm.show(places_section)
     endif
@@ -514,15 +518,20 @@ Function paint_phantomlevel_for(moving=false) as void
     else if (m.currentLevel=1 OR m.currentLevel=-1)
         if (m.allData[0].hasVideos) then
             if (NOT moving)
-                if (m.allData[0].hasplaces)
-                    toAdd = "pid"
-                    id =  m.idPlacesSelected
-                else if (m.allData[0].hassubplaces)
-                    toAdd = "sid"
-                    id =  m.idSubPlacesSelected
+                if (m.idExploreSelected="10")
+                    m.getFavoritesFor()
+                    m.videosArray = m.favoritesList
+                else
+                    if (m.allData[0].hasplaces)
+                        toAdd = "pid"
+                        id =  m.idPlacesSelected
+                    else if (m.allData[0].hassubplaces)
+                        toAdd = "sid"
+                        id =  m.idSubPlacesSelected
+                    endif
+                    m.getVideosFor(id, toAdd)
+                    m.videosArray = m.videosList
                 endif
-                m.getVideosFor(id, toAdd)
-                m.videosArray = m.videosList
             endif
             m.phantomLevelPositions={x:45, y: 421, w:176, h: 98}
             m.phantomBGPositions={x:45, y: 421, w:176, h: 98}
@@ -821,15 +830,20 @@ Function paint_sublevel_for(id, moving=false) as void
             total = m.allData[0].totalvideos
             print "has videos"
             if (NOT moving)
-                if (m.allData[0].hasplaces)
-                    toAdd = "pid"
-                    id =  m.idPlacesSelected
-                else if (m.allData[0].hassubplaces)
-                    toAdd = "sid"
-                    id =  m.idSubPlacesSelected
+                if (m.idExploreSelected="10")
+                    m.getFavoritesFor()
+                    m.videosArray = m.favoritesList
+                else
+                    if (m.allData[0].hasplaces)
+                        toAdd = "pid"
+                        id =  m.idPlacesSelected
+                    else if (m.allData[0].hassubplaces)
+                        toAdd = "sid"
+                        id =  m.idSubPlacesSelected
+                    endif
+                    m.getVideosFor(id, toAdd)
+                    m.videosArray = m.videosList
                 endif
-                m.getVideosFor(id, toAdd)
-                m.videosArray = m.videosList
             endif
             i = 0
             m.subLevelPositions={x:45, y: 286, w:215, h: 119}
@@ -1333,6 +1347,7 @@ Function handle_carousel_keys2(index) as void
             m.canvas.clearLayer(178)
             m.canvas.clearLayer(179)
             m.canvas.clearLayer(180)
+            m.canvas.clearLayer(199)
             selected=m.idVideosSelected
             selected = m.videoIndex 'TODO selected as index of array not as id
             m.app.player.previewmode=false
