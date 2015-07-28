@@ -2063,6 +2063,8 @@ function sleep_remote_callback(index) as void
                 m.paintWakeUpThumb("No")
                 m.startYourSleepButton(true)
                 m.inStartYourSleepButton = true
+                print "button false?"
+                print m.inStartYourSleepButton
                 m.isThumb2=false
                 
                 'clear below
@@ -2194,6 +2196,7 @@ function sleep_remote_callback(index) as void
             m.canvas.clearLayer(102)
             m.canvas.clearLayer(300)
         else if (m.inStartYourSleepButton)
+        
             m.canvas.clearLayer(199)
             'start player here
             if (type(m.selectedBedVideoIndex)<>"roInteger" AND type(m.selectedAlarmSoundIndex)<>"roInteger")
