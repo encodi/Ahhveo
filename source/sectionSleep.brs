@@ -1026,7 +1026,7 @@ Function paint_static2() as void
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:330,y:50,w:200,h:50}}
-        sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:29,h:33,x:660,y:35}}
         setupmenu = {text: "Set up", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:740,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -1041,7 +1041,7 @@ Function paint_static2() as void
         newShadow2 = {url:"pkg:/images/nextsmallarrow.png",targetRect:{w:36,h:36,x:830,y:230}}
         exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:530,y:50,w:200,h:50}}
         sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:330,y:50,w:200,h:50}}
-        sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
+        sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:29,h:33,x:660,y:35}}
         setupmenu = {text: "Set up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:780,y:50,w:200,h:50}}
         'normalmenu = {text: "Simple", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:420,y:100,w:200,h:50}}
         'advancedmenu = {text: "Advanced", textAttrs: {Color: "#FFFFFF", font: m.app.h3}, targetRect:{x:620,y:100,w:200,h:50}}
@@ -1085,11 +1085,13 @@ Function paint_top_menu_selector2(topindex=0) as void
             targetRect:pos_rings[topindex]
         }
     endif
+    sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:29,h:33,x:660,y:35}}
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:340,y:50,w:200,h:50}}
         exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
         setupmenu = {text: "Set up", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:740,y:50,w:200,h:50}}
     else if (topindex=1)
+        sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
         sleepmenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:340,y:50,w:200,h:50}}
         exploremenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
         setupmenu = {text: "Set up", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:740,y:50,w:200,h:50}}
@@ -1098,7 +1100,7 @@ Function paint_top_menu_selector2(topindex=0) as void
         setupmenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
         setupmenu = {text: "Set up", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:740,y:50,w:200,h:50}}
     endif
-    sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
+    
 
     if (m.inTopMenu) m.canvas.setLayer(181,ring)
 

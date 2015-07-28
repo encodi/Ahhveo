@@ -199,7 +199,7 @@ else
     sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
     setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
 endif
-sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
+sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:29,h:33,x:660,y:35}}
 
 staticStuff.push(exploremenu)
 staticStuff.push(sleepmenu)
@@ -240,9 +240,9 @@ function player_set_favorite() as void
            r=m.app.section.http.getWs(ws)
            if(type(r)<>"roInvalid")
                 if(r.done="1")
-                    video_id=61 ' TODO delete this
+                    'video_id=61 ' TODO delete this
                    m.app.favorites.push(video_id)
-                   if(type(m.playerListener.section.onAddFavorite)="roFunction")m.playerListener.section.onAddFavorite(r.item,m.playerListener)
+                   'if(type(m.playerListener.section.onAddFavorite)="roFunction")m.playerListener.section.onAddFavorite(r.item,m.playerListener)
                    m.drawMenu()
                 endif
            endif
@@ -501,7 +501,7 @@ function player_draw_menu() as void
    '                   }
 
    ' end if
-    m.canvas.setLayer(951, { url:"pkg:/images/player_bottom.png", targetRect:{x:220,y:685,w:850,h:30} })
+    m.canvas.setLayer(951, { url:"pkg:/images/player_bottom.png", targetRect:{x:220,y:683,w:850,h:30} })
     dstominutes = "45"
     timetoadvancetext = {text: "Time to Advance Setting: "+dstominutes+" minute(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:300,y:681,w:350,h:30}}
     dstohours = "3"

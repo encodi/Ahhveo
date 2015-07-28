@@ -298,6 +298,7 @@ Function CreateApp() As Object
             userLogin:userLogin
             userSignIn:userSignIn
             items:[]
+            favorites:[]
             facade:invalid
             inSettings:false
             inSettingsInSection:false
