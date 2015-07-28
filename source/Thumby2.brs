@@ -1393,6 +1393,41 @@ Function handle_carousel_keys2(index) as void
                 end if
 
             endif
+            if (m.idExploreSelected="10")
+                currentitems=m.videosArray
+                playlist=[]
+                for each item in currentitems
+    
+                    if (m.idExploreSelected="10")
+                        playitem_url=item.url+"/"+item.filename
+                    else
+                        playitem_url="http://wpc.B624.edgecastcdn.net/00B624/"+item.video_url
+                    endif
+                    playitem_url=fixVideoUrl(playitem_url)
+    
+                    playlist.push({
+                          id:item.id
+                          thumbnail:item.thumbnail
+                          stream:{url:playitem_url}
+                          streamformat:"hls"
+                          StreamBitrates:[384, 500, 1000, 15000]
+                          StreamQualities:["SD", "SD", "SD","HD"]
+                    })
+    
+                end for
+                m.canvas.clearLayer(178)
+                m.canvas.clearLayer(179)
+                m.canvas.clearLayer(180)
+                m.canvas.clearLayer(199)
+                selected=m.idVideosSelected
+                selected = m.videoIndex 'TODO selected as index of array not as id
+                m.app.player.previewmode=false
+                if(m.app.trial)m.app.player.previewmode=true
+                m.app.player.setPlaylist(playlist)
+                m.app.player.setTrack(selected)
+    
+                m.app.player.play()
+            endif   
        endif
     else if (index=10) then
        m.app.section.show(playlists_section)
