@@ -539,7 +539,8 @@ End Sub
 
 function paint_sleep_details() as void
 
-    m.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    'm.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    m.canvas.setLayer(951, { url:"pkg:/images/player_bottom.png", targetRect:{x:220,y:685,w:850,h:30} })
     dstominutes = Cint((m.darkscreentimer - m.position)/60)
     if (dstominutes>0)
         dstominutes = Str(dstominutes)

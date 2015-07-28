@@ -171,7 +171,7 @@ m.canvas.clearLayer(107)
 m.canvas.clearLayer(121)
 m.canvas.clearLayer(113)
 m.canvas.clearLayer(108)
-m.canvas.clearLayer(109)
+m.canvas.clearLayer(952)
 m.canvas.clearLayer(110)
 m.canvas.clearLayer(111)
 m.canvas.clearLayer(112)
@@ -186,9 +186,9 @@ if (IsHD())
         TargetRect:{x:40,y:20,w:283,h:85}
     }
     bgmenu = {url:"pkg:/images/bgmenunew.png", TargetRect:{x:0,y:0,w:1280,h:120}}
-    exploremenu = {text: "Relax", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:620,y:50,w:200,h:50}}
-    sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
-    setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
+    sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:340,y:50,w:200,h:50}}
+        exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
+        setupmenu = {text: "Set up", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:740,y:50,w:200,h:50}}
 else
     logo={
         url:"pkg:/images/logo.png",
@@ -199,11 +199,14 @@ else
     sleepmenu = {text: "Sleep", textAttrs: {Color: "#FFFFFF", font: m.app.h2}, targetRect:{x:420,y:50,w:200,h:50}}
     setupmenu = {text: "Set Up", textAttrs: {Color: "#666666", font: m.app.h2}, targetRect:{x:820,y:50,w:200,h:50}}
 endif
+sleepmenunew = {url:"pkg:/images/zzz_active.png", TargetRect:{w:29,h:33,x:660,y:35}}
+
 staticStuff.push(exploremenu)
 staticStuff.push(sleepmenu)
 staticStuff.push(setupmenu)
 m.canvas.setLayer(178, bgmenu)
 m.canvas.setLayer(179, staticStuff)
+m.canvas.setLayer(199, sleepmenunew)
 m.canvas.setLayer(180, logo)
 
 
@@ -237,6 +240,7 @@ function player_set_favorite() as void
            r=m.app.section.http.getWs(ws)
            if(type(r)<>"roInvalid")
                 if(r.done="1")
+                    video_id=61 ' TODO delete this
                    m.app.favorites.push(video_id)
                    if(type(m.playerListener.section.onAddFavorite)="roFunction")m.playerListener.section.onAddFavorite(r.item,m.playerListener)
                    m.drawMenu()
@@ -497,20 +501,20 @@ function player_draw_menu() as void
    '                   }
 
    ' end if
-    m.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    m.canvas.setLayer(951, { url:"pkg:/images/player_bottom.png", targetRect:{x:220,y:685,w:850,h:30} })
     dstominutes = "45"
-    timetoadvancetext = {text: "Time to Advance Setting: "+dstominutes+" minute(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h45}, targetRect:{x:350,y:681,w:300,h:30}}
+    timetoadvancetext = {text: "Time to Advance Setting: "+dstominutes+" minute(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:300,y:681,w:350,h:30}}
     dstohours = "3"
-    autoshutofftext = {text: "Auto-ShutOff Setting: "+dstohours+":00 hour(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h45}, targetRect:{x:670,y:681,w:300,h:30}}
+    autoshutofftext = {text: "Auto-ShutOff Setting: "+dstohours+":00 hour(s).", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:670,y:681,w:300,h:30}}
     
   '  m.menuselected=2
     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=playing_video")
 
     items.push(timetoadvancetext)
     items.push(autoshutofftext)
-
+    m.canvas.setLayer(952, items)
     m.menupositions=positions
-    m.canvas.setLayer(109,items)
+    'm.canvas.setLayer(109,items)
     m.canvas.setLayer(110,playpause)
     m.canvas.setLayer(111,repeat)
     m.canvas.setLayer(112,ring)
@@ -548,7 +552,7 @@ end function
 
 Function player_hide_menu(msel=3) as void
 m.hideThumb()
-m.canvas.clearLayer(109)
+m.canvas.clearLayer(952)
 m.canvas.clearLayer(121)
 m.canvas.clearLayer(110)
 m.canvas.clearLayer(111)
