@@ -786,10 +786,13 @@ Function paint_sublevel_for(id, moving=false) as void
                 if (m.idExploreSelected="10")
                     m.getFavoritesFor()
                     m.videosArray = m.favoritesList
-                else if (m.idExploreSelected="11")
-                    'm.getPlaylistsFor()
-                    'm.videosArray = m.playlistsList
-                    m.videosArray = m.allData[0].videos
+                else if (m.idExploreSelected="13")
+                    m.getPlaylistsFor()
+                    m.videosArray = m.playlistsList
+                    print "printing playlist"
+                    print m.videosArray
+                    
+                    'm.videosArray = m.allData[0].videos
                 else
                     m.videosArray = m.allData[0].videos
                 endif
@@ -903,7 +906,7 @@ Function move_left() as void
             m.getDataFor(m.idExploreSelected)
             m.subLevelPositions={x:45, y: 285, w:215, h: 119}
             m.paintSubLevelFor(m.idExploreSelected)
-            if (m.idExploreSelected<>"10" AND m.idExploreSelected<>"2" AND m.idExploreSelected<>"12")
+            if (m.idExploreSelected<>"10" AND m.idExploreSelected<>"2" AND m.idExploreSelected<>"12" AND m.idExploreSelected<>"13")
                 m.paintPhantomLevelFor(false)
             else
                 m.resetPhantomLevel()

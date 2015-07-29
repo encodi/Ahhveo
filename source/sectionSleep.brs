@@ -769,7 +769,7 @@ Function paint_wakeup_thumb(awakened="Yes") as void
         wakeupthumb.push( {text: hr.toStr()+":"+m.wakeuptime[1]+" "+m.wakeuptime[2]+",", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:1110,y:305,w:250,h:50}})
         wakeupthumb.push( {text: m.alarmchime[m.ac] + " for " +  m.wakeupvideoduration.toStr() + " minutes.", textAttrs: {HAlign:"Left",Color: "#fe7902",font: m.app.h4}, targetRect:{x:910,y:330,w:320,h:50}})
     else if (awakened="No")
-        wakeupthumb.push({text: "You will not be awakened.", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:920,y:230,w:300,h:50}})
+        wakeupthumb.push({text: "You will not be awakened.", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.hnova}, targetRect:{x:960,y:230,w:280,h:50}})
     else if (awakened="NoSound")
         wakeupthumb.push({url: m.selectedWakeUpVideoIndex.thumbnail, targetRect: {x:920, y: 185, w:256, h:130}}) '176x98
         wakeupthumb.push( {text: "Wake up video plays at ", textAttrs: {HAlign:"Left",Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:905,y:305,w:300,h:50}})
@@ -2165,9 +2165,11 @@ function sleep_remote_callback(index) as void
 
             m.inSaveButton3 = false
             m.inMainSelector= false
+            
             m.inStep=3
             m.menuSelectorIndex = 0
             m.saveSettings()
+            m.inStartYourSleepButton = true
             m.clearAlarmBG()
             'paint final
             if (m.acw=2)
@@ -2176,7 +2178,7 @@ function sleep_remote_callback(index) as void
                 m.paintWakeUpThumb()
             endif
             m.startYourSleepButton(true)
-            m.inStartYourSleepButton = true
+            
             m.resetButton()
             'clear below
             m.canvas.clearLayer(84)
