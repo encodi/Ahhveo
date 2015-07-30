@@ -23,6 +23,11 @@ Function NewPlayer(s) As Object
         eventloop: EventLoop4
         layout: invalid
         video: " "
+        startplayer: Start_Player
+        previewmode:false
+        setPlaylist:set_playlist
+        setTrack:set_track
+        play:play_videos
         'darkscreentimer: darkscreentimer
         'darkscreensaver: darkscreensaver
         'soundfile: soundfile
@@ -65,21 +70,21 @@ Function NewPlayer(s) As Object
         'isFavorite:false
     }
 
+    return this
+End Function
 
-    'Setup image canvas2:
-    this.canvas.SetMessageport(this.port)
-    this.canvas.SetLayer(911, { Color: "#000000" })
+Function Start_Player() 
+      'Setup image canvas2:
+    m.canvas.SetMessageport(m.port)
+    m.canvas.SetLayer(911, { Color: "#000000" })
 
-    'this.darkscreentimer = this.darkscreentimer
+    m.app.remoteListener=this
 
-    this.app.remoteListener=this
-
-'this.app.remoteListener=this
     'Resolution-specific settings:
     mode = CreateObject("roDeviceInfo").GetDisplayMode()
     if mode = "720p"
-        this.layout = {
-            full:   this.canvas.GetcanvasRect()
+        m.layout = {
+            full:   m.canvas.GetcanvasRect()
             top:    { x: 0, y: 0, w:1280, h: 720 }
             left:   { x: 0, y: 0, w: 1280, h: 720 }
             right:  { x: 700, y: 177, w: 350, h: 291 }
@@ -87,8 +92,8 @@ Function NewPlayer(s) As Object
         }
 
     else
-        this.layout = {
-            full:   this.canvas.GetcanvasRect()
+        m.layout = {
+            full:   m.canvas.GetcanvasRect()
             top:    { x: 0, y: 0, w: 1280, h: 720  }
             left:   { x: 0, y: 0, w: 1280, h: 720 }
             right:  { x: 400, y: 100, w: 220, h: 210 }
@@ -97,25 +102,38 @@ Function NewPlayer(s) As Object
 
     end if
 
-    'this.canvas.Show()
+    m.canvas.Show()
 
-    this.player.SetMessageport(this.port)
-    this.player.SetLoop(false)
-    this.player.SetPositionNotificationPeriod(1)
-    this.player.SetDestinationRect(this.layout.left)
-    this.player.SetMaxVideoDecodeResolution(1280,720)
-    this.player.SetContentList([{
-        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+this.video}
+    m.player.SetMessageport(this.port)
+    m.player.SetLoop(false)
+    m.player.SetPositionNotificationPeriod(1)
+    m.player.SetDestinationRect(this.layout.left)
+    m.player.SetMaxVideoDecodeResolution(1280,720)
+    m.player.SetContentList([{
+        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+m.video}
         StreamFormat: "hls"
     }])
 
-    'this.app.audio.player.stop()
-    'this.canvas.AllowUpdates(true)
+    m.app.audio.player.stop()
 
+    m.player.Play()'this start to play the video
+end function
 
-    'this.player.Play()'this start to play the video
+Function set_playlist(playlist)
+    print "set playlist"
+    'print playlist[0].stream.url
+    for each pl in playlist
+        print pl
+    end for
+End Function
 
-    return this
+Function set_track(track)
+    print "set track"
+    print track
+End Function
+
+Function play_videos()
+    print "play"
 End Function
 
 Sub EventLoop4()
