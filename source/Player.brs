@@ -23,11 +23,13 @@ Function NewPlayer(s) As Object
         eventloop: EventLoop4
         layout: invalid
         video: " "
+        videoList:[]
         startplayer: Start_Player
         previewmode:false
         setPlaylist:set_playlist
         setTrack:set_track
         play:play_videos
+        track:0
         'darkscreentimer: darkscreentimer
         'darkscreensaver: darkscreensaver
         'soundfile: soundfile
@@ -74,54 +76,30 @@ Function NewPlayer(s) As Object
 End Function
 
 Function Start_Player() 
-      'Setup image canvas2:
     m.canvas.SetMessageport(m.port)
-    m.canvas.SetLayer(911, { Color: "#000000" })
+    m.canvas.SetLayer(10, { Color: "#000000" })
 
-    m.app.remoteListener=this
+    m.app.remoteListener=m
 
-    'Resolution-specific settings:
-    mode = CreateObject("roDeviceInfo").GetDisplayMode()
-    if mode = "720p"
-        m.layout = {
-            full:   m.canvas.GetcanvasRect()
-            top:    { x: 0, y: 0, w:1280, h: 720 }
-            left:   { x: 0, y: 0, w: 1280, h: 720 }
-            right:  { x: 700, y: 177, w: 350, h: 291 }
-            bottom: { x: 249, y: 500, w: 780, h: 300 }
-        }
-
-    else
-        m.layout = {
-            full:   m.canvas.GetcanvasRect()
-            top:    { x: 0, y: 0, w: 1280, h: 720  }
-            left:   { x: 0, y: 0, w: 1280, h: 720 }
-            right:  { x: 400, y: 100, w: 220, h: 210 }
-            bottom: { x: 100, y: 340, w: 520, h: 140 }
-        }
-
-    end if
-
-    m.canvas.Show()
-
-    m.player.SetMessageport(this.port)
+    m.player.SetMessageport(m.port)
     m.player.SetLoop(false)
     m.player.SetPositionNotificationPeriod(1)
-    m.player.SetDestinationRect(this.layout.left)
-    m.player.SetMaxVideoDecodeResolution(1280,720)
+    m.player.SetDestinationRect({ x:0, y:0, w:1280, h:720 })
+    m.player.SetMaxVideoDecodeResolution(1280, 720)
     m.player.SetContentList([{
-        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+m.video}
+        Stream: { url: m.video }
         StreamFormat: "hls"
     }])
-
-    m.app.audio.player.stop()
-
+    m.canvas.Show()
+    m.canvas.AllowUpdates(true)
     m.player.Play()'this start to play the video
+
 end function
 
 Function set_playlist(playlist)
     print "set playlist"
     'print playlist[0].stream.url
+    m.videoList = playlist
     for each pl in playlist
         print pl
     end for
@@ -129,11 +107,16 @@ End Function
 
 Function set_track(track)
     print "set track"
+    m.track = track
     print track
 End Function
 
 Function play_videos()
     print "play"
+    print m.videoList[m.track]
+    m.video = m.videoList[m.track].stream.url
+    m.startPlayer()
+    m.eventloop()
 End Function
 
 Sub EventLoop4()
@@ -148,7 +131,8 @@ Sub EventLoop4()
 
            if msg.isRemoteKeyPressed()
                 
-
+            index = msg.GetIndex()
+            print index
 
             else if msg.isPaused()
                 
@@ -168,7 +152,7 @@ End Sub
 
 Sub SetupFullscreencanvas4()
     m.canvas.AllowUpdates(false)
-    m.paint()
+    'sm.paint()
     m.canvas.AllowUpdates(true)
 End Sub
 
