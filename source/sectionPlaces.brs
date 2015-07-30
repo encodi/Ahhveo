@@ -192,7 +192,7 @@ function places_on_carousel_locked(index,o) as void
             
             'if position=0
             
-            'print o.level
+            ''print o.level
             if (index<>2)
             m.app.forceSection()
             endif

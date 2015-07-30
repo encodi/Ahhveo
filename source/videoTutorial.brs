@@ -88,7 +88,7 @@ Sub EventLoop2()
             else if msg.isPlaybackPosition()
                 'm.player2.GetPlaybackDuration() 'duration of video 
                 m.position = msg.GetIndex()
-                'print m.position
+                ''print m.position
                 'if (m.position MOD 2 = 0)
                     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=video_tutorial&videoPosition="+m.position.tostr())
                 'endif
@@ -106,7 +106,7 @@ Sub EventLoop2()
             else if msg.isRemoteKeyPressed()
                 if(m.app.deviceinfo.getLinkStatus()=false) m.app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
                 index = msg.GetIndex()
-                print index
+                'print index
                 'if index = 2  '<UP>
                    m.player2.stop()
                    m.canvas2.Clear()
@@ -157,7 +157,7 @@ Sub EventLoop2()
             end if
             'Output events for debug
             
-            'if msg.GetInfo() <> invalid print msg.GetInfo();
+            'if msg.GetInfo() <> invalid 'print msg.GetInfo();
         end if
     end while
 End Sub

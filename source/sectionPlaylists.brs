@@ -356,7 +356,7 @@ end function
 
 function playlists_on_carousel_locked(index,o) as void
  
-    'print o ' is the carousel
+    ''print o ' is the carousel
         'validate not inMain Menu
         if(m.app.menu.inMain) return
 
@@ -418,8 +418,8 @@ function playlists_on_carousel_locked(index,o) as void
     
    
    else if(index=6 or index=3)
-        print "current position"
-        print m.position
+        'print "current position"
+        'print m.position
         m.app.soundFx("click")
         '####### restart
         '######  for index=3
@@ -1171,8 +1171,8 @@ function playlists_save_playlist(o) as void
     '' we get here the list with the id if is not invalid
     if (m.myid<>invalid)
         plResponse=m.parent.http.getWs("getPlaylistWithId.php?pid="+m.thelist[m.myid].id.tostr())
-        'print plResponse[0].id
-        'print plResponse[0].title
+        ''print plResponse[0].id
+        ''print plResponse[0].title
         vids=m.ids_videos
         str_videos=""
         for each v in vids
@@ -1181,9 +1181,9 @@ function playlists_save_playlist(o) as void
         for each v in plResponse[0].videos
             str_videos=str_videos+v+","
         end for        
-        print str_videos
-        print m.thelist[m.myid].id.tostr()
-        print plResponse[0].title
+        'print str_videos
+        'print m.thelist[m.myid].id.tostr()
+        'print plResponse[0].title
         ws="updatePlaylist.php?pid="+m.thelist[m.myid].id.tostr()+"&video_ids="+str_videos+"&playlist_title="+plResponse[0].title
         
         o.setTooltip(2,"Saving...","sm")
@@ -1196,11 +1196,11 @@ function playlists_save_playlist(o) as void
                     m.app.dialog.alert("Playlist updated.")
                     m.goPlaylists()
             else
-                print "Error on saving playlist update"
+                'print "Error on saving playlist update"
                 o.setTooltip(2,"An error occurred while trying to save")
             endif
         else
-            print "Error on saving playlist update"
+            'print "Error on saving playlist update"
             'o.setTooltip(2,"An error occurred while trying to save")
         endif
     else ' is new playlist

@@ -140,8 +140,8 @@ Function paint_top_menu_selector3(topindex=0) as void
             targetRect:pos_rings[topindex]
         }
     endif
-print "topindex"
-print topindex
+'print "topindex"
+'print topindex
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:340,y:50,w:200,h:50}}
         exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
@@ -225,7 +225,7 @@ End Function
 
 Function paint_section() as void
 
-    print m.topMenuIndex
+    'print m.topMenuIndex
     m.clearHints()
     m.clearFAQ()
     m.clearAbout()
@@ -337,7 +337,7 @@ function paint_hints() as void
 
     hints=m.app.http.getWs("getHints.php")
     if(type(hints)<>"roInvalid")
-        print hints
+        'print hints
         content = []
         hintscontent = []
         separation = 0
@@ -499,7 +499,7 @@ end function
 
 
 function setup_remote_callback(index) as void
-    print index
+    'print index
     if (index=2) then ' up
         if (m.inSubTopMenu)
           m.inTopMenu=true

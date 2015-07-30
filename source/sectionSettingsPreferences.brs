@@ -228,8 +228,8 @@ end function
 
 
 function settings_preferences_draw_ring() as void
-    print "position"
-    print m.position
+    'print "position"
+    'print m.position
     'First time not enabled
     if(m.position=-1) 
         m.position=0

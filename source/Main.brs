@@ -29,7 +29,7 @@ InitTheme()
 app=CreateApp()
 selectedIndex=0
 if (args.contentID <> invalid)
-    print args.contentID
+    'print args.contentID
 endif
 app.init()
 
@@ -53,7 +53,7 @@ app.init()
                             if event.getmessage() = "end of playlist"
 
                             else  if event.getmessage() = "end of stream" then
-                                print "ended audio"
+                                'print "ended audio"
                                 'if app.sleeping
                                 '    app.audio.play(app.settings.sleep_sound,"sleep.wma")
                                 'else
@@ -71,26 +71,26 @@ app.init()
                             for each res in response
                                 ' if subscription exists all ok, if not we need to check if still on our database and delete it;'
                                 if (res.code="ahhveo12hrs" OR res.code="S12HOURS") then
-                                    print "ahhveo12hrs"
+                                    'print "ahhveo12hrs"
                                     subcheck=app.http.getWs("checkSubscription.php?device_id="+app.deviceid+"&user_id="+app.cuserid+"&type=s12hr")
                                 else if (res.code="ahhveo25hrs" OR res.code="S25HR") then
-                                    print "ahhveo25hrs"
+                                    'print "ahhveo25hrs"
                                     subcheck=app.http.getWs("checkSubscription.php?device_id="+app.deviceid+"&user_id="+app.cuserid+"&type=s25hr")
                                 else if (res.code="ahhveo50hrs" OR res.code="S50HR") then
-                                    print "ahhveo50hrs"
+                                    'print "ahhveo50hrs"
                                     subcheck=app.http.getWs("checkSubscription.php?device_id="+app.deviceid+"&user_id="+app.cuserid+"&type=s50hr")
                                 'else if res.code="AT7HR" then
-                                '    print "at7hr"
+                                '    'print "at7hr"
                                 'else if res.code="101" then
-                                '    print "101"
+                                '    'print "101"
                                 'else if res.code="81" then
-                                '    print "81"
+                                '    'print "81"
                                 'else if res.code="82" then
-                                '    print "82"
+                                '    'print "82"
                                 'else if res.code="PACK6" then
-                                '    print "PACK6"
+                                '    'print "PACK6"
                                'else if res.code="88" then
-                               '    print "88"
+                               '    'print "88"
                                 else
                                     app.wsc="cancelSubscription.php?device_id="+app.deviceid+"&user_id="+app.cuserid
                                     usercancel=app.http.getWs(app.wsc)
@@ -100,7 +100,7 @@ app.init()
                                 endif
                             end for
                         else if event.IsRequestFailed() then
-                            print "channel store req failed: ";event.GetStatusMessage()
+                            'print "channel store req failed: ";event.GetStatusMessage()
                         end if
 
 
@@ -175,14 +175,14 @@ app.init()
                 if (app.lastsleeptime MOD 25=0)
                        dr = app.http.getWs("logState.php?userID="+app.getRegistry()+"&leftAt=screensaver")
                        app.randomizeScreensaver(app.darkscreensaver)
-                       print app.lastsleeptime
-                       print ">"
-                       print app.sleeptimeduration
+                       'print app.lastsleeptime
+                       'print ">"
+                       'print app.sleeptimeduration
                 else if (app.lastsleeptime MOD 100=0)
                         app.ticklesmall()
                 else if (app.lastsleeptime>app.sleeptimeduration)
                     if (app.stopsoundflag=false)
-                        print "stopped sound"
+                        'print "stopped sound"
                         app.audio.player.stop()
                         app.stopsoundflag=true
                      endif
@@ -636,21 +636,21 @@ message2=popup[0].content
 end function
 
 function main_not_tos() as void
-        print "not tos function"
+        'print "not tos function"
         dr = m.http.getWs("logState.php?userID="+m.getRegistry()+"&leftAt=trial_popup")
          ws="getPopup.php?id=5"
          popup=m.http.getWs(ws)
          r3=m.dialog.optional({text:popup[0].content,
                                  options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]})
-                print "user clicked on not tos"
-                print r3
+                'print "user clicked on not tos"
+                'print r3
                 if(r3=2) ' clicked back
                     m.isTrial()
                 else if(r3=1)   ' clicked view terms
                       m.inNews=false
                       m.seepolicy=false
                       m.seepolicy=false
-                      print "going to move"
+                      'print "going to move"
                       m.dialog.removeDialog()
                       '#todo
                       m.section.show(setup_section)
@@ -705,8 +705,8 @@ function main_is_trial() as void
                  'popup=m.http.getWs(ws)
                  'r2=m.dialog.optional2({text:popup[0].content, text2:popup[0].content_2, text3:popup[0].content_3,  text4:"Prices are USD.",
                   '       options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
-                  print "returned"
-                  print r2
+                  'print "returned"
+                  'print r2
 
                   if r2=0
                     m.subscribe(2)
@@ -716,25 +716,25 @@ function main_is_trial() as void
                     popup=m.http.getWs(ws)
                     r=m.dialog.optional3({text1:popup[0].content, text2:popup[0].content_2,
                      options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
-                     print "user clicked on is trial"
-                     print r
+                     'print "user clicked on is trial"
+                     'print r
                     if(r=2)
                         m.exitApp()
                     else if(r=0)
-                        print m.tos
+                        'print m.tos
                         if m.tos=false then
                             m.notTos()
-                            print "notTos"
+                            'print "notTos"
                         else
                             m.goHome()
-                            print "goHome"
+                            'print "goHome"
                         endif
                     else if r=1
                         m.isTrial()
                     else
                        m.isTrial()
                     endif
-                    print "out of is trial if"
+                    'print "out of is trial if"
                   endif
                   'if r2=2
                   '  m.subscribe(3)
@@ -750,18 +750,18 @@ function main_is_trial() as void
                   '  popup=m.http.getWs(ws)
                   '  r=m.dialog.optional3({text1:popup[0].content, text2:popup[0].content_2,
                   '   options:[popup[0].option_1,popup[0].option_2,popup[0].option_3]}, popup[0].title)
-                  '   print "user clicked on is trial"
-                  '   print r
+                  '   'print "user clicked on is trial"
+                  '   'print r
                   '  if(r=2)
                   '      m.exitApp()
                   '  else if(r=0)
-                  '      print m.tos
+                  '      'print m.tos
                   '      if m.tos=false then
                   '          m.notTos()
-                  '          print "notTos"
+                  '          'print "notTos"
                   '      else
                   '          m.goHome()
-                  '          print "goHome"
+                  '          'print "goHome"
                   '      endif
                   '  else if r=1
                   '      m.isTrial()
@@ -812,23 +812,23 @@ end function
 function main_tos_agree(toscustom=true as boolean) as boolean
 
 'm.reloadalldata()
-            print "toscustom is"
-            print toscustom
+            'print "toscustom is"
+            'print toscustom
             if toscustom then
-                print "m.trial"
-                print m.trial
+                'print "m.trial"
+                'print m.trial
                 m.ispreview=true
                 if not m.ispreview then
-                    print "m trial false"
-                    print "m.userid"
-                    print m.userid
+                    'print "m trial false"
+                    'print "m.userid"
+                    'print m.userid
                     ws="setTOS.php?user_id="+m.userid
                     'm.dialog.process("Please wait while saving...")
                     ' TODO here we add the request for roku account information and we update the user account
                     r=m.http.getWs(ws)
                     m.dialog.stopProcess()
-                    print "r.done"
-                    print r.done
+                    'print "r.done"
+                    'print r.done
                     if(r.done=1)
                         m.tos=true
                         m.goHome()
@@ -836,13 +836,13 @@ function main_tos_agree(toscustom=true as boolean) as boolean
                         m.dialog.alert("An error occurred")
                     endif
                 else
-                    print "m preview is true"
+                    'print "m preview is true"
                     m.tos=true
                     m.dialog.stopProcess()
                     userid=m.userid
-                    print "userid is"
-                    print m.userid
-                    print "goin home"
+                    'print "userid is"
+                    'print m.userid
+                    'print "goin home"
                     'm.remoteListener=false
                     'm.myuser=m.store.GetPartialUserData("email, firstname")
                     'here we added a lock for the user
@@ -858,7 +858,7 @@ function main_tos_agree(toscustom=true as boolean) as boolean
                     'm.reloaddata()
                 endif
             else
-                print "toscustom false"
+                'print "toscustom false"
                 m.tos=false
                 m.goHome()
                 if(m.trial)m.isTrial()
@@ -899,7 +899,7 @@ function main_do_subscription(st) as boolean
             if m.myuser<>invalid
                 ws_check_user = "searchEmail.php?email="+m.myuser.email
                 ws_check_user_q = m.http.getWs(ws_check_user)
-                print ws_check_user_q.id
+                'print ws_check_user_q.id
                 if (ws_check_user_q.id<>invalid) then 'user exists
                     ' login user
                     m.dialog.alert2("You are already subscribed with this Roku account.")
@@ -931,7 +931,7 @@ function main_do_subscription(st) as boolean
                                                 m.timeover=false
                                                 m.reloadAllData()
                                                 'm.goHome()
-                                                print "reload view"
+                                                'print "reload view"
                                            else
                                                 m.dialog.alert("An error occured while trying to subscribe.")
                                            endif
@@ -1010,10 +1010,10 @@ function main_show_preloader() as void
     splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg") '_A _B _C
     splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg")
     splashimage.Push("http://www.ahhveo.com/_dev/splash/Splash_Jul14.jpg")
-    print "show preloader"
-    print randomselection
-    print type(splashimage[randomselection])
-    print splashimage[randomselection]
+    'print "show preloader"
+    'print randomselection
+    'print type(splashimage[randomselection])
+    'print splashimage[randomselection]
     if IsHD()
         'm.canvas.setLayer(701, {text:yearbefore.tostr()+" - "+yearnow.tostr(),textAttrs:{Color:"#ffffff",font:m.carouseldescriptionfont,HAlign:"Left"},targetRect:{x:435,y:643,w:200,h:30}})
         m.canvas.setLayer(700,{url:splashimage[randomselection],targetRect:{w:m.size.w,h:m.size.h,x:0,y:0}})
@@ -1116,11 +1116,11 @@ function main_force_section(section=places_section) as void
 end function
 
 function main_reload_all_data() as void
-        print m.getRegistry()
+        'print m.getRegistry()
          wss="getTrial.php?device_id="+m.getRegistry()
          trialuser=m.http.getWs(wss)
 
-         print trialuser
+         'print trialuser
          if trialuser.trial=0
             m.wsString="device_id="+m.getRegistry()+"&name="+trialuser.name+"&email="+trialuser.email
          else
@@ -1164,7 +1164,7 @@ function main_reload_all_data() as void
 
 
         endif
-        print "about to call goHome"
+        'print "about to call goHome"
         m.goHome()
 
 end function
@@ -1225,12 +1225,12 @@ function main_go_home() as void
        'm.items.push({action:customize_section,label:"Customize"})
        'm.items.push({action:information_section,label:"Information"})
 
-      print m.trial
+      'print m.trial
        'if m.trial then
        '     m.items.push({action:subscribenow_section,label:"Subscribe Now"})
-       '     print "pushed subscribe now button in"
+       '     'print "pushed subscribe now button in"
        '     if m.tos=false
-       '         print "inside here"
+       '         'print "inside here"
        '         m.isTrial()
        '     endif
 
@@ -1265,7 +1265,7 @@ function main_go_home() as void
         m.canvas.clearLayer(111)
         m.canvas.clearLayer(112)
         m.canvas.clearLayer(113)
-        print "end of goHome call"
+        'print "end of goHome call"
         'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
        'm.audio.play(m.settings.sleep_sound,"sleep.wma")
        'm.audio.play("Ocean_Waves.wma","Ocean_Waves.wma")
@@ -1457,22 +1457,22 @@ end function
 
 '''''' function for user sign in if clicked the button already have an account '''''''
 Function userSignIn(uid As integer) As Void
-    print "id to sign in"
-    print uid
-    print "Sign In"
+    'print "id to sign in"
+    'print uid
+    'print "Sign In"
     token = m.getRegistry()
     if token<>invalid then
-        print "Token: "+token
+        'print "Token: "+token
         user = m.http.getWs("searchUser.php?token="+token)
         if (user.id<>invalid and user.email<>invalid)
-            print "user"
-            print "id: "+user.id
-            print "email: "+user.email
+            'print "user"
+            'print "id: "+user.id
+            'print "email: "+user.email
             wss="getTrial.php?device_id="+m.getRegistry()
             trialuser=m.http.getWs(wss)
-            print "trialuser"
-            print trialuser.name
-            print trialuser.email
+            'print "trialuser"
+            'print trialuser.name
+            'print trialuser.email
         else
             m.dialog.alert2("Error retrieving your user information, try restarting Ahhveo again. Thank you.")
             m.set_exit=true
@@ -1487,20 +1487,20 @@ Function userLogin() As Void
     'm.delRegistry()
     m.set_exit=invalid
     token = m.getRegistry()
-    print "token before invalid check"
-    print token
+    'print "token before invalid check"
+    'print token
     if token<>invalid then
-        print "Token: "+token
+        'print "Token: "+token
         user = m.http.getWs("searchUser.php?token="+token)
-        print "user"
-        print user
-        print "user.id"
-        print user.id
-        print "user.email"
-        print user.email
+        'print "user"
+        'print user
+        'print "user.id"
+        'print user.id
+        'print "user.email"
+        'print user.email
         if (user.id<>invalid and user.email<>invalid)
-            print "id: "+user.id
-            print "email: "+user.email
+            'print "id: "+user.id
+            'print "email: "+user.email
             wss="getTrial.php?device_id="+m.getRegistry()
             trialuser=m.http.getWs(wss)
 
@@ -1511,8 +1511,8 @@ Function userLogin() As Void
             else
                 m.trial=true
             endif
-            print "m.trial"
-            print m.trial
+            'print "m.trial"
+            'print m.trial
         else
             m.dialog.alert2("Error retrieving your user information, try restarting Ahhveo again. Thank you.")
             m.set_exit=true
@@ -1522,10 +1522,10 @@ Function userLogin() As Void
         if (type(token)<>"roInvalid")
             if (token.registrationToken<>"0")
                 token = token.registrationToken
-                print "Created a new token: "+token
+                'print "Created a new token: "+token
                 user = m.http.getWs("createTrialUser.php?token="+token)
-                print "email:"+user.email
-                print "id: "+user.id
+                'print "email:"+user.email
+                'print "id: "+user.id
                 if (type(user)<>"roInvalid")
                     m.setRegistry(token)
                     setUserData(user.email)
@@ -1606,8 +1606,8 @@ Function userLogin() As Void
 
         m.canvas.show()
 
-        print "istrial: "
-        print m.trial
+        'print "istrial: "
+        'print m.trial
         if m.trial then
             m.canvas.setLayer(107,{ Color: "#a0000000", CompositionMode: "Source_Over" })
             m.audio.player.stop()

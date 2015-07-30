@@ -231,7 +231,7 @@ Function http_get_to_string_with_retry() as Object
         if (m.Http.AsyncGetToString())
             event = wait(timeout%, m.Http.GetPort())
             if type(event) = "roUrlEvent"
-                'print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
+                ''print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
                 resArray.push(event.GetString())
                 resArray.push(event.GetResponseHeadersArray())
                 exit while        
@@ -241,7 +241,7 @@ Function http_get_to_string_with_retry() as Object
                 m.Http = CreateURLTransferObject(m.Http.GetUrl())
                 timeout% = 2 * timeout%
             else
-               ' print "roUrlTransfer::AsyncGetToString(): unknown event"
+               ' 'print "roUrlTransfer::AsyncGetToString(): unknown event"
 '               m.dialogs.alert2("Your connection to the our server was lost. Try restarting your Roku and checking your network settings, or contact support at hello@ahhveo.com")
             endif
         endif
@@ -260,19 +260,19 @@ REM ******************************************************
 Function http_get_to_file_with_timeout(filename as String, seconds as Integer) as Boolean
     timeout% = 1000 * seconds
 
-   ' print "http_get_to_file_with_timeout"
+   ' 'print "http_get_to_file_with_timeout"
     
     str = ""
     m.Http.EnableFreshConnection(true) 'Don't reuse existing connections
     if (m.Http.AsyncGetToFile(filename))
         event = wait(timeout%, m.Http.GetPort())
         if type(event) = "roUrlEvent"
-           ' print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
+           ' 'print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
         else if event = invalid
-           ' print "AsyncGetToFile timeout"
+           ' 'print "AsyncGetToFile timeout"
             m.Http.AsyncCancel()
         else
-           ' print "AsyncGetToFile unknown event: "; event
+           ' 'print "AsyncGetToFile unknown event: "; event
         endif
     endif
 
@@ -319,7 +319,7 @@ Function http_post_from_string_with_timeout(val As String, seconds as Integer) a
     if (m.Http.AsyncPostFromString(val))
         event = wait(timeout%, m.Http.GetPort())
         if type(event) = "roUrlEvent"
-                        'print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
+                        ''print "***";event.GetInt();"***";event.GetResponseCode();"***";event.GetFailureReason();"***";event.GetSourceIdentity()
                         resArray.push(event.GetString())
                         resArray.push(event.GetResponseHeadersArray())
         else if event = invalid

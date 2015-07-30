@@ -8,9 +8,8 @@
 ' ********************************************************************
 
 
-Function Player(h, s, v) As Object
+Function NewPlayer(s) As Object
     this = {
-        h:h
         app:s
         port:      CreateObject("roMessageport")
         progress:  0 'buffering progress
@@ -23,7 +22,7 @@ Function Player(h, s, v) As Object
         paint:     PaintFramedcanvas4
         eventloop: EventLoop4
         layout: invalid
-        video: v
+        video: " "
         'darkscreentimer: darkscreentimer
         'darkscreensaver: darkscreensaver
         'soundfile: soundfile
@@ -98,7 +97,7 @@ Function Player(h, s, v) As Object
 
     end if
 
-    this.canvas.Show()
+    'this.canvas.Show()
 
     this.player.SetMessageport(this.port)
     this.player.SetLoop(false)
@@ -106,15 +105,15 @@ Function Player(h, s, v) As Object
     this.player.SetDestinationRect(this.layout.left)
     this.player.SetMaxVideoDecodeResolution(1280,720)
     this.player.SetContentList([{
-        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+v.video_url }
+        Stream: { url: "http://wpc.b624.edgecastcdn.net/00B624/"+this.video}
         StreamFormat: "hls"
     }])
 
-    this.app.audio.player.stop()
+    'this.app.audio.player.stop()
     'this.canvas.AllowUpdates(true)
 
 
-    this.player.Play()'this start to play the video
+    'this.player.Play()'this start to play the video
 
     return this
 End Function
@@ -153,10 +152,6 @@ Sub SetupFullscreencanvas4()
     m.canvas.AllowUpdates(false)
     m.paint()
     m.canvas.AllowUpdates(true)
-End Sub
-
-Sub PaintFullscreencanvas3()
-
 End Sub
 
 Sub SetupFramedcanvas4()

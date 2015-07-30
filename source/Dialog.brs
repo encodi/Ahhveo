@@ -125,9 +125,9 @@ function show_option_dialog(v) as integer
                 
             if msg.isRemoteKeyPressed()
                  index=msg.getIndex()
-                    print "Dialog"
-                    print index
-                    print "------"
+                    'print "Dialog"
+                    'print index
+                    'print "------"
                 'Move Left or right
                 if(index=4 or index=5)
 
@@ -502,7 +502,7 @@ function show_option_dialog2(v, t="") as integer
                 
             if msg.isRemoteKeyPressed()
                 index=msg.getIndex()
-                print index
+                'print index
                 'Move Left or right
                 if(index=4 or index=5)
 
@@ -567,26 +567,26 @@ function show_option_dialog2(v, t="") as integer
                             ws_update_response = m.app.http.getWs(ws_update)
                             if (type(ws_update_response)<>"roInvalid") then
                                 if ws_update_response.email=myuser.email
-                                    print "user exists"
+                                    'print "user exists"
                                     userid=m.app.userid.trim()
                                     ws_update_link="updateTokenUser.php?user_id="+userid+"&email="+myuser.email+"&firstname="+myuser.firstname+"&device_id="+m.app.getRegistry()
                                     ws_update_link_response = m.app.http.getWs(ws_update_link)        
                                     if (type(ws_update_link_response)<>"roInvalid") then
-                                        print ws_update_link_response
+                                        'print ws_update_link_response
                                         'update view
                                         '#Change to new view (sleep or relax selectable from webservice)
                                         m.app.trial=false
                                         m.app.tos=true
                                         m.app.timeover=false
                                         ' need a way to reload data
-                                        print "is this broken?"
+                                        'print "is this broken?"
                                         m.removeDialog()
                                         m.app.reloadAllData()
                                         
                                         exit while                                       
                                         'm.app.userLogin()
                                     else
-                                        print "user does not exist yet"
+                                        'print "user does not exist yet"
                                         m.app.trial=false
                                         m.app.tos=true
                                         m.app.timeover=false
@@ -594,7 +594,7 @@ function show_option_dialog2(v, t="") as integer
                                     endif
                                     
                                 else
-                                    print "user does not exist"
+                                    'print "user does not exist"
                                     'm.app.trial=false
                                     'm.app.tos=true
                                     'm.app.timeover=false
@@ -605,7 +605,7 @@ function show_option_dialog2(v, t="") as integer
                                     exit while                                    
                                 endif
                             else
-                                print "Error on updating the user."
+                                'print "Error on updating the user."
                                 m.app.istrial()
                             endif 
                         else
@@ -1413,7 +1413,7 @@ function show_new_subscription_popup() as integer
         if event <> invalid
             if event.isRemoteKeyPressed()
                 index=event.getIndex()
-                print index
+                'print index
                 'Move up down
                 if(index=2 or index=3)
                     if (isDown=1)
@@ -1443,7 +1443,7 @@ function show_new_subscription_popup() as integer
                    m.canvas.setLayer(115,ring)
                                     
                 else if(index=6)   
-                print isDown                 
+                'print isDown                 
                     if isDown=1
                         'LOGIN
                         m.removeDialog()
@@ -1456,25 +1456,25 @@ function show_new_subscription_popup() as integer
                             ws_update_response = m.app.http.getWs(ws_update)
                             if (type(ws_update_response)<>"roInvalid") then
                                 if ws_update_response.email=myuser.email
-                                    print "user exists"
+                                    'print "user exists"
                                     userid=m.app.userid.trim()
                                     ws_update_link="updateTokenUser.php?user_id="+userid+"&email="+myuser.email+"&firstname="+myuser.firstname+"&device_id="+m.app.getRegistry()
                                     ws_update_link_response = m.app.http.getWs(ws_update_link)        
                                     if (type(ws_update_link_response)<>"roInvalid") then
-                                        print ws_update_link_response
+                                        'print ws_update_link_response
                                         'update view
                                         '#Change to webservice to call sleep or relax as first sscreen view
                                         m.app.trial=false
                                         m.app.tos=true
                                         m.app.timeover=false
                                         ' need a way to reload data
-                                        print "is this broken new sub?"
+                                        'print "is this broken new sub?"
                                         m.removeDialog()
                                         m.app.reloadAllData()
                                         exit while           
                                         'm.app.userLogin()
                                     else
-                                        print "user does not exist yet"
+                                        'print "user does not exist yet"
                                         m.app.trial=false
                                         m.app.tos=true
                                         m.app.timeover=false
@@ -1482,7 +1482,7 @@ function show_new_subscription_popup() as integer
                                     endif
                                     
                                 else
-                                    print "user does not exist"
+                                    'print "user does not exist"
                                     'm.app.trial=false
                                     'm.app.tos=true
                                     'm.app.timeover=false
@@ -1493,15 +1493,15 @@ function show_new_subscription_popup() as integer
                                     exit while                                    
                                 endif
                             else
-                                print "Error on updating the user."
+                                'print "Error on updating the user."
                                 m.app.istrial()
                             endif 
                         else
-                            print "myuser is invalid"
+                            'print "myuser is invalid"
                             m.app.istrial()
                         endif
                     else
-                        print "out of isdown 1"
+                        'print "out of isdown 1"
                         m.removeDialog()
                         wsr="logCounterSubscribe.php?user_id="+m.app.userid+"&where_from=1"
                         sr=m.app.http.getWs(wsr)
@@ -1579,7 +1579,7 @@ function show_alert_dialog(msg) as void
                             response= event.GetResponse()
 
                         else if event.IsRequestFailed() then
-                            print "channel store req failed: ";event.GetStatusMessage()
+                            'print "channel store req failed: ";event.GetStatusMessage()
                         end if 
             
             
@@ -1651,7 +1651,7 @@ function show_alert_dialog2(msg) as void
                             response= event.GetResponse()
 
                         else if event.IsRequestFailed() then
-                            print "channel store req failed: "+event.GetStatusMessage()
+                            'print "channel store req failed: "+event.GetStatusMessage()
                         end if 
             
             
@@ -1724,7 +1724,7 @@ function alert_require(msg) as void
                             response= event.GetResponse()
 
                         else if event.IsRequestFailed() then
-                            print "channel store req failed: ";event.GetStatusMessage()
+                            'print "channel store req failed: ";event.GetStatusMessage()
                         end if 
             
             

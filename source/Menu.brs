@@ -138,7 +138,7 @@ function menu_draw_line_reference() as void
     line_y=p.y+(p.h-10)
     if (IsHD())
         if (m.app.inSettings)
-            print "in settings"
+            'print "in settings"
           
           linereference={color:"#ffffcc00",targetRect:{x:p.x+65,y:line_y,w:150,h:2}}
           'linereference={url:"pkg:/images/bgmenuitemhover.png"
@@ -182,10 +182,10 @@ end function
 function handle_menu_action(index) as Void
 'This function handles Vertical or Horizontal Navigation one at time
 
-print index
+'print index
 if (m.app.inSettings=0)
     dr = m.app.http.getWs("logState.php?userID="+m.app.getRegistry()+"&leftAt=main_menu")
-    print dr.done
+    'print dr.done
 endif
 'PROCESS MAIN MENU
 if(index=2 or index=3)

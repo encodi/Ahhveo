@@ -31,8 +31,8 @@ this={
         
         ws_thumbs=this.app.thumbs
     else
-        print "is trial?"
-        print this.app.trial
+        'print "is trial?"
+        'print this.app.trial
         if this.app.trial
             json=s.http.getWs("getNews.php?trial=0")
         else
