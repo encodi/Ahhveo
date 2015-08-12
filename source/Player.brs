@@ -30,6 +30,11 @@ Function NewPlayer(s) As Object
         setTrack:set_track
         play:play_videos
         track:0
+        paintSleepMenu:paint_sleep_menu2
+        isMenuUp:false
+        repeat:false
+        isFavorite:false
+        alarmAnswer1:"No"
         'darkscreentimer: darkscreentimer
         'darkscreensaver: darkscreensaver
         'soundfile: soundfile
@@ -41,7 +46,7 @@ Function NewPlayer(s) As Object
         'paintsleepmenu:paint_sleep_menu
         'hidesleepmenu:hide_sleep_menu
         'paintDarkScreenSaver:paint_dark_screensaver
-        'paintSleepDetails:paint_sleep_details
+        paintSleepDetails:paint_sleep_details2
         'stopsound:false
         'alarmtimer:invalid
         'wakeuptime:wakeuptime
@@ -77,8 +82,16 @@ End Function
 
 Function Start_Player() 
     m.canvas.SetMessageport(m.port)
-    m.canvas.SetLayer(10, { Color: "#000000" })
-
+    
+    for i=0 to 999
+        m.canvas.clearLayer(i)
+    endfor
+    m.canvas.SetLayer(1, {
+                Color: "#00000000"
+                TargetRect: {w:1280,h:720,x:0,y:0}
+                CompositionMode: "Source"
+            })
+    'm.canvas.SetLayer(900, m.player)
     m.app.remoteListener=m
 
     m.player.SetMessageport(m.port)
@@ -90,10 +103,13 @@ Function Start_Player()
         Stream: { url: m.video }
         StreamFormat: "hls"
     }])
+    'm.canvas.SetLayer(900, m.player)
+    
     m.canvas.Show()
+    m.paintSleepMenu()
     m.canvas.AllowUpdates(true)
     m.player.Play()'this start to play the video
-
+    
 end function
 
 Function set_playlist(playlist)
@@ -117,6 +133,8 @@ Function play_videos()
     m.video = m.videoList[m.track].stream.url
     m.startPlayer()
     m.eventloop()
+    m.canvas.show()
+    'm.paintSleepMenu()
 End Function
 
 Sub EventLoop4()
@@ -127,13 +145,27 @@ Sub EventLoop4()
 
         if msg <> invalid
 
-            
+            if msg.isStatusMessage() and msg.GetMessage() = "startup progress"
 
+                'm.paused = false
+                'progress% = msg.GetIndex() / 10
+                'if m.progress <> progress%
+                '    m.progress = progress%
+                '    m.paint()
+                'end if
+
+            else if msg.isPlaybackPosition()
+                
+                position = msg.GetIndex()
+            
+            endif
+            
            if msg.isRemoteKeyPressed()
                 
             index = msg.GetIndex()
             print index
-
+            
+            
             else if msg.isPaused()
                 
                
@@ -160,8 +192,157 @@ Sub SetupFramedcanvas4()
     m.canvas.AllowUpdates(false)
     m.canvas.Clear()
     m.canvas.AllowUpdates(true)
-
 End Sub
+
+function paint_sleep_menu2(selected=2) as void
+
+    print "painting menu"
+
+    m.isMenuUp = true
+
+    items = []
+    positions = []
+
+    if (IsHD())
+        x_ = 220
+    else
+        x_ = 150
+    endif
+
+    for i=0 to 5
+        if (IsHD())
+           positions[i]={x:x_,y:580,w:100,h:100}
+           x_=x_+150
+        else
+           positions[i]={x:x_,y:580,w:60,h:60}
+           x_=x_+100
+        endif
+    end for
+
+    positions.push({})
+     if (IsHD())
+        items.push({url:"pkg:/images/hide.png"
+                 targetRect:{x:630,y:530,w:36,h:35}
+                })
+        items.push({url:"pkg:/images/mainmenu.png"
+                targetRect:{x:220,y:580,w:100,h:100}
+                })
+        if (m.repeat)
+          items.push({url:"pkg:/images/repeat_active.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        else
+          items.push({url:"pkg:/images/repeat.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        endif
+        if (NOT m.isFavorite)
+            items.push({url:"pkg:/images/favorites.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        else
+            items.push({url:"pkg:/images/favorites_filled.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        endif
+        items.push({url:"pkg:/images/nextvideo.png"
+                targetRect:{x:670,y:580,w:100,h:100}
+                })
+        items.push({url:"pkg:/images/sleep_active.png"
+                targetRect:{x:820,y:580,w:100,h:100}
+                })
+        if (m.alarmAnswer1 = "Yes")
+            items.push({url:"pkg:/images/videowakeup_active.png"
+                targetRect:{x:970,y:580,w:100,h:100}
+                })
+        else
+            items.push({url:"pkg:/images/videowakeup.png"
+                targetRect:{x:970,y:580,w:100,h:100}
+                })
+        endif
+     else
+        items.push({url:"pkg:/images/hide.png"
+                 targetRect:{x:630,y:530,w:36,h:35}
+                })
+        items.push({url:"pkg:/images/mainmenu.png"
+                targetRect:{x:220,y:580,w:100,h:100}
+                })
+        if (m.repeat)
+          items.push({url:"pkg:/images/repeat_active.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        else
+          items.push({url:"pkg:/images/repeat.png"
+                targetRect:{x:370,y:580,w:100,h:100}
+                })
+        endif
+        if (m.isfavorite)
+            items.push({url:"pkg:/images/favorites.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        else
+            items.push({url:"pkg:/images/favorites_filled.png"
+                targetRect:{x:520,y:580,w:100,h:100}
+                })
+        endif
+        items.push({url:"pkg:/images/nextvideo.png"
+                targetRect:{x:670,y:580,w:100,h:100}
+                })
+        items.push({url:"pkg:/images/sleep_active.png"
+                targetRect:{x:820,y:580,w:100,h:100}
+                })
+        if (m.alarmAnswer1 = "Yes")
+            items.push({url:"pkg:/images/videowakeup_active.png"
+                targetRect:{x:970,y:580,w:100,h:100}
+                })
+        else
+            items.push({url:"pkg:/images/videowakeup.png"
+                targetRect:{x:970,y:580,w:100,h:100}
+                })
+        endif
+     endif
+
+     items.push({url:"pkg:/images/ringplayer.png", targetRect: positions[selected]})
+
+    m.canvas.setLayer(940, items)
+    m.paintsleepdetails()
+    m.canvas.show()
+
+end function
+
+
+function paint_sleep_details2() as void
+
+    'm.canvas.SetLayer(951, { Color: "#50000000", targetRect: {x:220,y:685,w:850,h:30} })
+    m.canvas.setLayer(951, { url:"pkg:/images/player_bottom.png", targetRect:{x:220,y:680,w:850,h:30} })
+    'dstominutes = Cint((m.darkscreentimer - m.position)/60)
+    dstominutes = 10
+    if (dstominutes>0)
+        dstominutes = Str(dstominutes)
+    else
+        dstominutes = "0"
+    endif
+    if (m.alarmAnswer1="Yes")
+        x_ = 350
+    else
+        x_ = 500
+    endif
+    
+    'if (m.wakeuptime[0].toInt()>11 AND m.wakeuptime[0].toInt()<24)
+    '  daytime = "pm"
+    '  hr = m.wakeuptime[0].toInt() - 12
+    '  if (hr=0) hr = 12
+    'else
+    '  daytime = "am"
+    '  hr = m.wakeuptime[0].toInt()
+    'endif
+    
+    'if (hr=24) hr=0
+    timetodarkscreentext = {text: "Time to dark screen: "+dstominutes+" min.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:681,w:300,h:30}}
+    'videowakeuptext = {text: "Video Wake Up: "+hr.toStr()+":"+m.wakeuptime[1]+" "+daytime, textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:670,y:683,w:300,h:30}}
+    m.canvas.setLayer(952, timetodarkscreentext)
+    'if (m.alarmAnswer1="Yes") m.canvas.setLayer(953, videowakeuptext)
+end function
 
 
 Sub PaintFramedcanvas4()

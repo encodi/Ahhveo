@@ -1363,8 +1363,18 @@ Function handle_carousel_keys2(index) as void
             if(m.app.trial)m.app.player.previewmode=true
             m.app.player.setPlaylist(playlist)
             m.app.player.setTrack(selected)
-
             m.app.player.play()
+            'for i=0 to 999
+            '    m.canvas.clearLayer(i)
+            'endfor
+            'print "lets play 2"
+            'player=NewPlayer(m)
+            'if (m.app.trial) player.previewmode = true
+            'player.setPlaylist(playlist)
+            'player.setTrack(selected)
+            'player.play()
+            
+            
         endif
     else if (index=6 AND (m.currentLevel=0 OR m.currentLevel=1 OR m.currentLevel=2))
       'print "not playing"
@@ -1428,7 +1438,6 @@ Function handle_carousel_keys2(index) as void
                 if(m.app.trial)m.app.player.previewmode=true
                 m.app.player.setPlaylist(playlist)
                 m.app.player.setTrack(selected)
-    
                 m.app.player.play()
             endif   
        endif

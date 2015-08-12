@@ -385,7 +385,7 @@ Function CreateApp() As Object
         this.h2=this.fonts.get("Proxima Nova Alt Lt",17,false,false)
         this.h35=this.fonts.get("Proxima Nova Alt Lt",22,false,false)
         this.h3=this.fonts.get("HelveticaNeueLT Std Lt",14,false,false)
-        this.h4=this.fonts.get("Proxima Nova Alt Lt",11,false,false)
+        this.h4=this.fonts.get("Proxima Nova Alt Lt",20,false,false)
         this.h45=this.fonts.get("HelveticaNeueLT Std Lt",10,false,false)
         this.h5=this.fonts.get("HelveticaNeueLT Std Lt",9,false,false)
         this.h55=this.fonts.get("HelveticaNeueLT Std Lt",7,false,false)
