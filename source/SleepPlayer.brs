@@ -271,7 +271,7 @@ Sub EventLoop3()
                     m.canvas.setLayer(937, loadingtext)
                     if (m.soundfile<>"No Sound")
                         m.soundicon = {url:"pkg:/images/soundicon.png", targetRect:{x:1200, y: 30, w:32, h: 32}}
-                        m.canvas.setLayer(942, m.soundicon)
+                        'm.canvas.setLayer(942, m.soundicon)
                         DownloadFile("http://ahhveo.com/_dev/sounds/"+m.soundfile,"sleep.wma")
                         m.app.audio.play("http://ahhveo.com/_dev/sounds/"+m.soundfile,"sleep.wma")
                     endif
