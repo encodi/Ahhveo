@@ -35,6 +35,10 @@ Function NewPlayer(s) As Object
         repeat:false
         isFavorite:false
         alarmAnswer1:"No"
+        interactingWithMenu:false
+        timeToHideMenu:10
+        menuIndex:2
+        isSleepOn:false
         'darkscreentimer: darkscreentimer
         'darkscreensaver: darkscreensaver
         'soundfile: soundfile
@@ -44,7 +48,7 @@ Function NewPlayer(s) As Object
         'sleepingtimer:CreateObject("roTimespan")
         'sleeptimeduration:sleeptimeduration
         'paintsleepmenu:paint_sleep_menu
-        'hidesleepmenu:hide_sleep_menu
+        hideMenu:hide_sleep_menu2
         'paintDarkScreenSaver:paint_dark_screensaver
         paintSleepDetails:paint_sleep_details2
         'stopsound:false
@@ -157,21 +161,85 @@ Sub EventLoop4()
             else if msg.isPlaybackPosition()
                 
                 position = msg.GetIndex()
-            
+                print position
+                if (position>0)
+                    if (position MOD m.timeToHideMenu = 0)
+                        if (NOT m.interactingWithMenu)
+                            'hide menu
+                            m.hideMenu()
+                        else if (m.interactingWithMenu)
+                            m.interactingWithMenu=false
+                        endif
+                    endif
+                endif
+                
             endif
             
            if msg.isRemoteKeyPressed()
                 
-            index = msg.GetIndex()
-            print index
+                index = msg.GetIndex()
+                print index
+                m.interactingWithMenu=true
+                if (index=2)
+                    'up
+                    m.paintSleepMenu()
+                else if (index=3)
+                    'down
+                    m.hideMenu()
+                else if (index=4)
+                    'left
+                    if (m.menuIndex>0)
+                        m.menuIndex = m.menuIndex - 1
+                        m.paintSleepMenu()
+                    endif
+                else if (index=5)
+                    'right
+                    if (m.menuIndex<5)
+                        m.menuIndex = m.menuIndex + 1
+                        m.paintSleepMenu()
+                    endif
+                else if (index=6)
+                    
+                    if (m.menuIndex=0) ' menu
+                    else if (m.menuIndex=1) ' repeat
+                        if (m.repeat)
+                            m.repeat=false
+                        else
+                            m.repeat=true
+                        endif
+                        m.paintSleepMenu()
+                    else if (m.menuIndex=2) ' favorites
+                        if (m.isFavorite)
+                            m.isFavorite=False
+                        else
+                            m.isFavorite=true
+                        endif
+                        m.paintSleepMenu()
+                    else if (m.menuIndex=3) ' next
+                    else if (m.menuIndex=4) ' sleep
+                        if (m.isSleepOn)
+                            m.isSleepOn = false
+                        else
+                            m.isSleepOn = true
+                        endif
+                        m.paintSleepMenu()
+                    else if (m.menuIndex=5) ' wake
+                        if (m.alarmAnswer1="Yes")
+                            m.alarmAnswer1="No"
+                        else
+                            m.alarmAnswer1="Yes"
+                        endif
+                        m.paintSleepMenu()
+                    endif
+                    
+                endif
             
-            
-            else if msg.isPaused()
+           else if msg.isPaused()
                 
                
-            else if msg.isResumed()
+           else if msg.isResumed()
                
-            end if
+           end if
             
 
         end if
@@ -194,8 +262,9 @@ Sub SetupFramedcanvas4()
     m.canvas.AllowUpdates(true)
 End Sub
 
-function paint_sleep_menu2(selected=2) as void
-
+function paint_sleep_menu2() as void
+    
+    selected = m.menuIndex
     print "painting menu"
 
     m.isMenuUp = true
@@ -248,9 +317,15 @@ function paint_sleep_menu2(selected=2) as void
         items.push({url:"pkg:/images/nextvideo.png"
                 targetRect:{x:670,y:580,w:100,h:100}
                 })
-        items.push({url:"pkg:/images/sleep_active.png"
+        if (m.isSleepOn)
+            items.push({url:"pkg:/images/sleep_active.png"
                 targetRect:{x:820,y:580,w:100,h:100}
                 })
+        else
+            items.push({url:"pkg:/images/sleep.png"
+                targetRect:{x:820,y:580,w:100,h:100}
+                })
+        endif
         if (m.alarmAnswer1 = "Yes")
             items.push({url:"pkg:/images/videowakeup_active.png"
                 targetRect:{x:970,y:580,w:100,h:100}
@@ -288,9 +363,15 @@ function paint_sleep_menu2(selected=2) as void
         items.push({url:"pkg:/images/nextvideo.png"
                 targetRect:{x:670,y:580,w:100,h:100}
                 })
-        items.push({url:"pkg:/images/sleep_active.png"
+        if (m.isSleepOn)
+            items.push({url:"pkg:/images/sleep_active.png"
                 targetRect:{x:820,y:580,w:100,h:100}
                 })
+        else
+            items.push({url:"pkg:/images/sleep.png"
+                targetRect:{x:820,y:580,w:100,h:100}
+                })
+        endif
         if (m.alarmAnswer1 = "Yes")
             items.push({url:"pkg:/images/videowakeup_active.png"
                 targetRect:{x:970,y:580,w:100,h:100}
@@ -338,11 +419,30 @@ function paint_sleep_details2() as void
     'endif
     
     'if (hr=24) hr=0
-    timetodarkscreentext = {text: "Time to dark screen: "+dstominutes+" min.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:681,w:300,h:30}}
+    time = []
+    if (m.isSleepOn)
+        timetodarkscreentext = {text: "Time to dark screen: "+dstominutes+" min.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:681,w:300,h:30}}
+        time.Push(timetodarkscreentext)
+    else
+        x_ = 300
+        timeToAdvance = {text: "Global Time Advance: "+dstominutes+" hr.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:681,w:300,h:30}}
+        timeToAutoShutOff = {text: "Auto ShutOff: "+dstominutes+" hr.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_+350,y:681,w:300,h:30}}
+        time.push(timeToAdvance)
+        time.Push(timeToAutoShutOff)
+        'timetodarkscreentext = {text: "Auto-ShutOff: "+dstominutes+" min.", textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:x_,y:681,w:300,h:30}}
+    endif
     'videowakeuptext = {text: "Video Wake Up: "+hr.toStr()+":"+m.wakeuptime[1]+" "+daytime, textAttrs: {Color: "#FFFFFF",font: m.app.h4}, targetRect:{x:670,y:683,w:300,h:30}}
-    m.canvas.setLayer(952, timetodarkscreentext)
+    m.canvas.setLayer(952, time)
     'if (m.alarmAnswer1="Yes") m.canvas.setLayer(953, videowakeuptext)
 end function
+
+
+Function hide_sleep_menu2() as void
+    m.interactingWithMenu=false
+    m.canvas.ClearLayer(940)
+    m.canvas.ClearLayer(951)
+    m.canvas.ClearLayer(952)
+End Function
 
 
 Sub PaintFramedcanvas4()
