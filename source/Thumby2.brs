@@ -126,7 +126,7 @@ End Function
 ' gets the data according to explore id
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function get_data_for(id) as void
-    m.allData=m.app.http.getWs("getNextLevel.php?eid="+id)
+    m.allData=m.app.http.getWs("getNextLevel.php?eid="+id+"&user_id="+m.app.userid)
 End Function
 
 
@@ -741,6 +741,11 @@ Function paint_sublevel_for(id, moving=false) as void
                 m.placesArray = m.allData[0].places
             endif
             k = 0
+           'if (m.idExploreSelected="13") m.placesArray =
+           print "alldata"
+           print m.allData[0] 
+            print "m.placesArray below"
+            print m.placesArray
             for each place in m.placesArray
                 m.subLevelThumbnails.push({url: place.thumbnail, targetRect: m.subLevelPositions})
                 'print place
@@ -759,6 +764,8 @@ Function paint_sublevel_for(id, moving=false) as void
             m.canvas.setlayer(33, m.subLevelThumbnails)
             m.canvas.setlayer(34, m.subLevelBackgrounds)
             m.canvas.setlayer(35, m.subLevelTitles)
+            print m.placesArray
+            print m.placesArray[0]
             m.idPlacesSelected = m.placesArray[0].id
         else if (m.allData[0].hassubplaces)
             total = m.allData[0].totalsubplaces
@@ -781,7 +788,15 @@ Function paint_sublevel_for(id, moving=false) as void
             m.idSubPlacesSelected = m.subPlacesArray[0].id
         else if (m.allData[0].hasvideos)
             total = m.allData[0].totalvideos
+<<<<<<< HEAD
             'print "has videos"
+=======
+            print "has videos"
+            print "moving"
+            print moving
+            print "explore id"
+            print m.idExploreSelected
+>>>>>>> master
             if (NOT moving)
                 if (m.idExploreSelected="10")
                     m.getFavoritesFor()
@@ -789,9 +804,14 @@ Function paint_sublevel_for(id, moving=false) as void
                 else if (m.idExploreSelected="13")
                     m.getPlaylistsFor()
                     m.videosArray = m.playlistsList
+<<<<<<< HEAD
                     'print "'printing playlist"
                     'print m.videosArray
                     
+=======
+                    print "printing playlist"
+                    print m.videosArray
+>>>>>>> master
                     'm.videosArray = m.allData[0].videos
                 else
                     m.videosArray = m.allData[0].videos
@@ -905,8 +925,10 @@ Function move_left() as void
             m.idExploreSelected = m.exploreData[0].id
             m.getDataFor(m.idExploreSelected)
             m.subLevelPositions={x:45, y: 285, w:215, h: 119}
+            print "idExploreSelected"
+            print m.idExploreSelected
             m.paintSubLevelFor(m.idExploreSelected)
-            if (m.idExploreSelected<>"10" AND m.idExploreSelected<>"2" AND m.idExploreSelected<>"12" AND m.idExploreSelected<>"13")
+            if (m.idExploreSelected<>"10" AND m.idExploreSelected<>"12" AND m.idExploreSelected<>"13")
                 m.paintPhantomLevelFor(false)
             else
                 m.resetPhantomLevel()
