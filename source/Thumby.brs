@@ -131,7 +131,7 @@ Function paint_level(aLevel) as void
             
             if (generalData[0].hasplaces) then
                 if (generalData[0].places.count()>0) then ' check if it has elements on category, we paint this one 
-                    print "painting places"
+                    'print "painting places"
                     m.categoryThumbs = generalData[0].places ' saving data in local var
                     for each category in m.categoryThumbs
                         m.categoryThumbnails.push({url: category.thumbnail, targetRect: {x:m.mainPositions.x+m.mainPositions.subCatPos,y:m.mainPositions.y+m.mainPositions.deltaY,w:m.mainPositions.subCatW,h:m.mainPositions.subCatH}})
@@ -146,7 +146,7 @@ Function paint_level(aLevel) as void
                 end if
             else if (generalData[0].hassubplaces) then
                  if (generalData[0].subplaces.count()>0) then ' check if subcategories are not empty, we paint this one instead
-                    print "painting subplaces"
+                    'print "painting subplaces"
                     m.subCategoryThumbs = generalData[0].subplaces ' saving data in local var
                     for each subCategory in m.subCategoryThumbs
                         m.subCategoryThumbnails.push({url: subCategory.thumbnail, targetRect: {x:m.mainPositions.x+m.mainPositions.subCatPos,y:m.mainPositions.y+m.mainPositions.deltaY,w:m.mainPositions.subCatW,h:m.mainPositions.subCatH}})
@@ -160,10 +160,10 @@ Function paint_level(aLevel) as void
                  end if
              else if (generalData[0].hasvideos) then
                 if (generalData[0].videos.count()>0) then ' check if elements are not empty, we paint this one instead
-                    print "painting videos"
+                    'print "painting videos"
                     m.elementThumbs = generalData[0].videos ' saving data in local var
                     for each element in m.elementThumbs
-                        print element
+                        'print element
                         m.elementThumbnails.push({url: element.thumbnail, targetRect: {x:m.mainPositions.x+m.mainPositions.subCatPos,y:m.mainPositions.y+m.mainPositions.deltaY,w:m.mainPositions.subCatW,h:m.mainPositions.subCatH}})
                         m.elementThumbnailsTitles.push({text: element.title, textAttrs: {font: m.app.h2}, targetRect:{x:m.mainPositions.x+m.mainPositions.subCatPos,y:m.mainPositions.titleY+m.mainPositions.subDeltaY,w:m.mainPositions.subCatW,h:m.mainPositions.titleH}})
                         m.elementThumbnailsTitlesBackground.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect:{x:m.mainPositions.x+m.mainPositions.subCatPos,y:m.mainPositions.bgY+m.mainPositions.subDeltaY,w:m.mainPositions.subCatW,h:m.mainPositions.bgH}})
@@ -206,13 +206,13 @@ Function paint_level(aLevel) as void
             end if
         else if (generalData[0].hasvideos) then   
             if (generalData[0].videos.count()>0) then ' check if elements are not empty, we paint this one instead
-                print "videos"
-                print generalData[0].videos
+                'print "videos"
+                'print generalData[0].videos
             
                 m.elementThumbs = generalData[0].videos ' saving data in local var
                 for each element in m.elementThumbs
-                    print "video"
-                    print element
+                    'print "video"
+                    'print element
                     m.elementThumbnails.push({url: element.thumbnail, targetRect: {x:m.mainPositions.x+m.mainPositions.catPos,y:m.mainPositions.y,w:m.mainPositions.w,h:m.mainPositions.h}})
                     m.elementThumbnailsTitles.push({text: element.title, textAttrs: {font: m.app.h2}, targetRect:{x:m.mainPositions.x+m.mainPositions.catPos,y:m.mainPositions.titleY,w:m.mainPositions.w,h:m.mainPositions.titleH}})
                     m.elementThumbnailsTitlesBackground.push({Color:"#a0000000", compositionMode: "Source_Over", targetRect:{x:m.mainPositions.x+m.mainPositions.catPos,y:m.mainPositions.bgY,w:m.mainPositions.w,h:m.mainPositions.bgH}})
@@ -414,7 +414,7 @@ Function draw_selector(forLevel=false) as void
     pos_rings.push({x:95,y:115,w:260,h:160})
     pos_rings.push({x:95,y:315,w:240,h:140})
     
-    print forLevel
+    'print forLevel
     ring={
         url:url_rings[forLevel],
         targetRect:pos_rings[forLevel]
@@ -556,36 +556,36 @@ End Function
 Function repaint_level() as void
 
     if (m.atLevel=0) then
-        print "do nothing"
+        'print "do nothing"
     else if (m.atLevel=1) then
         if (m.previousLevel=2)
-            print "painting 0 and 1"
+            'print "painting 0 and 1"
             'm.paintOver(0,"top")
             'm.paintOver(1,"bottom")
             m.paintLevel(0)
             m.paintLevel(1)
         else
-            print "do nothing"
+            'print "do nothing"
         end if
     else if (m.atLevel=2) then
         if (m.previousLevel=1)
-            print "painting 2 and 3"
+            'print "painting 2 and 3"
             'm.paintOver(2,"top")
             'm.paintOver(3,"bottom")
             m.paintLevel(2)
             m.paintLevel(3)
         else
-            print "do nothing"
+            'print "do nothing"
         endif
     else if (m.atLevel=3) then
-        print "do nothing"
+        'print "do nothing"
     end if
 
 End Function
 
 Function handle_carousel_keys(index) as void
     
-    print index
+    'print index
     if (index=2) then ' up
         m.previousLevel = m.atLevel
         if (m.atLevel>0) then

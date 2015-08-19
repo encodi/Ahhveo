@@ -3,7 +3,8 @@ Function setup_section(s) as void
 this={
      app:s.app
      canvas:s.app.canvas
-     remoteCallback:setup_remote_callback
+     port: s.app.port
+     remoteCallback:setup_remote_callback2
      setupPaint:setup_paint
      clearsetup:clear_setup
      setupPaintStatic:paint_static3
@@ -43,7 +44,48 @@ this={
      page:1
      faqpage:0
      pppage:0
-     }
+     
+     'Vars
+     idxTop: 0
+     idxRight: 0
+     edit: false
+     numberSection: invalid
+     dir: invalid
+     update: false
+     idxMenuTop: 0
+     
+     'Functions
+     getSections: getSettingsVars
+     showImageCanvas : showImageCanvas
+     setLine: setLine
+     drawRec: drawRec
+     delLayer: delLayer
+     getServerSetting: getServerSetting
+     eventClik: eventClik
+     save: save
+     
+     cvString: cvString
+     cont: {}
+
+     'Options Paged
+     paginate : paginate
+     isFocusPaged : false
+
+     contentPage : []
+     
+     ArrayHints : []
+     ArrayAbout : []
+     ArrayFAQ : []
+     ArrayTerms : []
+
+     TotalPages : 0
+     currentPage : 0
+     page: 0
+
+     separation : 600
+     specialy : -30
+     
+  }
 
 this.setupPaint()
 this.setupPaintStatic()
@@ -55,17 +97,21 @@ end Function
 
 
 Function setup_paint() as void
+    print "setup_paint()"
     setupText = {text: "Under development.", textAttrs: {font: m.app.h1}, targetRect:{x:175,y:200,w:1000,h:200}}
-    m.paintSection()
+    m.getServerSetting()
+    ' m.paintSection()
     m.topMenuIndex=2
     m.inTopMenu=true
-    m.paintTopMenuSelector(m.topMenuIndex)
+    m.paintTopMenuSelector(m.topMenuIndex)    
     'm.canvas.setLayer(50, setupText)
 End Function
 
 
 
 Function paint_static3() as void
+    print "paint_static3()"
+
     staticStuff=[]
     if (IsHD())
         logo={
@@ -127,6 +173,7 @@ End Function
 ' paints the selector for the top menu
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function paint_top_menu_selector3(topindex=0) as void
+    print "paint_top_menu_selector3(";topindex;");"
 
     pos_rings=[]
     staticStuff=[]
@@ -134,14 +181,13 @@ Function paint_top_menu_selector3(topindex=0) as void
     pos_rings.push({x:540,y:90,w:180,h:2})
     pos_rings.push({x:745,y:90,w:180,h:2})
 
-    if (m.inTopMenu)
+    if (m.idxMenuTop = 0)
         ring={
             url:"pkg:/images/ring_play_100.png",
             targetRect:pos_rings[topindex]
         }
     endif
-print "topindex"
-print topindex
+
     if (topindex=0)
         sleepmenu = {text: "Relax", textAttrs: {Color: "#FFFFFF", font: m.app.menufont}, targetRect:{x:340,y:50,w:200,h:50}}
         exploremenu = {text: "Sleep", textAttrs: {Color: "#666666", font: m.app.menufont}, targetRect:{x:530,y:50,w:200,h:50}}
@@ -157,7 +203,7 @@ print topindex
     endif
     sleepmenunew = {url:"pkg:/images/zzz.png", TargetRect:{w:29,h:33,x:660,y:35}}
     
-    if (m.inTopMenu) m.canvas.setLayer(181,ring)
+    if (m.idxMenuTop = 0) m.canvas.setLayer(181,ring)
 
     staticStuff.push(exploremenu)
     staticStuff.push(sleepmenu)
@@ -165,13 +211,14 @@ print topindex
 
     m.canvas.setLayer(179, staticStuff)
     m.canvas.setLayer(199, sleepmenunew)
+    
 End Function
 
 
 
 
 Function paint_subtop_menu_selector(topindex=0, active=true) as void
-
+    print "paint_subtop_menu_selector(" topindex "," active ")"
     pos_rings=[]
 
     pos_rings.push({x:85,y:160,w:130,h:2})
@@ -180,7 +227,7 @@ Function paint_subtop_menu_selector(topindex=0, active=true) as void
     pos_rings.push({x:833,y:160,w:50,h:2})
     pos_rings.push({x:1010,y:160,w:155,h:2})
 
-    if (NOT m.inTopMenu)
+    if (m.idxMenuTop > 0)
         ring={
             url:"pkg:/images/ring_play_100.png",
             targetRect:pos_rings[topindex]
@@ -199,6 +246,7 @@ End Function
 
 
 Function paint_preference_selector(preferenceindex=0) as void
+      print "paint_preference_selector("preferenceindex")"
       pos_rings=[]
 
       pos_rings.push({x:215,y:360,w:100,h:2})
@@ -207,7 +255,7 @@ Function paint_preference_selector(preferenceindex=0) as void
       pos_rings.push({x:540,y:570,w:230,h:2})
       pos_rings.push({x:1010,y:160,w:155,h:2})
 
-      if (NOT m.inTopMenu)
+      if (m.idxMenuTop > 0)
           ring={
               url:"pkg:/images/ring_play_100.png",
               targetRect:pos_rings[preferenceindex]
@@ -224,8 +272,9 @@ End Function
 
 
 Function paint_section() as void
-
+    print "paint_section()"
     print m.topMenuIndex
+
     m.clearHints()
     m.clearFAQ()
     m.clearAbout()
@@ -233,10 +282,13 @@ Function paint_section() as void
     m.clearPolicyTerms()
     m.clearPreferences()
     m.clearAditional()
+
     if (m.subTopMenuIndex=0)
-        m.clearUnderDev()
+        m.clearUnderDev()        
+
         m.paintPreferences()
         m.paintAditional()
+
     else if (m.subTopMenuIndex=1)
         m.clearUnderDev()
         m.paintHints()
@@ -245,9 +297,11 @@ Function paint_section() as void
         m.paintAbout()
     else if (m.subTopMenuIndex=3)
         m.clearUnderDev()
+        m.page = 0
         m.paintFAQ()
     else if (m.subTopMenuIndex=4)
         m.clearUnderDev()
+        m.page = 0
         m.paintPolicyTerms()
     else if (m.subTopMenuIndex=5)
         m.clearUnderDev()
@@ -258,33 +312,102 @@ Function paint_section() as void
 
 End Function
 
+Function getSettingsVars(sec) as Object  
+    aa={S1:[{
+                text: "Time to Advance Setting",
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h3},
+                size: {w:290,x:110,y:200,h:100}
+            },
+            {
+                text: "Choose the amount of time a video should play before advancing to next title",
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h3},
+                size: {w:480,h:100,x:110,y:250}
+            },
+            {
+                text: "<   "+Str(m.globalvideotime)+"   > minutes",
+                attr: {font:m.app.h2, VAlign:"Middle"},
+                size: {w:300,h:110,x:170,y:290},
+                with: 100
+                top: 70
+                lf:110
+            }
+           ],
+        S2:[
+            {
+                text: "Auto-ShutOff Setting",
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h3},
+                size: {w:290,x:720,y:200,h:100}                
+            },
+            {
+                text: "<   "+Str(m.autoshutoff)+"   > hours"
+                attr: {font:m.app.h2}
+                size: {w:300,h:110,x:740,y:290}
+                with: 120
+                top: 70
+                lf:80            
+            }
+           ],
+        S3:[
+            {
+                text: "Purchase more time"
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h3}
+                size: {w:300,h:50,x:210,y:400}
+                with: 220
+                top: 30
+                lf: 86
+            }        
+        ],
+        S4:[
+            {
+                text: "Change Subscription"
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h3}
+                size: {w:300,h:50,x:780,y:400}
+                with: 228
+                top: 30
+                lf: 73
+            },
+            {
+                text: "You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one."
+                attr: {VAlign:"top",HAlign:"Left",font:m.app.h4}
+                size: {w:470,h:50,x:720,y:450}
+            }        
+        ],
 
+        'Seccion FAQ & Policy&Terms
+        PAGED:[
+            {
+                size: {w:200,h:50,x:550,y:650}
+                with: 170
+                top: 40
+                lf: 0
+            }
+        ]
+       } 
+  return aa[sec]
+End Function
 
 function paint_preferences() as void
-    settings=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
-
-    if(type(settings)<>"roInvalid")
-        m.shutoff_timer=settings.shutoff_timer
-        m.start_shutoff_timer=m.shutoff_timer
-        m.automatic_charge=settings.automatic_charge
-        m.start_automatic_charge=m.automatic_charge
-        m.available_time=settings.available_time
-        m.app.globalvideotimer = settings.global_timer
-    endif
+    print "paint_preferences()"
+    
+    section= m.getSections("S1")
+    section2= m.getSections("S2")
 
     pref = []
-    pref.push( {text:"Time to Advance Setting",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:110,y:200,h:100}} )
-    pref.push( {text:"Choose the amount of time a video should play before advancing to next title",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:110,y:250,h:100}} )
-    '
-    'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:45,y:190}})
-    pref.push({text:"<   "+m.globalvideotime.toStr()+"   > minutes",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:170,y:290}})
-    pref.push( {text:"Auto-ShutOff Setting",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:290,x:720,y:200,h:100}} )
+    pref.push( {text:section[0].text,textAttrs:section[0].attr,targetRect:section[0].size} )
+    pref.push( {text:section[1].text,textAttrs:section[1].attr,targetRect:section[1].size} )
+    
+    pref.push({text:section[2].text,textAttrs:section[2].attr,targetRect:section[2].size})
+    
+    
+    'Informacion de la seccion 2 de settings
+    pref.push( {text:section2[0].text,textAttrs:section2[0].attr,targetRect:section2[0].size} )
     pref.push( {text:"Set a timer to turn of Ahhveo streaming automatically",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:480,x:720,y:250,h:100}} )
-    '
-    'pref.push({url:"pkg:/images/rect.png",targetRect:{w:500,h:150,x:690,y:190}})
 
-    pref.push({text:"<   "+Str(m.autoshutoff)+"   > hours",textAttrs:{font:m.app.h2},targetRect:{w:300,h:110,x:740,y:290}})
+    pref.push({text:section2[1].text,textAttrs:section2[1].attr,targetRect:section2[1].size})
+    
     pref.push({text:"THESE SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",textAttrs:{font:m.app.hnova},targetRect:{w:800,h:50,x:280,y:580}})
+    
+    
     hour = (m.available_time.toInt()/1000)/60/60
     minutes = (m.available_time.toInt()/1000)/60/60/60
     hr = Str(Fix(hour))
@@ -298,87 +421,18 @@ function paint_preferences() as void
 
 end function
 
-
-
-function paint_faq(page=0) as void
-
-    faq=m.app.http.getWs("getFaqs.php")
-    if(type(faq)<>"roInvalid")
-        content = []
-        faqcontent = []
-        separation = 0
-        specialy = 0
-        actualpage = m.page
-        totalpages = faq.content.count()-4
-        For i=0 To faq.content.count()-1
-            content.push(strReplace(faq.content[i],"\n",""))
-        End For
-        if (type(content[page+1])<>"Invalid")
-          if (m.page>1)
-            specialy = -30
-          endif
-          faqcontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-          separation = separation + 600
-          faqcontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-          if (m.inFaqFocus)
-            faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFF55", font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-          else
-            faqcontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFFFF", font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-          endif
-          m.canvas.setLayer(400, faqcontent)
-        endif
-    endif
-
-end function
-
-
-
-function paint_hints() as void
-
-    hints=m.app.http.getWs("getHints.php")
-    if(type(hints)<>"roInvalid")
-        print hints
-        content = []
-        hintscontent = []
-        separation = 0
-        specialy = 0
-        actualpage = 1
-        totalpages = hints.content.count()-1
-        For i=0 To hints.content.count()-1
-            content.push(strReplace(hints.content[i],"\n",""))
-            if (i=1)
-                specialy = -30
-            endif
-            hintscontent.push({text:content[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-            separation = separation + 600
-        End For
-        if (totalpages>1)
-          hintscontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-        endif
-        m.canvas.setLayer(400, hintscontent)
-    endif
-
-End function
-
-
 function paint_additional() as void
-
-    addi = []
-    settings=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
-
-    if(type(settings)<>"roInvalid")
-        m.shutoff_timer=settings.shutoff_timer
-        m.start_shutoff_timer=m.shutoff_timer
-        m.automatic_charge=settings.automatic_charge
-        m.start_automatic_charge=m.automatic_charge
-        m.available_time=settings.available_time
-        m.app.globalvideotimer = settings.global_timer
-    endif
+    print "paint_additional()"
     
-
-    addi.push({text:"Purchase more time",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:210,y:400}})
-    addi.push({text:"You can change subscription any time from the following options: $3.99 for 25 hours, and $7.99 for 50 hours. The moment you resubscribe you will get changed and will start the subscription from day one.",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h4},targetRect:{w:530,h:50,x:720,y:450}})
-    addi.push({text:"Change Subscription",textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:300,h:50,x:780,y:400}})
+    section3 = m.getSections("S3")
+    section4 = m.getSections("S4")
+    
+    addi = []
+      
+    addi.push({text:section3[0].text,textAttrs:section3[0].attr,targetRect:section3[0].size})
+    
+    addi.push({text:section4[1].text,textAttrs:section4[1].attr,targetRect:section4[1].size})
+    addi.push({text:section4[0].text,textAttrs:section4[0].attr,targetRect:section4[0].size})
 
     'addi.push({text:"THIS SETTINGS GOVERNS ALL DEVICES ON ACCOUNT",targetRect:{w:700,h:50,x:300,y:550}})
     hour = (m.available_time.toInt()/1000)/60/60
@@ -394,10 +448,95 @@ function paint_additional() as void
 
 end function
 
+function paint_faq(page=0) as void
+    if(m.ArrayFAQ.count() = 0)then
+      faq=m.app.http.getWs("getFaqs.php")
+      if(type(faq)<>"roInvalid")
+          content = []
+          faqcontent = []
+          separation = 0
+          specialy = 0
+          actualpage = m.page
+          totalpages = faq.content.count()-4
+          j = 1
+
+          For i=0 To faq.content.count()-1
+              content.push(strReplace(faq.content[i],"\n",""))
+              m.ArrayFAQ.push(strReplace(faq.content[i],"\n",""))
+          End For
+
+          m.TotalPages = m.ArrayFAQ.count()
+      endif
+    else
+        m.TotalPages = m.ArrayFAQ.count()
+    endif
+
+    m.currentPage = page
+    m.paginate(m.ArrayFAQ)
+
+end function
+
+
+
+function paint_hints(page = 0) as void
+    if(m.ArrayHints.count() <= 0) then
+      hints=m.app.http.getWs("getHints.php")
+      if(type(hints)<>"roInvalid")
+            print hints
+            content = []
+            hintscontent = []
+            separation = 0
+            specialy = 0
+            actualpage = 1
+            totalpages = hints.content.count()-1
+            j = 1
+            For i=0 To hints.content.count()-1
+                 ' if(i%2 = 0)
+                 '   print i
+                 ' endif 
+                content.push(strReplace(hints.content[i],"\n",""))
+                m.ArrayHints.push(strReplace(hints.content[i],"\n",""))
+                
+                if (i=1)
+                    specialy = -30
+                endif
+                hintscontent.push({text:content[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
+                separation = separation + 600
+                
+                if(j = 2)
+                  print "j";j
+                  m.ArrayHints.push(hintscontent)
+                endif
+
+
+                if(j < 3) then
+                  j = j + 1
+                else
+                  j = 1
+                endif
+            End For
+            m.TotalPages = m.ArrayHints.count()
+            print m.ArrayHints
+
+            if (totalpages>1)
+              hintscontent.push({text:"< Page "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+            endif
+            ' m.canvas.setLayer(400, hintscontent)
+      endif
+    else
+      hints = m.ArratHints
+      m.TotalPages = m.ArrayHints.count()
+    endif
+    
+    m.currentPage = page
+    m.paginate(m.ArrayHints)    
+End function
 
 function paint_about() as void
     artistscontent = []
     about=m.app.http.getWs("getAbout.php")
+    'about = m.cont.about
+
     if(type(about)<>"roInvalid")
         content=strReplace(about.content,"\n","")
         artistscontent.push( {text:content,textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:590,x:45,y:200,h:500}} )
@@ -405,6 +544,7 @@ function paint_about() as void
     endif
 
     artists=m.app.http.getWs("getArtist.php")
+    'artists = m.cont.artists
     if(type(artists)<>"roInvalid")
 
         content=strReplace(artists.content,"\n","")
@@ -415,8 +555,6 @@ function paint_about() as void
         m.canvas.setLayer(400, artistscontent)
     endif
 End function
-
-
 
 function paint_artist() as void
 
@@ -435,58 +573,42 @@ End function
 
 
 function paint_policy_terms(page=0) as void
-    if (m.app.trial)
-        privacy=m.app.http.getWs("getTerms.php?tostype=7")
-        terms.content[0] = " "
-    else
-        terms=m.app.http.getWs("getTerms.php?tostype=11")
-        privacy=m.app.http.getWs("getPrivacy.php")
-    endif
 
-    if(type(privacy)<>"roInvalid" AND type(terms)<>"roInvalid")
-        content = []
-        privacycontent = []
-        termscontent = []
-        datacontent = []
-        separation = 0
-        specialy = 0
-        actualpage = m.page
-        if (terms.content[0]=" ")
-            content = []
-            totalpages = privacy.content.count() - 1
-            for i=0 to privacy.content.count()-1
-                content.push(strReplace(privacy.content[i],"\n",""))
-            endfor
+    if(m.ArrayTerms.count() = 0) then
+        if (m.app.trial)
+            privacy=m.app.http.getWs("getTerms.php?tostype=7")
+            terms.content[0] = " "
         else
-            totalpages = privacy.content.count() + terms.content.count() - 1
-            j = 0
-            content = []
-            for i=0 to privacy.content.count()-1
-                content.push(strReplace(privacy.content[i],"\n",""))
-            endfor
-            for i=0 to terms.content.count()-1
-                content.push(strReplace(terms.content[i],"\n",""))
-            endfor
+            terms=m.app.http.getWs("getTerms.php?tostype=11")
+            privacy=m.app.http.getWs("getPrivacy.php")
         endif
-        totalpages = totalpages - 13
-        if (type(content[page+1])<>"Invalid")
-          'For i=0 To content.count()-1
-              'content.push(strReplace(privacy.content[i],"\n",""))
-              if (page>1)
-                specialy = -30
-              endif
-              datacontent.push({text:content[page],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-              separation = separation + 600
-              datacontent.push({text:content[page+1],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200 + specialy,h:500}})
-          'End For
-          if (m.inPolicyFocus)
-            datacontent.push({text:"Page < "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFF55",font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-          else
-            datacontent.push({text:"Page < "+actualpage.toStr()+" of "+totalpages.toStr()+" >",textAttrs:{Color:"#FFFFFF",font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
-          endif
-          m.canvas.setLayer(400, datacontent)
+        ' privacy = m.cont.privacy
+        ' terms = m.cont.terms
+    
+        if(type(privacy)<>"roInvalid" AND type(terms)<>"roInvalid")
+            if (terms.content[0]=" ")                
+                for i=0 to privacy.content.count()-1
+                    ' content.push(strReplace(privacy.content[i],"\n",""))
+                    m.ArrayTerms.push(strReplace(privacy.content[i],"\n",""))
+                endfor
+            else                
+                for i=0 to privacy.content.count()-1
+                    'content.push(strReplace(privacy.content[i],"\n",""))
+                    m.ArrayTerms.push(strReplace(privacy.content[i],"\n",""))
+                endfor
+                for i=0 to terms.content.count()-1
+                    'content.push(strReplace(terms.content[i],"\n",""))
+                    m.ArrayTerms.push(strReplace(terms.content[i],"\n",""))
+                endfor
+            endif 
+            m.TotalPages = m.ArrayTerms.count()           
         endif
+    else
+        m.TotalPages = m.ArrayTerms.count()
     endif
+    
+    m.currentPage = page
+    m.paginate(m.ArrayTerms)
 
 end function
 
@@ -497,15 +619,143 @@ function scrolling_focused() as void
 
 end function
 
+function setup_remote_callback2(index) as void
+  print "setup_remote_callback2(" index ")"
+
+  if(index = 2) then 'Top
+    m.idxMenuTop = m.idxMenuTop - 1
+    if(m.idxMenuTop < 0) then
+      m.idxMenuTop = 0
+    endif
+
+    if(m.idxMenuTop = 0) then
+      m.delLayer(400)
+      m.canvas.clearLayer(42)
+      m.paintTopMenuSelector(m.topMenuIndex)      
+      m.subTopMenuIndex = 0
+
+      if(m.subTopMenuIndex = 0)
+        m.clearPreferences()
+        m.clearAditional()
+      endif
+
+    else if(m.idxMenuTop = 1) then
+      m.paintSubTopMenuSelector(m.subTopMenuIndex)
+      m.isFocusPaged = false      
+      m.delLayer(1001)
+      
+    endif
+
+  else if(index = 3) then 'Down
+    m.idxMenuTop = m.idxMenuTop + 1
+    if(m.idxMenuTop > 2) then
+      m.idxMenuTop = 2
+    endif
+
+    if(m.idxMenuTop = 1) then
+      m.canvas.clearLayer(181)
+      m.paintSubTopMenuSelector()
+      m.paintSection()
+
+    else if(m.idxMenuTop = 2) then
+      
+      m.canvas.ClearLayer(42)
+
+      if(m.subTopMenuIndex = 0)
+        m.drawRec()
+        m.showImageCanvas()
+      else if(m.subTopMenuIndex = 3 or m.subTopMenuIndex = 4)
+        paged = m.getSections("PAGED")
+        m.isFocusPaged = true
+        ' m.page = 0
+        m.setLine(paged[0])
+      endif
+    endif
+
+  else if(index = 4) then 'Left
+    if(m.idxMenuTop = 0)
+        m.paintTopMenuSelector(1)            
+        m.clearSetup()
+        sm = sectionManager(m.app)
+        sm.show(sleep_section)            
+    else if(m.idxMenuTop = 1)
+      m.subTopMenuIndex = m.subTopMenuIndex - 1
+      if(m.subTopMenuIndex < 0)
+        m.subTopMenuIndex = 0
+      endif
+      
+      ' m.page = 0
+      m.paintSubTopMenuSelector(m.subTopMenuIndex)
+      m.paintSection()
+      
+    else if(m.idxMenuTop = 2)
+        if(m.subTopMenuIndex = 3 or m.subTopMenuIndex = 4)
+            m.page = m.page - 1
+            if(m.page < 0)
+                m.page = 0
+            endif
+        endif
+        
+        if(m.subTopMenuIndex = 3)
+            m.paintFAQ(m.page)
+        endif
+        
+        if(m.subTopMenuIndex = 4)
+            m.paintPolicyTerms(m.page)
+        endif
+        
+    endif
+
+  else if(index = 5) then 'Right
+    if(m.idxMenuTop = 1)
+      m.subTopMenuIndex = m.subTopMenuIndex + 1
+      if(m.subTopMenuIndex > 4)
+        m.subTopMenuIndex = 4
+      endif
+
+      m.paintSubTopMenuSelector(m.subTopMenuIndex)
+      m.paintSection()      
+      ' m.page = 0
+      
+    else if(m.idxMenuTop = 2)
+        if(m.subTopMenuIndex = 3 or m.subTopMenuIndex = 4)
+            m.page = m.page + 1            
+        endif
+        if(m.subTopMenuIndex = 3)            
+            m.paintFAQ(m.page)
+        endif
+        
+        if(m.subTopMenuIndex = 4)            
+            m.paintPolicyTerms(m.page)
+        endif
+    endif
+
+  else if(index = 6) then 'Enter
+  else if(index = 7) then 'Instant Replay
+
+  endif
+End Function
 
 function setup_remote_callback(index) as void
-    print index
+    print "setup_remote_callback(" index ")"    
+    sett = {
+      topMenuIndex: m.topMenuIndex
+      inSubTopMenu: m.inSubTopMenu
+      inTopMenu: m.inTopMenu
+      inPreferences: m.inPreferences
+    }
+
+    print sett
+
     if (index=2) then ' up
         if (m.inSubTopMenu)
           m.inTopMenu=true
           m.topMenuIndex=2
           m.canvas.clearLayer(42)
           m.paintTopMenuSelector(m.topMenuIndex)
+          m.clearPreferences()
+          m.clearAditional()
+          
         else if (m.inPreferences OR m.inAutoShutOff)
           m.canvas.clearLayer(43)
           m.inPreferences=false
@@ -527,12 +777,16 @@ function setup_remote_callback(index) as void
           m.inTopMenu=false
           m.paintSubTopMenuSelector()
           m.inSubTopMenu=true
+          ' m.paintSection()
         else if (m.inSubTopMenu)
           m.inSubTopMenu=false
-          m.canvasClearLayer(42)
+          m.canvas.ClearLayer(42)
          ' todo white marker
           m.paintPreferenceSelector(0)
           m.inPreferences=true
+          
+          m.paintSection()
+                    
         else if (m.inPreferences OR m.inAutoShutOff)
           m.inPreferences=false
           m.inAutoShutOff=false
@@ -700,3 +954,383 @@ end function
 function clear_additional() as void
     m.canvas.clearLayer(401)
 end function
+
+
+'Test Functions
+
+function showImageCanvas() as void
+  print  "showImageCanvas()"
+  section= m.getSections("S1") ' 0 - Time to Advance
+  section2= m.getSections("S2") ' Auto-ShutOff
+  section3= m.getSections("S3") ' Purchase more time
+  section4= m.getSections("S4") ' Change Subscription  
+
+  while(true)
+    msg = wait(0,m.port)
+    if (msg.isRemoteKeyPressed()) then
+        i = msg.GetIndex()
+        print "Key Pressed - " ; msg.GetIndex()
+                        
+        if (i = 2) then 'Top
+          if(m.idxTop = 0 and NOT m.edit) then
+            m.delLayer(1002)
+            m.canvas.clearLayer(43)
+            
+            ' reset values
+            m.idxTop = 0
+            m.idxRight = 0
+                        
+            m.paintSubTopMenuSelector()
+            m.inSubTopMenu=true
+            m.idxMenuTop = 1
+
+            return
+          else
+            if(NOT m.edit)then
+                m.idxTop = m.idxTop - 1
+                if(m.idxTop < 0) then
+                    m.idxTop = 0 
+                end if
+                m.delLayer(1001)
+                m.drawRec()
+            end if
+          end if
+          
+          
+
+        else if(i = 3) then  'Down
+            if(NOT m.edit)then
+                m.delLayer(1002)
+                m.idxTop = m.idxTop + 1        
+                if(m.idxTop > 1) then
+                    m.idxTop = 1
+                end if
+                
+                m.delLayer(1001)
+                m.drawRec()
+            end if
+            
+            ' if(m.idxTop = 1 and m.idxRight = 0) then
+                ' m.setLine(section3[0])
+            ' else if(m.idxTop = 1 and m.idxRight = 1) then
+                ' m.setLine(section4[0])
+            ' end if
+        else if(i = 4) then ' Left
+            if(NOT m.edit)then
+                m.idxRight = m.idxRight - 1
+                
+                if(m.idxRight < 0) then
+                    m.idxRight = 0
+                end if
+
+                m.delLayer(1001)
+                m.drawRec()
+            else
+                m.eventClik("prev")
+            end if
+            ' if(m.idxTop = 0 and m.idxRight = 0)then
+                ' m.drawRec()
+            ' else if(m.idxTop = 1 and m.idxRight = 0) then
+                ' m.setLine(section3[0])
+            ' else if(m.idxTop = 1 and m.idxRight = 1) then
+                ' m.setLine(section4[0])
+            ' end if
+            
+            print m.idxTop "::" m.idxRight
+            
+        else if(i = 5) then 'Right
+            if(NOT m.edit)then
+                m.idxRight = m.idxRight + 1
+                if(m.idxRight > 1) then
+                    m.idxRight = 1
+                end if
+                
+                m.delLayer(1001)
+                m.drawRec()
+            else
+                m.eventClik("next")
+            end if
+             
+            ' if(m.idxTop = 0 and m.idxRight = 1) then
+                ' m.drawRec()
+            ' else if(m.idxTop = 1 and m.idxRight = 0) then
+                ' m.setLine(section3[0])
+            ' else if(m.idxTop = 1 and m.idxRight = 1) then
+                ' m.setLine(section4[0])
+            ' end if
+            
+            print m.idxTop "::" m.idxRight
+                        
+        else if(i = 6) then ' Enter
+            if(NOT m.edit)then          
+                if(m.idxTop = 0 and m.idxRight = 0) then                                    
+                    m.setLine(section[2])
+                    m.numberSection = 1 ' btnMinuteTime
+                    m.edit = true
+                    
+                else if(m.idxTop = 0 and m.idxRight = 1) then                
+                    m.setLine(section2[1])
+                    m.numberSection = 2 ' btnHoursAutoShutOff
+                    m.edit = true
+                    
+                else if(m.idxTop = 1 and m.idxRight = 0) then
+                    m.setLine(section3[0])
+                    m.numberSection = 3 ' btnPurchasesTime
+                else if(m.idxTop = 1 and m.idxRight = 1) then
+                    m.setLine(section4[0])
+                    m.numberSection = 4 ' btnChangeSubscription
+                end if                        
+            else                
+               m.save() 
+            end if
+            
+        end if
+    end if    
+  end while
+End Function
+
+function eventClik(dir="null" as String) as void
+    
+    if(m.numberSection = 1)then
+        if(dir = "next")then        
+            m.globalvideotime = m.globalvideotime + 1
+            if(m.globalvideotime > 50)then
+                m.globalvideotime = 50
+            endif
+        else
+            m.globalvideotime = m.globalvideotime - 1
+            if(m.globalvideotime < 5)then
+                m.globalvideotime = 5
+            endif
+        endif
+        m.paintPreferences()
+        m.update = true
+    else if(m.numberSection = 2)then
+        if(dir = "next")then        
+            m.autoshutoff = m.autoshutoff + 0.5
+            if(m.autoshutoff > 12)then
+                m.autoshutoff = 12
+            endif
+        else
+            m.autoshutoff = m.autoshutoff - 0.5
+            if(m.autoshutoff < 0.5)then
+                m.autoshutoff = 0.5
+            endif
+        endif
+        m.paintPreferences()
+        m.update = true
+    else if(m.numberSection = 3)then
+        
+    else if(m.numberSection = 4)then
+    end if
+End Function
+
+function save() as void
+    print "save()"
+    if(m.numberSection = 1)then
+        if(m.update)then
+            t = (m.globalvideotime * 60 * 1000)
+            t = m.cvString(t)
+                     
+            print "aqui"
+            
+            q = "upSettings.php?user_id="+m.app.userid+"&col=global_timer&data="+t
+            
+            query = m.app.http.getWs(q)
+            
+            print query
+            if(type(query)<>"roInvalid")then
+                m.update = false
+                m.edit = false
+                m.delLayer(1001)
+                 
+                ' print query
+                      
+            endif
+        endif
+    else if(m.numberSection = 2)then
+        if(m.update)then
+            time_shutoff = ((m.autoshutoff * 60) * 60) * 1000 
+            temp_time = m.cvString(time_shutoff)
+            
+            query =m.app.http.getWs("upSettings.php?user_id="+m.app.userid+"&col=shutoff_timer&data="+temp_time)
+            
+            if(type(query)<>"roInvalid")then
+                    m.update = false
+                    m.edit = false
+                    m.delLayer(1001)
+                     
+                    print query
+                      
+            endif
+        endif
+    endif
+    
+End Function
+
+function drawRec() as void
+    print "drawRec()"
+    print "idxTop" m.idxTop; "idxRight" m.idxRight
+    parameter = {
+        url:"pkg:/images/bgWhite2.png"                
+    }
+    if(m.idxTop = 0 and m.idxRight = 0)then
+        parameter.TargetRect = {w:485,h:190,x:99,y:195}
+    else if(m.idxTop = 0 and m.idxRight = 1) then
+        parameter.TargetRect = {w:485,h:190,x:709,y:195}
+    else if(m.idxTop = 1 and m.idxRight = 0) then
+        parameter.TargetRect = {w:485,h:190,x:99,y:390}
+    else if(m.idxTop = 1 and m.idxRight = 1) then
+        parameter.TargetRect = {w:485,h:190,x:709,y:390}
+    end if    
+    m.canvas.setLayer(1002,parameter)
+End Function
+
+function delLayer(idx) as void
+    m.canvas.clearLayer(idx)
+End Function
+
+function setLine(options) as void
+    print options
+  
+    size = options.size
+    with = options.with
+    top = options.top
+    left_x = 0
+      
+    if(type(options.lf) <> "Invalid") then
+        left_x = options.lf
+    end if
+    
+    w_ori = size.w
+    'h_ori = size.h
+    
+    x_ori = size.x
+    y_ori = size.y
+    
+    dir_y = CreateObject("roInt")
+    dir_x = CreateObject("roInt")
+    w = CreateObject("roInt")
+    
+    temp = Abs(x_ori + (w_ori - (with + left_x )) / 2)
+    
+    dir_y.SetInt(y_ori + top)
+    dir_x.SetInt(temp)
+    w.SetInt(with)
+    
+    targ = {x:dir_x, y: dir_y, w: w, h: 2}
+    print targ
+
+    print m.edit
+
+    item = {url:"pkg:/images/ring_play_100.png", TargetRect:{x:dir_x, y: dir_y, w: w, h: 2}}
+    if(NOT m.edit) then
+        m.canvas.setLayer(1001,item)
+    else
+        m.delLayer(1001)
+    end if
+  
+End Function
+
+function getServerSetting() as void
+    print "getServerSetting()"
+    
+    settings=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
+    
+    if(type(settings)<>"roInvalid")
+        m.shutoff_timer=settings.shutoff_timer
+        m.start_shutoff_timer=m.shutoff_timer
+        m.automatic_charge=settings.automatic_charge
+        m.start_automatic_charge=m.automatic_charge
+        m.available_time=settings.available_time
+        
+        temp_shutoff = (settings.shutoff_timer.toInt() / 1000) / 60 / 60
+        
+        m.autoshutoff = temp_shutoff 
+        
+        global_t = (settings.global_timer.toInt() / 1000) / 60 
+        
+        print global_t  
+        m.globalvideotime = global_t
+        
+    endif    
+
+End Function
+
+'Clear Sections
+function clearSection() as void
+  if(m.subTopMenuIndex = 0) then
+  
+  else if(m.subTopMenuIndex = 1) then
+  
+  else if(m.subTopMenuIndex = 2) then
+  
+  else if(m.subTopMenuIndex = 3) then
+  
+  else if(m.subTopMenuIndex = 4) then
+
+  endif
+End Function
+
+function paginate(Data as dynamic, currentPage = 0) as void
+  totalpages = m.TotalPages - 1 ' RlCeil(m.TotalPages)
+  
+  if(totalpages = 2)then
+    init = 0
+  else
+    init = m.currentPage
+  endif
+  
+  limit = init + 1
+  
+  
+  if(init > totalpages)
+    limit = totalpages
+    init = totalpages
+    m.page = totalpages
+    m.currentPage = totalpages
+  endif    
+  
+  print init;":-:";limit; totalpages     
+    content = []
+    separation = 0
+  For i=init To limit   
+    content.push({text:Data[i],textAttrs:{VAlign:"top",HAlign:"Left",font:m.app.h3},targetRect:{w:530,x:80+separation,y:200,h:500}})    
+    separation = separation + 600
+  End For
+  
+  actualpage = init + 1  
+  if(totalpages > 2) then
+    content.push({text:"< Page "+actualpage.toStr()+" of "+m.TotalPages.toStr()+" >",textAttrs:{font:m.app.h3},targetRect:{w:200,h:50,x:550,y:650}})
+  endif
+  
+  m.canvas.setLayer(400, content)    
+End Function
+
+function page_settings () as object    
+     return {
+        attr: {Color:"#FFFFFF", font:m.app.h3},
+        size: {w:200,h:50,x:550,y:650},
+        with: 200
+        top: 30
+        lf: 0
+     }
+End Function
+
+' Utils
+
+function cvString(v as dynamic) as string    
+    
+    out = ""
+    
+    v = box(v)
+    vType = type(v)
+    
+    if vType = "roInt"
+        out = out + v.tostr()
+    else if vType = "roFloat"
+        out = out + str(v)
+    end if
+
+    return out.Trim()       
+End Function

@@ -647,8 +647,8 @@ end function
 
 function handle_carousel_remote(index) as void
     
-    print "key press"
-    print index
+    'print "key press"
+    'print index
     'Validate not in main menu
     if(m.app.menu.inMain) return
 
@@ -701,14 +701,14 @@ function handle_carousel_remote(index) as void
        'm.app.soundFx("click")
      else if(index=10)
         if (m.level=0)
-            print "send to new playlist again with the id of the playlist selected"
+            'print "send to new playlist again with the id of the playlist selected"
             continue=m.section.onContinuePlaylist(m)
             if continue=true
                 'currentitems=m.items[m.level]       
                 'selected=m.getPlaylistIndex()
                 'selected_item=currentitems[selected]
-                'print "selected_item"
-                'print selected_item.id
+                ''print "selected_item"
+                ''print selected_item.id
                 'm.selectedItem = selected_item.id
             endif
         endif
@@ -861,7 +861,7 @@ function carousel_on_select(isShop = false) as void
                             m.app.player.setPlaylist(playlist)
                             m.app.player.setTrack(selected)         
                             
-                            'print item.id
+                            ''print item.id
                             'ws="counterVideo.php?user_id="+m.app.userid+"&video_id="+item.id
                             'r=m.app.http.getWs(ws)
                             'if(type(r)<>"roInvalid")
@@ -1105,7 +1105,7 @@ if IsHD()
                     textAttrs:{HAlign:"left",font:m.app.h4}
                     targetRect:{x:page_right,y:top_,w:100,h:18}                        
                     })
-   print "pager created"
+   'print "pager created"
 else
     right_=m.app.size.w-39-m.app.edge_left
     top_=fix((m.app.size.h/2)+(m.style.h/2)+27)
@@ -1141,7 +1141,7 @@ if IsHD()
                         targetRect:{x:page_right,y:top_,w:50,h:20},
                         textAttrs:{HAlign:"right",font:m.app.h4}
                         })
-   print "pager created 2"
+   'print "pager created 2"
 else
     right_=m.app.size.w-39-m.app.edge_left
     top_=fix((m.app.size.h/2)+(m.style.h/2)+27)

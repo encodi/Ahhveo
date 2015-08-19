@@ -75,7 +75,7 @@ function relaxnow_section(s) as void
     this.tip_y=y_
         dr = this.parent.app.http.getWs("logState.php?userID="+this.parent.app.getRegistry()+"&leftAt=relax_now")
          'Render a random video instead of default carousel first time
-         print s.app.menu.continue
+         'print s.app.menu.continue
          if(s.app.menu.continue=false)
             
             s.app.canvas.clearLayer(50)

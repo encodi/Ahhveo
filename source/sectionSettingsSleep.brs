@@ -161,8 +161,8 @@ function settings_sleep_init(parent=false) as void
     
     'mydate = CreateObject("roDateTime")
     'mydate.toLocalTime()
-    'print "current date time"
-    'print mydate.asDateString("short-date-dashes")+" "+mydate.GetHours().tostr()+":"mydate.GetMinutes().tostr()
+    ''print "current date time"
+    ''print mydate.asDateString("short-date-dashes")+" "+mydate.GetHours().tostr()+":"mydate.GetMinutes().tostr()
     
     if(type(m.sounds)="roArray")
         total=m.sounds.count()
@@ -326,8 +326,8 @@ Function change_alarm_timer(index) as void
         m.alarmminutes="00"
     endif
     
-    print m.alarmhour
-    print m.alarmminutes
+    'print m.alarmhour
+    'print m.alarmminutes
     
     alarm_time_canvas = {text:"< "+m.alarmhour+" : "+m.alarmminutes+" "+m.alarmtime+" >",textAttrs:{HAlign:"center",font:m.app.h3},targetRect:{y:600,w:200,x:600,h:60}}
         
@@ -493,12 +493,12 @@ function settings_sleep_remote_callback(index) as void
 
     'Do anything when in main
     if m.app.menu.inMain return
-    print "index"
-    print index
+    'print "index"
+    'print index
     
     if(index=4 or index=5)
-        print "position"
-        print m.position
+        'print "position"
+        'print m.position
         if (m.hourlock=false AND m.minutelock=false AND m.timelock=false AND m.alarmsoundlock=false)
             if(m.position=0)
                 m.changeTimer(index)

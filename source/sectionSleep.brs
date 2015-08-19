@@ -198,8 +198,8 @@ Function sleep_paint() as void
     m.ac = m.sleepSettingsData.wakeup_sound.toInt()
     m.acw = m.sleepSettingsData.wakeup_sound_when.toInt()
     m.sleeptimeduration = m.sleepSettingsData.bedtime_sound_duration.toInt()
-    print "sleeptimeduration"
-    print m.sleeptimeduration
+    'print "sleeptimeduration"
+    'print m.sleeptimeduration
     m.wakeupvideoduration = m.sleepSettingsData.wakeup_video_duration.toInt()
     m.bedtime_video_id = m.sleepSettingsData.bedtime_video_id.toInt()
     m.wakeup_video_id = m.sleepSettingsData.wakeup_video_id.toInt()
@@ -229,7 +229,7 @@ Function sleep_paint() as void
 
         'm.naturaltimesdata = m.app.http.getWs("getVideosLength.php")
         'for each natural in m.naturaltimesdata
-        '    print natural
+        '    'print natural
         'endfor
 
 
@@ -385,7 +385,7 @@ Function save_settings() as void
     endif
     datastring = "?user_id="+m.app.userid+"&bedtime_video_id="+m.bedtime_video_id.toStr()+"&bedtime_before_sleep="+m.tbs.toStr()+"&bedtime_sound="+m.sss.toStr()+"&wakeup_video_id="+m.wakeup_video_id.toStr()+"&wakeup_time="+wutime+"&wakeup_sound="+m.ac.toStr()+"&wakeup_sound_when="+m.acw.toStr()+"&bedtime_sound_duration="+m.sleeptimeduration.toStr()+"&wakeup_video_duration="+m.wakeupvideoduration.toStr()+"&wakeup_answer_1="+m.alarmAnswer1+"&audiotimerindex="+m.audiotimerindex.toStr()+"&update="+update
     dataResponse = m.app.http.getWs("setSleepSettings.php"+datastring)
-    print dataResponse
+    'print dataResponse
     m.updatedFlag = dataResponse.update
     if (m.updatedFlag="0")
         m.updatedFlag=false
@@ -457,7 +457,7 @@ Function paint_sleeptime_duration(active="No", inmovement=false, innumbermovemen
         m.isnatural=true
     else if (m.selectedBedVideoIndex.length.toInt()>0 AND inmovement=true AND innumbermovement=true)
         secs = m.tbs
-        print m.selectedBedVideoIndex.length.toInt()
+        'print m.selectedBedVideoIndex.length.toInt()
         if (m.selectedBedVideoIndex.length.toInt()=secs)
             m.isnatural=true
         else
@@ -1447,7 +1447,7 @@ Function w_move_left() as void
         end for
         m.wakeupData = wakeupTemp
         m.selectedWakeUpVideoIndex = m.wakeupData[0]
-        'print m.selectedWakeUpVideoIndex
+        ''print m.selectedWakeUpVideoIndex
         m.app.wIndex = j
         m.paintWakeUpThumby(true)
     end if
@@ -1468,7 +1468,7 @@ Function w_move_right() as void
         end for
         m.wakeupData = wakeupTemp
         m.selectedWakeUpVideoIndex = m.wakeupData[0]
-        'print m.selectedWakeUpVideoIndex
+        ''print m.selectedWakeUpVideoIndex
         m.app.wIndex = j
         m.paintWakeUpThumby(true)
     end if
@@ -2063,8 +2063,8 @@ function sleep_remote_callback(index) as void
                 m.paintWakeUpThumb("No")
                 m.startYourSleepButton(true)
                 m.inStartYourSleepButton = true
-                print "button false?"
-                print m.inStartYourSleepButton
+                'print "button false?"
+                'print m.inStartYourSleepButton
                 m.isThumb2=false
                 
                 'clear below
@@ -2100,8 +2100,8 @@ function sleep_remote_callback(index) as void
             endif
         else if (m.inAlarmQuestion3)
             m.inAlarmQuestion3=false
-            'print "m.acw is"
-            'print m.acw
+            ''print "m.acw is"
+            ''print m.acw
             if (m.acw=0 OR m.acw=1)
                 m.inAlarmQuestion4=true
                 m.paintQuestion3("No")
@@ -2387,7 +2387,7 @@ end function
 
 Function paint_marketing2() as void
 
-    print "marketing"
+    'print "marketing"
 
     if m.app.trial
         json=m.app.http.getWs("getNews.php?trial=0")

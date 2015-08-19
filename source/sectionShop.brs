@@ -268,7 +268,7 @@ function shop_on_select(o) as boolean
                                                       'ws="payvideo.php?user_id="+uid+"&vid="+video_id
                                                       'r=m.parent.http.getPPWs(ws)
                     
-                    print "never here"
+                    'print "never here"
                     order=[{code:"101",qty:1}]
                     currentOrder = m.app.store.SetOrder(order)  ' id del producto en la tienda a comprar
                     purchase = m.app.store.DoOrder()
@@ -336,7 +336,7 @@ function shop_purchase(o) as void
                     if(m.app.trial)
                         m.app.dialog.alert("Please note that one time purchases only work for subscribed users.")
                         r=m.app.dialog.confirm2("Subscribe and enjoy more!",["Subscribe Now","Keep exploring"])
-                        print r
+                        'print r
                         if r then
                               'ws="getPopup.php?id=1"
                               'popup=m.app.http.getWs(ws)
@@ -365,8 +365,8 @@ function shop_purchase(o) as void
                     item=items[selected]
             
                     uid=m.app.userid
-                    print "shopping"
-                    print m.ispackage
+                    'print "shopping"
+                    'print m.ispackage
                     if(m.ispackage)
                         package_id=item.parent_id
                         ws="setPurchase.php?user_id="+uid+"&package_id="+package_id
@@ -382,8 +382,8 @@ function shop_purchase(o) as void
                     endif
                                            
 
-                            print "code"
-                            print code
+                            'print "code"
+                            'print code
                             order=[{code:code,qty:1}]
                             currentOrder = m.app.store.SetOrder(order)  ' id del producto en la tienda a comprar
                    

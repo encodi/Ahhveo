@@ -16,7 +16,7 @@ function moods_section(s) as void
     items=[]
     obj_videos=[]
     for each mood in wsmoods
-        'print mood.mid
+        ''print mood.mid
         items[i]={id:i,
                  title:mood.title,
                  thumbnail:mood.thumbnail,

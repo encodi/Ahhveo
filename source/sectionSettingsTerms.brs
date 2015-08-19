@@ -175,9 +175,9 @@ function settings_terms_remote_callback(index) as void
     'Do nothing when in main
     if m.app.menu.inMain return
     
-    print "Terms of Use"
-    print index
-    print "-------"    
+    'print "Terms of Use"
+    'print index
+    'print "-------"    
     
     if (index=5 or index=6) return
 
@@ -210,9 +210,9 @@ function settings_terms_remote_callback(index) as void
                    endif
             else if(index=3)
                     'Down
-                    print maxbottom
-                    print "<"
-                    print y_+height
+                    'print maxbottom
+                    'print "<"
+                    'print y_+height
                     if(maxbottom<y_+height)
                         y_=y_-v_step
                         

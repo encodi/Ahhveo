@@ -152,22 +152,22 @@ Sub EventLoop3()
                 ''
                 ' shots alarm sound here before video
                 ''
-                print "m.alarmchimewhen"
-                print m.alarmchimewhen
-                print type(m.alarmchimewhen)
+                'print "m.alarmchimewhen"
+                'print m.alarmchimewhen
+                'print type(m.alarmchimewhen)
                 if (m.alarmchimewhen=0)
                     if (m.inAlarmSound=false)
                         m.inAlarmSound=true
                         'plays alarm
                         sleep(1000)
-                        print "plays alarm before video"
-                        print m.wakeupalarmsound
+                        'print "plays alarm before video"
+                        'print m.wakeupalarmsound
                         DownloadFile(m.wakeupalarmsound.url,"alarm.mp3")
                         m.app.audio.play(m.wakeupalarmsound.url,"alarm.mp3")
                     endif
                 else if (m.alarmchimewhen=1 OR m.alarmchimewhen=2)
-                    print "video to play"
-                    print m.wakeupvideo.video_url
+                    'print "video to play"
+                    'print m.wakeupvideo.video_url
                     m.inafteralarm=true
                     sleep(1000)
                     m.player.SetContentList([{
@@ -176,13 +176,13 @@ Sub EventLoop3()
                     }])
                     m.player.Play()'this start to play the video tutorial
                 endif
-                print "waking up"
-                print msg
+                'print "waking up"
+                'print msg
             endif
         else
             ' repeat
             if (timecount >= m.duration AND m.repeat)
-                print "repeating"
+                'print "repeating"
                 m.app.audio.stop()
                 m.player.stop()
                 sleep(1000)
@@ -238,10 +238,10 @@ Sub EventLoop3()
                     m.canvas.clearLayer(940)
                     m.isMenuDown=false
                 endif
-                print m.position
+                'print m.position
 
                 if (m.position>=(m.player.GetPlaybackDuration()-1) AND m.issleeping=false) ' end of video
-                    print "video is over"
+                    'print "video is over"
                 endif
 
                 if (m.position>m.wakeupvideoduration*60 AND m.inAlarmVideo=true)
@@ -260,11 +260,11 @@ Sub EventLoop3()
                 endif
 
                 if (m.position>m.darkscreentimer AND m.issleeping=false AND m.inAlarmVideo=false)
-                    print "go to screensaver"
+                    'print "go to screensaver"
                     m.player.Stop()
                     m.canvas.clearLayer(940)
                     m.paintDarkScreensaver(m.darkscreensaver)
-                    print m.soundfile
+                    'print m.soundfile
                     downloadtime = CreateObject("roTimespan")
                     downloadtime.Mark()
                     loadingtext = {text: "Loading Audio Sample...", textAttrs: {Color: "#666666",font: m.app.h3}, targetRect:{x:450,y:350,w:400,h:38}}
@@ -320,27 +320,27 @@ Sub EventLoop3()
                         if (diffhours>0) diffhours = diffhours - 1
                     endif
 
-                    print "difference in hours for alarm"
-                    print diffhours
-                    print "difference in minutes for alarm"
-                    print diffminutes
+                    'print "difference in hours for alarm"
+                    'print diffhours
+                    'print "difference in minutes for alarm"
+                    'print diffminutes
 
                     'convert hours to minutes to seconds
                     diffhourstoseconds = diffhours * 60 * 60
                     diffminutestoseconds = diffminutes * 60
                     m.difftotaltimeleft = diffhourstoseconds + diffminutestoseconds
 
-                    print "total seconds left to start the alarm"
-                    print m.difftotaltimeleft
+                    'print "total seconds left to start the alarm"
+                    'print m.difftotaltimeleft
 
                 endif
 
            else if msg.isRemoteKeyPressed()
                 if(m.app.deviceinfo.getLinkStatus()=false) m.app.dialog.alert2("Your connection to the server was lost. Try checking your network settings. Thank you.")
                 index = msg.GetIndex()
-                print index
+                'print index
                 if (index<>32 AND m.insleepdialog=false)
-                   print index
+                   'print index
                    if (m.inAlarmSound OR m.inAfterAlarm)
                         ' stop the alarm sound and start the video
                         m.app.audio.stop()
@@ -358,7 +358,7 @@ Sub EventLoop3()
                    if ((index=7 or index=10) AND m.inAlarmSound=false AND m.inAfterAlarm=false) ' back
                     'm.alarmanswer1="Yes" AND
                        'if (m.insleepdialog = false)
-                            print "show dialog"
+                            'print "show dialog"
                             m.insleepdialog = true
                             m.showsleepinterruption("A Wake Up Video alarm has been set, continue the sequence or exit to cancel it.")
                        'endif
@@ -394,7 +394,7 @@ Sub EventLoop3()
                           return
                       else if (m.sleepmenuindex=1) ' repeat
                           m.duration = m.player.GetPlaybackDuration() 'duration of video
-                          print (duration)
+                          'print (duration)
                           if (m.repeat)
                             m.repeat=false
                           else
@@ -403,9 +403,9 @@ Sub EventLoop3()
                           m.paintSleepMenu(m.sleepmenuindex)
                       else if (m.sleepmenuindex=2) ' favorite
                           if (m.inAlarmVideo)
-                            print m.wakeupvideo
+                            'print m.wakeupvideo
                           else
-                            print m.video
+                            'print m.video
                           endif
                           if (m.isfavorite) 
                             m.isfavorite=false
@@ -483,7 +483,7 @@ Sub EventLoop3()
             end if
             'Output events for debug
 
-            'if msg.GetInfo() <> invalid print msg.GetInfo();
+            'if msg.GetInfo() <> invalid 'print msg.GetInfo();
 
         end if
 
@@ -523,10 +523,6 @@ Sub SetupFullscreencanvas3()
     m.canvas.AllowUpdates(false)
     m.paint()
     m.canvas.AllowUpdates(true)
-End Sub
-
-Sub PaintFullscreencanvas3()
-
 End Sub
 
 Sub SetupFramedcanvas3()
@@ -570,7 +566,7 @@ end function
 function paint_sleep_menu(selected=2) as void
 
     m.isMenuUp = true
-    print "painting menu"
+    'print "painting menu"
 
     items = []
     positions = []

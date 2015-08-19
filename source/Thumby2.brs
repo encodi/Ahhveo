@@ -134,9 +134,9 @@ End Function
 ' gets the data according to explore id
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function get_videos_for(id, pors) as void
-    print "getting videos"
-    print id
-    print pors
+    'print "getting videos"
+    'print id
+    'print pors
     m.videosList=m.app.http.getWs("getVideos.php?"+pors+"="+id)
 End Function
 
@@ -146,7 +146,7 @@ End Function
 ' gets the data according to favorites
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function get_favorites_for() as void
-    print "getting favs"
+    'print "getting favs"
     m.favoritesList=m.app.http.getWs("getRelaxNow.php?user_id="+m.app.userid)
 End Function
 
@@ -174,7 +174,7 @@ Function initThumby2() as void
     m.paintStatic()
     m.loginahhveo()
     if (m.app.loggedflag=true)
-        print "paint marketing at init"
+        'print "paint marketing at init"
         m.paintMarketing()
         m.inTopMenu = true
         m.currentLevel=-1
@@ -185,15 +185,15 @@ Function initThumby2() as void
         m.paintTopMenuSelector(0)
         m.drawSelector(m.currentLevel)
         m.idExploreSelected = m.exploreData[0].id
-        print "EXPLORE ID"
-        print m.idExploreSelected
+        'print "EXPLORE ID"
+        'print m.idExploreSelected
         m.getDataFor(m.idExploreSelected)
         m.paintSubLevelFor(m.idExploreSelected)
         if (m.idExploreSelected<>"10")
             m.paintPhantomLevelFor(false)
         endif
     else
-        print "paint marketing at init"
+        'print "paint marketing at init"
         m.paintMarketing()
         m.inTopMenu = true
         m.currentLevel=-1
@@ -204,8 +204,8 @@ Function initThumby2() as void
         m.paintTopMenuSelector(0)
         m.drawSelector(m.currentLevel)
         m.idExploreSelected = m.exploreData[0].id
-        print "EXPLORE ID"
-        print m.idExploreSelected
+        'print "EXPLORE ID"
+        'print m.idExploreSelected
         m.getDataFor(m.idExploreSelected)
         m.paintSubLevelFor(m.idExploreSelected)
         if (m.idExploreSelected<>"10")
@@ -220,31 +220,31 @@ End Function
 Function login_the_user() as void
 
     token = m.app.getRegistry()
-    print "current token"
-    print token
+    'print "current token"
+    'print token
 
     if (token<>invalid)
         user = m.app.http.getWs("searchUser.php?token="+token)
-        print "user -------------------------------------------"
-        print user
+        'print "user -------------------------------------------"
+        'print user
         if (user.id<>invalid)
-            print "user data exists"
+            'print "user data exists"
             m.app.trial = false
             m.app.userid=user.id
             wsString="device_id="+m.app.getRegistry()+"&email="+user.email
            'here we get the settings data
-           print "wsString ---------------"
-           print wsString
+           'print "wsString ---------------"
+           'print wsString
         else
-            print "user is new, is a trial"
+            'print "user is new, is a trial"
             m.app.trial = true
             wss="getTrial.php?device_id="+m.app.getRegistry()
             trialuser=m.app.http.getWs(wss)
-            print "trial user info"
-            print trialuser
+            'print "trial user info"
+            'print trialuser
             wsString="device_id="+m.app.getRegistry()+"&name="+trialuser.name+"&email="+trialuser.email
-            print "wsString ---------------"
-            print wsString
+            'print "wsString ---------------"
+            'print wsString
         endif
     else
         token = m.app.http.getWs("getToken.php")
@@ -254,8 +254,8 @@ Function login_the_user() as void
                 m.app.setRegistry(token)
                 m.app.trial = true
                 user = m.app.http.getWs("createTrialUser.php?token="+token)
-                print "new token"
-                print token
+                'print "new token"
+                'print token
                 wsString="device_id="+m.app.getRegistry()+"&name="+user.name+"&email="+user.email
             endif
         endif
@@ -263,8 +263,8 @@ Function login_the_user() as void
 
     ws="getUser.php?"+wsString
     user=m.app.http.getWs(ws)
-    print "user info -----------------------------"
-    print user
+    'print "user info -----------------------------"
+    'print user
     m.app.userid = user.uid
     settings={
                 sleep_sound:user.settings.sleep_sound
@@ -273,8 +273,8 @@ Function login_the_user() as void
              }
 
     settingss=m.app.http.getWs("getSettings.php?user_id="+m.app.userid)
-    print "Settings -------------------------"
-    print settingss
+    'print "Settings -------------------------"
+    'print settingss
     m.app.settings=settings
 
     if settingss.sleep_sound="Ocean Waves" then
@@ -299,12 +299,12 @@ Function login_the_user() as void
 
     ' if user is a trial then we show the popup to subscribe or share information on existent account
     if (user.trial)
-        print "trial popup"
+        'print "trial popup"
         if (m.app.ispreview = false)
             m.app.isTrial()
         endif
     else
-        print "subscriber"
+        'print "subscriber"
 
     endif
 
@@ -316,7 +316,7 @@ End Function
 
 Function paint_marketing() as void
 
-    print "marketing"
+    'print "marketing"
 
     if m.app.trial
         json=m.app.http.getWs("getNews.php?trial=0")
@@ -629,8 +629,8 @@ Function paint_explore() as void
     for each thumb in m.exploreData
         m.exploreThumbnails.push({url: thumb.thumbnail, targetRect: m.explorePositions})
         if k=0
-            print "placesTotal"
-            print thumb.placesTotal
+            'print "placesTotal"
+            'print thumb.placesTotal
             if (type(thumb.placesTotal)<>Invalid)
                 stotal = thumb.placesTotal
                 if (stotal="0")
@@ -668,7 +668,7 @@ Function paint_level_for(moving=false) as void
     m.resetLevel()
     xLevel = 0
     if (m.allData[0].hasplaces)
-        print "has places"
+        'print "has places"
         if (NOT moving)
             m.placesArray = m.allData[0].places
         endif
@@ -685,7 +685,7 @@ Function paint_level_for(moving=false) as void
         m.canvas.setlayer(31, m.levelBackgrounds)
         m.canvas.setlayer(32, m.levelTitles)
     else if (m.allData[0].hassubplaces)
-        print "has subplaces"
+        'print "has subplaces"
         if (NOT moving)
             m.subPlacesArray = m.allData[0].subplaces
         endif
@@ -702,7 +702,7 @@ Function paint_level_for(moving=false) as void
         m.canvas.setlayer(31, m.levelBackgrounds)
         m.canvas.setlayer(32, m.levelTitles)
     else if (m.allData[0].hasvideos)
-        print "has videos"
+        'print "has videos"
         if (NOT moving)
             m.videosArray = m.allData[0].videos
         end if
@@ -736,7 +736,7 @@ Function paint_sublevel_for(id, moving=false) as void
         if (m.allData[0].hasplaces)
             total = m.allData[0].totalplaces.tostr()
             subtotal = m.allData[0].totalvideos.tostr()
-            print "has places"
+            'print "has places"
             if (NOT moving)
                 m.placesArray = m.allData[0].places
             endif
@@ -748,7 +748,7 @@ Function paint_sublevel_for(id, moving=false) as void
             print m.placesArray
             for each place in m.placesArray
                 m.subLevelThumbnails.push({url: place.thumbnail, targetRect: m.subLevelPositions})
-                print place
+                'print place
                 if k=0
                     'm.subLevelTitles.push({text: "("+place.totalvideosinplace+")", textAttrs: {font: m.app.h5}, targetRect:{x:-75, y: 332, w:269, h: 125}})
                     'm.subLevelTitles.push({text: "("+m.level2index.tostr()+" of "+total+")", textAttrs: {font: m.app.h5}, targetRect:{x:95, y: 332, w:269, h: 125}})
@@ -769,7 +769,7 @@ Function paint_sublevel_for(id, moving=false) as void
             m.idPlacesSelected = m.placesArray[0].id
         else if (m.allData[0].hassubplaces)
             total = m.allData[0].totalsubplaces
-            print "has subplaces"
+            'print "has subplaces"
             if (NOT moving)
                 m.subPlacesArray = m.allData[0].subplaces
             endif
@@ -788,11 +788,15 @@ Function paint_sublevel_for(id, moving=false) as void
             m.idSubPlacesSelected = m.subPlacesArray[0].id
         else if (m.allData[0].hasvideos)
             total = m.allData[0].totalvideos
+<<<<<<< HEAD
+            'print "has videos"
+=======
             print "has videos"
             print "moving"
             print moving
             print "explore id"
             print m.idExploreSelected
+>>>>>>> master
             if (NOT moving)
                 if (m.idExploreSelected="10")
                     m.getFavoritesFor()
@@ -800,8 +804,14 @@ Function paint_sublevel_for(id, moving=false) as void
                 else if (m.idExploreSelected="13")
                     m.getPlaylistsFor()
                     m.videosArray = m.playlistsList
+<<<<<<< HEAD
+                    'print "'printing playlist"
+                    'print m.videosArray
+                    
+=======
                     print "printing playlist"
                     print m.videosArray
+>>>>>>> master
                     'm.videosArray = m.allData[0].videos
                 else
                     m.videosArray = m.allData[0].videos
@@ -847,7 +857,7 @@ Function paint_sublevel_for(id, moving=false) as void
     else if (m.currentLevel=2 OR m.currentLevel=3)
         if (m.allData[0].hasvideos)
             total = m.allData[0].totalvideos
-            print "has videos"
+            'print "has videos"
             if (NOT moving)
                 if (m.idExploreSelected="10")
                     m.getFavoritesFor()
@@ -893,7 +903,7 @@ End Function
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function move_left() as void
     if (m.currentLevel=0)
-        print "Moving exploreData"
+        'print "Moving exploreData"
         exploreTemp = []
         if (m.exploreData.count()>1)
             lastElement = m.exploreData[m.exploreData.count()-1]
@@ -926,7 +936,7 @@ Function move_left() as void
         end if
     else if (m.currentLevel=1)
         if (m.allData[0].hasplaces)
-            print "Moving placesArray"
+            'print "Moving placesArray"
             placesTemp = []
             if (m.placesArray.count()>1)
                 lastElement = m.placesArray[m.placesArray.count()-1]
@@ -951,7 +961,7 @@ Function move_left() as void
                 m.paintPhantomLevelFor(false)
             end if
         else if (m.allData[0].hassubplaces)
-            print "Moving subPlacesArray"
+            'print "Moving subPlacesArray"
             subPlacesTemp = []
             if (m.subPlacesArray.count()>1)
                 lastElement = m.subPlacesArray[m.subPlacesArray.count()-1]
@@ -975,7 +985,7 @@ Function move_left() as void
                 m.paintPhantomLevelFor(false)
             end if
         else if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 lastElement = m.videosArray[m.videosArray.count()-1]
@@ -1000,7 +1010,7 @@ Function move_left() as void
         end if
     else if (m.currentLevel=2)
          if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 lastElement = m.videosArray[m.videosArray.count()-1]
@@ -1021,7 +1031,7 @@ Function move_left() as void
         end if
     else if (m.currentLevel=3)
         if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 lastElement = m.videosArray[m.videosArray.count()-1]
@@ -1048,7 +1058,7 @@ End Function
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function move_right() as void
     if (m.currentLevel=0)
-        print "Moving exploreData"
+        'print "Moving exploreData"
         exploreTemp = []
         if (m.exploreData.count()>1)
             firstElement = m.exploreData[0]
@@ -1079,7 +1089,7 @@ Function move_right() as void
         end if
     else if (m.currentLevel=1)
         if (m.allData[0].hasplaces)
-            print "Moving placesArray"
+            'print "Moving placesArray"
             placesTemp = []
             if (m.placesArray.count()>1)
                 firstElement = m.placesArray[0]
@@ -1098,15 +1108,15 @@ Function move_right() as void
                 endif
                 m.placesArray = placesTemp
                 m.idPlacesSelected = m.placesArray[0].id
-                print "place selected id: "
-                print m.idPlacesSelected
+                'print "place selected id: "
+                'print m.idPlacesSelected
                 if (m.currentLevel=2)m.paintLevelFor(true)
                 m.paintSubLevelFor(m.idExploreSelected, true)
                 if (m.currentLevel=2)m.paintSubLevelFor(m.idExploreSelected, false)
                 m.paintPhantomLevelFor(false)
             end if
         else if (m.allData[0].hassubplaces)
-            print "Moving subPlacesArray"
+            'print "Moving subPlacesArray"
             subPlacesTemp = []
             if (m.subPlacesArray.count()>1)
                 firstElement = m.subPlacesArray[0]
@@ -1130,7 +1140,7 @@ Function move_right() as void
                 m.paintPhantomLevelFor(false)
             end if
         else if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 firstElement = m.videosArray[0]
@@ -1156,7 +1166,7 @@ Function move_right() as void
         end if
     else if (m.currentLevel=2)
         if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 firstElement = m.videosArray[0]
@@ -1178,7 +1188,7 @@ Function move_right() as void
         end if
     else if (m.currentLevel=3)
         if (m.allData[0].hasvideos)
-            print "Moving videosArray"
+            'print "Moving videosArray"
             videosTemp = []
             if (m.videosArray.count()>1)
                 firstElement = m.videosArray[0]
@@ -1204,7 +1214,7 @@ End Function
 ' Manages the key presses
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Function handle_carousel_keys2(index) as void
-    print "pressed index: "+Str(index)
+    'print "pressed index: "+Str(index)
     if (index=2 or index=3) 'up/down
         m.level1index=1
         m.level2index=1
@@ -1223,7 +1233,7 @@ Function handle_carousel_keys2(index) as void
                         m.canvas.clearLayer(60)
                         m.canvas.clearLayer(61)
                         m.canvas.clearLayer(62)
-                        print "paint marketing here"
+                        'print "paint marketing here"
                         m.canvas.clearLayer(60)
                         m.canvas.clearLayer(61)
                         m.canvas.clearLayer(62)
@@ -1257,8 +1267,8 @@ Function handle_carousel_keys2(index) as void
             m.canvas.clearLayer(181)
             m.clearMarketing()
             m.inTopMenu = false
-            print "explore id"
-            print m.idExploreSelected
+            'print "explore id"
+            'print m.idExploreSelected
             if (m.idExploreSelected="10" OR m.idExploreSelected="12")
                 maxSub = 1
             else
@@ -1269,8 +1279,8 @@ Function handle_carousel_keys2(index) as void
                 m.drawSelector(m.currentLevel)
                 m.topMenuIndex=0
                 'm.paintTopMenuSelector(1)
-                print "m.currentlevel"
-                print m.currentLevel
+                'print "m.currentlevel"
+                'print m.currentLevel
                 if (m.currentLevel=0)
                     m.paintMarketing()
                 endif
@@ -1375,11 +1385,21 @@ Function handle_carousel_keys2(index) as void
             if(m.app.trial)m.app.player.previewmode=true
             m.app.player.setPlaylist(playlist)
             m.app.player.setTrack(selected)
-
             m.app.player.play()
+            'for i=0 to 999
+            '    m.canvas.clearLayer(i)
+            'endfor
+            'print "lets play 2"
+            'player=NewPlayer(m)
+            'if (m.app.trial) player.previewmode = true
+            'player.setPlaylist(playlist)
+            'player.setTrack(selected)
+            'player.play()
+            
+            
         endif
     else if (index=6 AND (m.currentLevel=0 OR m.currentLevel=1 OR m.currentLevel=2))
-      print "not playing"
+      'print "not playing"
         if (NOT m.inTopMenu)
             if (m.idExploreSelected="11")
 
@@ -1440,7 +1460,6 @@ Function handle_carousel_keys2(index) as void
                 if(m.app.trial)m.app.player.previewmode=true
                 m.app.player.setPlaylist(playlist)
                 m.app.player.setTrack(selected)
-    
                 m.app.player.play()
             endif   
        endif
